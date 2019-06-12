@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Geegle Docs</title>
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/style.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="site-wrapper">
+            <div class="site-wrapper-inner">
+                <div class="cover-container">
+                    <div class="masthead clearfix">
+                        <div class="inner">
+                            <h3 class="masthead-brand">Geegle Docs</h3>
+                            <ul class="nav masthead-nav">
+                                <li class="active">
+                                    <a href="/">Home</a>
+                                </li>
+                                <li>
+                                    <a href="/source">Source</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="inner cover">
+                        <form action="document.pdf" method="post" accept-charset="utf-8">
+                            <div class="form-inline lead">
+                                <div class="form-group col-lg-12" style="margin-bottom: 15px;">
+                                    <label class="sr-only" for="url">Markdown</label>
+                                    <textarea class="form-control" style="min-width: 100%;" rows="12" name="text"># hello</textarea>
+                                </div>
+                            </div>
+                            <div class="form-inline lead">
+                                <div class="form-group">
+                                  Debug Option (engineer only)
+                                  <input class="form-control" type="text" name="debug"/>
+                                </div>
+                                <br><br>
+                                <div class="form-group">
+                                    <button id="submit" name="submit" type="submit" class="btn btn-lg btn-default" onclick="loader(this);">Generate</button>
+                                </div>
+                            </div>
+                            <p style="margin-bottom: 25px;">
+                            <span class="label label-default">INTRO</span><br>
+                                Geegle Docs is a Document Typesetting as a Service System. This allows us to format company internal documents
+                                using Markdown and make sure all documents use our documnt template.
+                            </p>
+                        </form>
+                    </div>
+                    <div class="mastfoot">
+                        <div class="inner">
+                            <p>
+                                Powered by Geegle Docs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            function loader(item) {
+                var size = $(item).css('line-height');
+                var string = '<div class="loader" style="width: ' + size + ' !important; height: ' + size + ' !important;"><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div></div>';
+                var width = $(item).css('width');
+                var height = $(item).css('height');
+                $(item).css('width', width, 'important');
+                $(item).css('height', height, 'important');
+                $(item).html(string);
+            }
+        </script>
+    </body>
+</html>
+
