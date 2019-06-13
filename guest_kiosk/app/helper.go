@@ -9,33 +9,24 @@ import (
 	"time"
 
 	"golang.org/x/crypto/acme/autocert"
-
-	"github.com/oxtoacart/bpool"
 )
-
-var bufpool *bpool.BufferPool
 
 var isProd bool
 
 func Setup() {
 	flag.BoolVar(&isProd, "production", false, "if true, we start HTTPS server")
 	flag.Parse()
-	bufpool = bpool.NewBufferPool(64)
 }
 
 func RenderTemplate(w http.ResponseWriter, name string, data interface{}) {
 	tmpl := template.Must(template.ParseFiles("templates/layouts/base.html", "templates/"+name))
 
-	buf := bufpool.Get()
-	defer bufpool.Put(buf)
-
-	err := tmpl.ExecuteTemplate(buf, "base", data)
+	err := tmpl.ExecuteTemplate(w, "base", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	buf.WriteTo(w)
 }
 
 func makeServer(handler http.Handler) *http.Server {
