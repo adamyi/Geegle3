@@ -13,7 +13,6 @@ The environment is sandboxed.
 Example deploy:
 ```
 ---
----
 urls:
   "/": |-
     gae_rsp = gaeutils.make_response("Hello World")
