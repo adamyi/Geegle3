@@ -19,8 +19,8 @@ urls:
   "/ping": |-
     gae_rsp = gaeutils.make_response("Pong")
   "/add": |-
-    num_a = int(request.args.get("a"))
-    num_b = int(request.args.get("b"))
+    num_a = int(request['args'].get("a"))
+    num_b = int(request['args'].get("b"))
     gae_rsp = gaeutils.make_response("Answer is " + str(num_a + num_b))
   "/error": |-
     gae_rsp = gaeutils.errorpage("Oops our server has fallen asleep")
