@@ -112,7 +112,7 @@ func main() {
 			return
 		}
 
-		results, err := grcode.GetDataFromImage(img) // .Decode(bytes.NewReader(file))
+		results, err := grcode.GetDataFromImage(img)
 		if err != nil {
 			data.Flash = err.Error()
 			RenderTemplate(w, "scan.html", data)
