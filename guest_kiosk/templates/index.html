@@ -1,0 +1,25 @@
+{{ define "title" }}Guest@Geegle{{ end }}
+
+{{ define "content" }}
+<div class="container">
+    {{ if not (eq .Flash "") }}
+        <div class="alert alert-success" role="alert">
+            {{ .Flash }}
+        </div>
+    {{ end }}
+    <div class="row">
+        <img src="/static/geegle.png" class= "rounded mx-auto d-block" onclick="window.location='/'" style="max-width: 100%;height:auto">
+    </div>
+    <div class="row">
+        <a href="/login" class="btn btn-light" style="width:100%; font-size:40">ENTER GUEST AND HOST NAMES</a>
+    </div>
+    <br>
+    <div class="row">
+        <a href="/scan" class="btn btn-light" style="width:100%; font-size:40">SCAN GUEST QR CODE</a>
+    </div>
+    
+    <div class="navbar fixed-bottom">
+        <a href="/pickup/guest" class="btn btn-light" style="font-size:20; margin-bottom: 1em">Pickup Guest</a>
+    </div>
+</div>
+{{ end }}

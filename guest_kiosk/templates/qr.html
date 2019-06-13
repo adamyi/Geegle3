@@ -1,0 +1,11 @@
+{{ define "title" }}Guest@Geegle{{ end }}
+
+{{ define "content" }}
+<div class="container">
+    <div class="row">
+        <img src="/static/geegle.png" class= "rounded mx-auto d-block" onclick="window.location='/'" style="max-width: 100%;height:auto">
+    </div>
+    Incase you don't know how to make qr codes...
+    <img src="data:image/png;base64,{{.}}">
+</div>
+{{ end }}

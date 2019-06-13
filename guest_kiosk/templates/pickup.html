@@ -1,0 +1,31 @@
+{{ define "title" }}Guest@Geegle{{ end }}
+
+{{ define "content" }}
+<div class="container">
+    <div class="row">
+        <img src="/static/geegle.png" class= "rounded mx-auto d-block" onclick="window.location='/'" style="max-width: 100%;height:auto">
+    </div>
+    
+    {{ if not (eq (len .Visitors) 0) }}
+            <div class="row">
+                <div class="col-4 bg-secondary text-white border">Visitor Name</div>
+                <div class="col-4 bg-secondary text-white border">Visit Date</div>
+                <div class="col-4 bg-secondary text-white border">Host Name</div>
+            </div> 
+        {{ range $visitor := .Visitors}}
+            <div class="row">
+                <div class="col-4 bg-primary text-white border">{{ $visitor.Name }}</div>
+                <div class="col-4 bg-primary text-white border">{{ $visitor.Date }}</div>
+                <div class="col-4 bg-success text-white border">{{ $visitor.Host }}</div>
+            </div>
+        {{ end }}
+    {{ end }}
+
+    {{ if not (eq .Flash "") }}
+        <div class="alert alert-danger" role="alert">
+            {{ .Flash }}
+        </div>
+    {{ end }}
+
+</div>
+{{ end }}
