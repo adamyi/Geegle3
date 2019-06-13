@@ -1,6 +1,10 @@
 # gae (Geegle App Engine)
 
-Like Amazon Lambda using sandboxed Python.
+Like Amazon Lambda. Deploy your website without worrying about VM/containers.
+
+To use this infra, you only need to submit short pieces of code for python functions, see the following example.
+
+The environment is sandboxed.
 
 **Feel free to write other services using this infra**
 
@@ -8,6 +12,7 @@ Like Amazon Lambda using sandboxed Python.
 
 Example deploy:
 ```
+---
 ---
 urls:
   "/": |-
@@ -25,12 +30,14 @@ urls:
   "/json": |-
     gae_rsp = gaeutils.make_response(gaeutils.json_encode({"json": "is_easy"}))
 default_handler: |-
-  gae_rsp = gaeutils.errorpage("The requested URL %s was not found on this server." % request.path, code=404)
+  gae_rsp = gaeutils.errorpage("The requested URL %s was not found on this server." % request['path'], code=404)
 ```
 
 ## Vulnerability
 
 Could deploy functions to any domains due to wrong caching rules.
+
+**Please test if there are any other unintended vulns (user authentication is yet to add, main focus: bypass sandbox, DoS)**
 
 **Normal User**
 Domain: example
@@ -56,7 +63,7 @@ urls:
   "/test": |-
     gae_rsp = gaeutils.make_response("hacked")
 default_handler: |-
-  gae_rsp = gaeutils.errorpage("The requested URL %s was not found on this server." % request.path, code=404)
+  gae_rsp = gaeutils.errorpage("The requested URL %s was not found on this server." % request['path'], code=404)
 ```
 
 http://test1.apps.geegle.org:8056/haha.apps.geegle.org:8056/test becomes hacked
