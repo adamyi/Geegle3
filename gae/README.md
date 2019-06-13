@@ -1,8 +1,32 @@
 # gae (Geegle App Engine)
 
-Like Amazon Lambda.
+Like Amazon Lambda using sandboxed Python.
 
 **Feel free to write other services using this infra**
+
+## How-To
+
+Example deploy:
+```
+---
+urls:
+  "/": |-
+    gae_rsp = gaeutils.make_response("Hello World")
+  "/ping": |-
+    gae_rsp = gaeutils.make_response("Pong")
+  "/add": |-
+    num_a = int(request.args.get("a"))
+    num_b = int(request.args.get("b"))
+    gae_rsp = gaeutils.make_response("Answer is " + str(num_a + num_b))
+  "/error": |-
+    gae_rsp = gaeutils.errorpage("Oops our server has fallen asleep")
+  "/redirect": |-
+    gae_rsp = gaeutils.redirect("https://www.adamyi.com/")
+  "/json": |-
+    gae_rsp = gaeutils.make_response(gaeutils.json_encode({"json": "is_easy"}))
+default_handler: |-
+  gae_rsp = gaeutils.errorpage("The requested URL %s was not found on this server." % request.path, code=404)
+```
 
 ## Vulnerability
 
@@ -36,9 +60,6 @@ default_handler: |-
 ```
 
 http://test1.apps.geegle.org:8056/haha.apps.geegle.org:8056/test becomes hacked
-
-## Known Issue
-CPU-intensive code might block the thread... Consider running code in new process.
 
 ## author
 adamyi

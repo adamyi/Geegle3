@@ -1,8 +1,8 @@
 # mss library
 
 import requests
-import httplib as http_client
-http_client.HTTPConnection.debuglevel = 1
+# import httplib as http_client
+# http_client.HTTPConnection.debuglevel = 1
 
 class MSSClient():
   # TODO: don't hard code jwt
