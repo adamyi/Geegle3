@@ -8,9 +8,10 @@ RUN apt-get update && \
     lmodern \
     texlive-fonts-recommended
 
-COPY app /challenge
+COPY app /kix
+COPY key /key
 
-WORKDIR /challenge
+WORKDIR /kix
 RUN pip install -r requirements.txt
 
 CMD gunicorn main:app -b 0.0.0.0:80
