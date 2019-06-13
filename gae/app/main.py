@@ -78,7 +78,7 @@ def runapp(path, userapp):
       code = decoded['default_handler']
     mssc.set("cache/" + request.base_url, code, CACHE_EXPIRES)
 
-  aeval = Interpreter(usersyms={'request': request, 'gaeutils': gaeutils})
+  aeval = Interpreter(usersyms={'request': request, 'gaeutils': gaeutils}, max_time=5)
   aeval(code)
   if len(aeval.error) > 0:
     dbg = base64.b64encode(json.dumps([err.get_error() for err in aeval.error]))

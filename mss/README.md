@@ -5,3 +5,6 @@ Key-value datastore infrastructure
 This is (at least supposed to be) a secure service.
 
 **Feel free to use this infra in other services.**
+
+## author
+adamyi

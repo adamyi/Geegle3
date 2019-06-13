@@ -36,3 +36,9 @@ default_handler: |-
 ```
 
 http://test1.apps.geegle.org:8056/haha.apps.geegle.org:8056/test becomes hacked
+
+## Known Issue
+CPU-intensive code might block the thread... Consider running code in new process.
+
+## author
+adamyi
