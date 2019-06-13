@@ -1,0 +1,5 @@
+{
+    "JwtKey": "c3VwZXJTZWNyZXRKV1RLRVk=",
+    "RedisHost": "redis:6379",
+    "ListenAddress": "0.0.0.0:80"
+}

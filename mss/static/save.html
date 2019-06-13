@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html class="google" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
+<title>Mailhide - reCAPTCHA</title>
+<script src="https://www.google.cn/js/google.js"></script>
+<link rel="stylesheet" href="https://www.google.cn/css/maia.css">
+<link rel="stylesheet" href="static/mailhide.css">
+<link rel="shortcut icon" href="https://www.gstatic.cn/recaptcha/admin/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div class="maia-header" id="maia-header">
+    <div class="maia-aux">
+      <h1>
+        Mailhide
+      </h1>
+    </div>
+  </div>
+  <div id="maia-main">
+    受保护的邮箱地址：RSP_EMAIL<br>
+    <hr>
+    <h3>URL</h3>
+    <p><textarea style="width:540px" cols="65" rows="2">https://mailhide.cn/d?key=RSP_KEY</textarea></br>通过此网址，用户可在完成验证码后查看您的邮箱地址。</p>
+    <h3>HTML 代码</h3>
+    <p><textarea style="width:540px" cols="65" rows="2">&lt;a href="https://mailhide.cn/d?key=RSP_KEY" onclick="window.open('https://mailhide.cn/d?key\x3dRSP_KEY', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=550,height=550'); return false;" title="Reveal this e-mail address"&gt;RSP_EMAIL_FIRST_LETTER...&lt;/a&gt;@RSP_EMAIL_DOMAIN</textarea></br>将此代码复制到您的网页中，将显示 <a href="https://mailhide.cn/d?key=RSP_KEY" onclick="window.open('https://mailhide.cn/d?key\x3dRSP_KEY', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=550,height=550'); return false;" title="Reveal this e-mail address">RSP_EMAIL_FIRST_LETTER...</a>@RSP_EMAIL_DOMAIN</p>
+    <hr>
+    <h3>修改 HTML 代码 </h3>
+    欢迎修改以上代码。推荐在 550x550px 的新窗口中打开 reCAPTCHA。
+  </div>
+
+  <div class="maia-footer" id="maia-footer">
+    <div id="maia-footer-global">
+      <div class="maia-aux">
+        <ul><li><a href="https://www.google.com/recaptcha">关于 reCAPTCHA</a></li><li><a href="https://developers.google.cn/recaptcha/">文档</a></li><li><a href="https://github.com/adamyi/mailhide_mirror">GitHub</a></li></ul>
+      </div>
+     </div>
+    </div>
+    <script src="https://www.google.cn/js/maia.js"></script>
+</body>
+</html>

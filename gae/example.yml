@@ -1,0 +1,12 @@
+---
+urls:
+  "/": |-
+    ret_status=200
+    ret_body="hello world"
+  "/ping": |-
+    ret_status=200
+    ret_body="pong"
+default_handler: |-
+  ret_status=404
+  ret_body="404 not found"
+

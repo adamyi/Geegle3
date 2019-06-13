@@ -1,0 +1,22 @@
+version: '2'
+services:
+  kix:
+    build: ./kix
+    networks:
+      geegle_test:
+  redis:
+    image: redis:latest
+    networks:
+      geegle_test:
+  mss:
+    build: ./mss
+    networks:
+      geegle_test:
+  gae:
+    build: ./gae
+    networks:
+      geegle_test:
+    ports:
+    - "8056:80"
+networks:
+  geegle_test:
