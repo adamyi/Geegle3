@@ -16,7 +16,9 @@ public class GaeRuntimeWrapper {
     try {
       ExecutorService es = Executors.newSingleThreadExecutor();
       Future future = es.submit(task);
-      return future.get(timeout, TimeUnit.SECONDS);
+      Object ret = future.get(timeout, TimeUnit.SECONDS);
+      es.shutdown();
+      return ret;
     } catch (Exception e) {
       StringWriter errors = new StringWriter();
       e.printStackTrace(new PrintWriter(errors));
