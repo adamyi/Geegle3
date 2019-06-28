@@ -1,6 +1,6 @@
 # Plot for Geegle3
 
-## WorkExperience
+## Work Experience
 Challenges 1.1.x:
 - Binary introductory training for work experience
 Challenges 1.2.x:
@@ -14,4 +14,4 @@ Challenges 3.1.x:
 Challenges 3.2.x:
 - Network/HackTheBox - "I know your placement finishes up soon, but you seem to be able to do everything... Can you do one last thing, please?"
 
-## Employee
+## New Employee
