@@ -1,6 +1,6 @@
 # Plot for Geegle3
 
-## Work
+## Work Experience
 
 Challenges 1.1.x:
 - Binary introductory training for work experience
