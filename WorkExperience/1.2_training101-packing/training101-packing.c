@@ -8,6 +8,7 @@ int actuallyDoThings(void);
 
 
 int main(int argc, char *argv[]) {
+    setbuf(stdout, NULL);
     return actuallyDoThings();
 }
 
