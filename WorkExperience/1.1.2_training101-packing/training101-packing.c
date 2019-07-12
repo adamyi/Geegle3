@@ -56,7 +56,7 @@ int getFlag(void) {
 }
 
 void load_flag(){
-    FILE *file = fopen("~/flag", "r");
+    FILE *file = fopen("/flag", "r");
 
     if (file == NULL) {
         strcpy(flag, "FLAG{DEBUGGING_FLAG}");

@@ -12,9 +12,9 @@ int main(int argc, char * argv[]) {
 	printf("In Linux we have 'Directories', whereas in Windows they are called: ");
 
 	// read in and store in a var
-	scanf("%s", ans);
+	scanf("%100s", ans);
 
-	if (strcmp(ans, "Folders") != 0 && strcmp(ans, "folders") != 0) {
+	if (strncmp(ans, "Folders", 100) != 0 && strncmp(ans, "folders", 100) != 0) {
 		printf("Oops, not quite. Try Googling!\n");\
 		return 1;
 	}
@@ -26,7 +26,7 @@ int main(int argc, char * argv[]) {
 }
 
 void load_flag(){
-	FILE *file = fopen("~/flag", "r");
+	FILE *file = fopen("/flag", "r");
 
 	if (file == NULL) {
 		strcpy(flag, "FLAG{DEBUGGING_FLAG}");
