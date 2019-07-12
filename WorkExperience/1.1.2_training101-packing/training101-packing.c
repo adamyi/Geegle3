@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+char flag[64] = {0};
+
+void load_flag();
+
 int getFlag(void);
 
 int actuallyDoThings(void);
@@ -44,27 +49,20 @@ int actuallyDoThings(void) {
 
 int getFlag(void) {
 
-    printf("\n");
-    printf("\n");
-    printf("\n");
-    printf("||-------------------\n");
-    printf("||                  |\n");
-    printf("|| FLAG_GOES_HERE_2 |\n");
-    printf("||                  |\n");
-    printf("||-------------------\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("||\n");
-    printf("\n");
-    printf("\n");
-    printf("\n");
+    load_flag();
+    printf("%s\n", flag);
 
     return EXIT_SUCCESS;
+}
+
+void load_flag(){
+    FILE *file = fopen("~/flag", "r");
+
+    if (file == NULL) {
+        strcpy(flag, "FLAG{DEBUGGING_FLAG}");
+        return;
+    }
+
+    fread(flag, sizeof(flag), 1, file);
+    fclose(file);
 }
