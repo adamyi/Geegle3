@@ -1,4 +1,4 @@
 *.pyc
 .gdb_history
 core
-
+*.o
