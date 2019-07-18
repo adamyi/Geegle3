@@ -28,4 +28,5 @@ However you got here - work experience program, grad hire, career step - welcome
 ## Paralell Taskings
 | Tasking | Work Experience | New hire |
 |:------------------------------------|:-----:|:-----:|
-| Register | Sign in at the [Guest Kiosk]() | Start with the [Intro Training]() |
+| Register | Start with the [Intro Training]() | Sign in at the [Guest Kiosk]() |
+|  Mail server |   |  You now have access to XXX's email account. What can you do? |
