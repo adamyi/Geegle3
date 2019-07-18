@@ -18,5 +18,12 @@ services:
       geegle_test:
     ports:
     - "8056:80"
+
+  mailserver-dev:
+    image: mailserver-dev
+    ports:
+      - "587:9999"
+    read_only: true
+
 networks:
   geegle_test:
