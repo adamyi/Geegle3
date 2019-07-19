@@ -1,5 +1,4 @@
 CC=gcc
-CFLAGS=-m32 -O
-LDFLAGS=-m32
+CFLAGS=-O -Wall -std=c99
 
 training-linux: training-linux.o
