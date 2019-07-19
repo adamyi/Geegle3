@@ -24,6 +24,12 @@ services:
     ports:
       - "587:9999"
     read_only: true
+  intern-project: 
+    image: intern-project
+    ports:
+      - "19204:19204"
+    read_only: true
+
 
 networks:
   geegle_test:
