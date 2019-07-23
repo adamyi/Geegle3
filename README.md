@@ -15,7 +15,7 @@ However you got here - work experience program, grad hire, career step - welcome
 
 ---
 
-## Paralell Taskings
+## Parallell Taskings
 | Tasking | Work Experience | New hire |
 |:------------------------------------|:-----:|:-----:|
 | Register | Start with the [Intro Training]() | Sign in at the [Guest Kiosk]() |
