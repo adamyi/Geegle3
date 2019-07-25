@@ -76,7 +76,7 @@ int main(int argc, char * argv[]) {
 	}
 	for (int i= 0; i < strlen(ans); i++) ans[i] = 0;
 
-	printf("\nWhen I execute a program, information such as program variables and Return Pointers are stored in memory in a data sructure known as a (no spaces): ");
+	printf("\nWhen I execute a program, information such as program variables and Return Pointers are stored in memory in a data structure known as a (no spaces): ");
 	scanf("%100s", ans);
 	for (int i = 0; i < strlen(ans); i++)
 		ans[i] = toupper((unsigned char) ans[i]);
