@@ -4,3 +4,7 @@
 ---
 
 Welcome to Geegle - time to learn to use Linux so you can get things done!
+
+Please complete training modules:
+  - 1.1.0
+  - 1.1.1
