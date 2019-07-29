@@ -16,7 +16,7 @@ def updateProgress(i):
     progress = int(i / 1024 / 1024 / 5)
     for j in range(progress):
         print("=", end='')
-    for j in range(total - progress):
+    for j in range(total - progress + 1):
         print(" ", end='')
     print("]", end='\r')
 
