@@ -40,6 +40,7 @@ if nums == responses:
         print("FLAG{DEBUG_FLAG}")
         exit(1)
     print(f.read())
+    fh.close()
     exit(0)
 
 print("make sure you get it right next time!")
