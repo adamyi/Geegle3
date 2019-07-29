@@ -5,20 +5,20 @@ import string
 import random
 
 
-MB = 100
+MB = 300
 # MBs to write, in bytes
 MB_SIZE = 1024 * 1024 * MB
 
 def updateProgress(i):
     global MB
     print("\rProgress: [", end='')
-    total = int(MB/10)
-    progress = int(i / 1024 / 1024 / 10)
+    total = int(MB/5)
+    progress = int(i / 1024 / 1024 / 5)
     for j in range(progress):
         print("=", end='')
     for j in range(total - progress):
         print(" ", end='')
-    print("]", end='')
+    print("]", end='\r')
 
 
 fh = open("output.log", "w+")
