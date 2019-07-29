@@ -1,3 +1,4 @@
+*.swp
 *.pyc
 .gdb_history
 core
