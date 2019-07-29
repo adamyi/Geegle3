@@ -1,0 +1,38 @@
+{{ define "title" }}File Browser{{ end }}
+
+{{ define "content" }}
+<div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Filename</th>
+        </tr>
+      </thead>
+      <tbody>
+           {{ range $key, $value := . }}
+           <tr><td>{{ $key }}</td></tr>
+           {{ end }}
+      </tbody>
+    </table>
+
+    <form method="POST" id='form'>
+        <label class="control-label" for="filename">File Name</label>
+        <input class="form-control form-control-lg" name="filename" id="filename" type="text" placeholder="filename">
+       
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+
+
+<script>
+    $( "form" ).submit(function( event ) {
+        const filename = $('#filename').val().trim();
+
+        if (filename.endsWith(".private")) {
+            alert("File is private!");
+            event.preventDefault();
+            return;
+        }
+    });
+</script>
+{{ end }}
