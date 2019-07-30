@@ -1,2 +1,2 @@
 #!/bin/sh
-grep -Eo '[A-Z0-9]+{.+?}' output.log
+grep -Po '[A-Z0-9]+\{.{5,30}\}' output.log
