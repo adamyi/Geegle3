@@ -64,24 +64,24 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
 			log.Println("Signature Invalid")
-			rsp.WriteHeader(http.StatusUnauthorized)
+			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
 			return
 		}
 		log.Println("JWT Error")
 		log.Println(err.Error())
-		rsp.WriteHeader(http.StatusBadRequest)
+		http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
 		return
 	}
 
 	if !tkn.Valid {
 		log.Println("JWT Invalid")
-		rsp.WriteHeader(http.StatusUnauthorized)
+		http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
 		return
 	}
 
 	if claims.Service != "uberproxy@services.geegle.org" {
 		log.Println(claims.Service)
-		rsp.WriteHeader(http.StatusUnauthorized)
+		http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
 		return
 	}
 
@@ -145,7 +145,7 @@ func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 		}
 		_ = req.Form.Get("password")
 		//TODO: verify password
-		expirationTime := time.Now().Add(1 * time.Hour)
+		expirationTime := time.Now().Add(24 * 30 * time.Hour)
 		pclaims := Claims{
 			Username: username,
 			Service:  "uberproxy@services.geegle.org",

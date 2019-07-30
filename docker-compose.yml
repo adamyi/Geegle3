@@ -1,21 +1,27 @@
+# how zero-trust network works:
+# create separate networks for each service containing only that service and uberproxy
+# this way all communication goes through uberproxy, even including inter-service ones
+# we currently have a geegle_unsecure network but we will migrate all of them to
+# beyondcorp later
+
 version: '2'
 services:
   kix:
     build: ./kix
     networks:
-      geegle_test:
+      geegle_unsecure:
   redis:
     image: redis:latest
     networks:
-      geegle_test:
+      geegle_unsecure:
   mss:
     build: ./mss
     networks:
-      geegle_test:
+      geegle_unsecure:
   gae:
     build: ./gae
     networks:
-      geegle_test:
+      geegle_unsecure:
     ports:
     - "8056:80"
   uberproxy:
@@ -38,6 +44,6 @@ services:
         aliases:
           - geemail-backend.corp.geegle.org
 networks:
-  geegle_test:
+  geegle_unsecure:
   beyondcorp_geemail_frontend:
   beyondcorp_geemail_backend:
