@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -50,7 +51,7 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	c, err := req.Cookie("uberproxy_auth")
 	full_url := req.Host + req.RequestURI
 	if err != nil {
-		http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), 303)
+		http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
 		return
 	}
 	tknStr := c.Value
@@ -138,7 +139,10 @@ func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 		fmt.Fprint(rsp, string(body))
 	} else if req.Method == "POST" {
 		req.ParseForm()
-		username := req.Form.Get("username")
+		username := strings.ToLower(req.Form.Get("username"))
+		if !strings.HasSuffix(username, "@geegle.org") {
+			username = username + "@geegle.org"
+		}
 		_ = req.Form.Get("password")
 		//TODO: verify password
 		expirationTime := time.Now().Add(1 * time.Hour)

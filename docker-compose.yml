@@ -18,5 +18,26 @@ services:
       geegle_test:
     ports:
     - "8056:80"
+  uberproxy:
+    build: ./uberproxy
+    networks:
+      beyondcorp_geemail_frontend:
+      beyondcorp_geemail_backend:
+    ports:
+    - "80:80"
+  geemail_frontend:
+    build: ./geemail-frontend
+    networks:
+      beyondcorp_geemail_frontend:
+        aliases:
+          - mail.corp.geegle.org
+  geemail_backend:
+    build: ./geemail-backend
+    networks:
+      beyondcorp_geemail_backend:
+        aliases:
+          - geemail-backend.corp.geegle.org
 networks:
   geegle_test:
+  beyondcorp_geemail_frontend:
+  beyondcorp_geemail_backend:
