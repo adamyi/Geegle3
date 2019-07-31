@@ -4,7 +4,7 @@ RUN apt-get update
 
 RUN go get "github.com/gorilla/mux"
 
-COPY app /filebrowser
+COPY app /easy_ssrf
 
-WORKDIR /filebrowser
+WORKDIR /easy_ssrf
 CMD go run main.go helper.go 

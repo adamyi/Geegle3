@@ -4,7 +4,7 @@ RUN apt-get update
 
 RUN go get "github.com/gorilla/mux"
 
-COPY app /filebrowser
+COPY app /cookies
 
-WORKDIR /filebrowser
+WORKDIR /cookies
 CMD go run main.go helper.go 
