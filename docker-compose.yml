@@ -19,6 +19,17 @@ services:
     ports:
     - "8056:80"
 
+  
+  
+  hs-recursive:
+    image: golang:1.11
+    volumes:
+      - ./WorkExperience/recursive_dir/generate_site.sh:/generate_site.sh
+      - ./WorkExperience/recursive_dir/main.go:/main.go
+    command: bash /generate_site.sh 
+    ports:
+      - "9000:80"
+
   mailserver-dev:
     image: mailserver-dev
     ports:

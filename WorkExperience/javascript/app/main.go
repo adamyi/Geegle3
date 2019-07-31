@@ -1,35 +1,50 @@
 package main
 
 import (
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
+type data struct {
+	Files    map[string]string
+	Filename string
+	Content  string
+}
+
 func main() {
 	files := map[string]string{
-		"lunch_orders.txt":  "adamt: meat",
-		"new_hires.private": "<URL>",
-		"current_user":      "geegle"}
+		"lunch_orders.txt":  "adamt: meat\nadamy: chicken\njames: rice",
+		"new_hires.private": "EMPTY",
+		"current_user":      "adamt"}
 
 	r := mux.NewRouter()
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-
 	r.Methods("GET").Path("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		RenderTemplate(w, "index.html", files)
+		data := data{files, "", ""}
+		RenderTemplate(w, "index.html", data)
 	})
 
 	r.Methods("POST").Path("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		filename := r.PostFormValue("filename")
 
-		file, ok := files[filename]
-
-		if !ok {
-			w.Write([]byte("File not found"))
+		if filename == "new_hires.private" {
+			data, _ := ioutil.ReadFile("flag")
+			w.Write(data)
+			return
 		}
 
-		w.Write([]byte(file))
+		file, ok := files[filename]
+
+		data := data{files, filename, ""}
+		if !ok {
+			data.Content = "File not found"
+		} else {
+			data.Content = string(file)
+		}
+
+		RenderTemplate(w, "index.html", data)
 	})
 
 	http.ListenAndServe(":8001", r)

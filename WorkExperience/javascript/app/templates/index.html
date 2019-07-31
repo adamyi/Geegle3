@@ -1,7 +1,10 @@
 {{ define "title" }}File Browser{{ end }}
 
 {{ define "content" }}
+
 <div class="container">
+    <h1>File Browser:</h1>
+    <br />
     <table class="table">
       <thead>
         <tr>
@@ -9,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-           {{ range $key, $value := . }}
+           {{ range $key, $value := .Files }}
            <tr><td>{{ $key }}</td></tr>
            {{ end }}
       </tbody>
@@ -21,6 +24,24 @@
        
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
+
+    {{ if not (eq .Filename "") }} 
+    <div id="file" class="modal" tabindex="-1" role="dialog" style="display: inline">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ .Filename }}</h5>
+                    <button type="button" class="close" onclick='document.querySelector("#file").remove()' aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ .Content }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ end }}
 </div>
 
 
