@@ -30,11 +30,29 @@ services:
     ports:
       - "9000:80"
 
+  local_intranet: 
+    image: easy_ssrf
+    ports:
+      - "9001:80"
+    hostname: internal.docs
+
+  intern-management: 
+    image: cookies
+    ports:
+      - "9002:80"
+
+  etcpasswd: 
+    image: etcpasswd
+    ports:
+      - "9003:22"
+    read_only: true
+
   mailserver-dev:
     image: mailserver-dev
     ports:
       - "587:9999"
     read_only: true
+
   intern-project: 
     image: intern-project
     ports:

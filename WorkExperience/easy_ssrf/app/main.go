@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -15,6 +16,23 @@ type data struct {
 
 func main() {
 	r := mux.NewRouter()
+
+	r.Host("internal.docs").Path("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "http://internal.docs/robots\nhttp://internal.docs/interns\nhttp://internal.docs/employees")
+	})
+
+	r.Host("internal.docs").Path("/robots").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "internal.docs/*")
+	})
+
+	r.Host("internal.docs").Path("/interns").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "No intern docs currently... (maybe an intern project for next year?)")
+	})
+
+	r.Host("internal.docs").Path("/employees").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Employee DOCS can't be accessed via the VPN, they must be accessed via internal machines")
+	})
+
 	r.Methods("GET").Path("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		RenderTemplate(w, "index.html", data{})
 	})
@@ -27,7 +45,7 @@ func main() {
 		r.ParseForm()
 		url := r.PostFormValue("search")
 
-		if url == "http://localhost/private" {
+		if url == "http://localhost/private" || url == "whatevertheurlis" {
 			flag, _ := ioutil.ReadFile("flag")
 			RenderTemplate(w, "index.html", data{url, string(flag)})
 			return
@@ -53,5 +71,5 @@ func main() {
 		RenderTemplate(w, "index.html", data{url, pagecontent})
 	})
 
-	http.ListenAndServe(":8003", r)
+	http.ListenAndServe(":80", r)
 }

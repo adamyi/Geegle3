@@ -21,12 +21,12 @@ func main() {
 	})
 
 	r.Methods("POST").Path("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		expiration := time.Now().Add(365 * 24 * time.Hour)
+		expiration := time.Now().Add(1 * time.Minute)
 		cookie := http.Cookie{Name: "permission", Value: "intern", Expires: expiration}
 		http.SetCookie(w, &cookie)
 
 		RenderTemplate(w, "index.html", cookie.Value)
 	})
 
-	http.ListenAndServe(":8002", r)
+	http.ListenAndServe(":80", r)
 }
