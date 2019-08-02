@@ -1,7 +1,7 @@
 version: '2'
 services:
   kix:
-    build: ./kix
+    build: ./NewHire/kix
     networks:
       geegle_test:
   redis:
@@ -20,7 +20,7 @@ services:
     - "8056:80"
 
 
-
+# High school
   hs-recursive:
     image: golang:1.11
     volumes:
@@ -31,36 +31,36 @@ services:
       - "9000:80"
 
   local_intranet:
-    image: easy_ssrf
+    build: ./WorkExperience/easy_ssrf
     ports:
       - "9001:80"
     hostname: internal.docs
 
   intern-management:
-    image: cookies
+    build: ./WorkExperience/cookies
     ports:
       - "9002:80"
 
   etcpasswd:
-    image: etcpasswd
+    build: ./WorkExperience/etcpasswd
     ports:
       - "9003:22"
     read_only: true
 
   intern-project:
-    image: intern-project
+    build: ./WorkExperience/intern-project
     ports:
       - "19204:19204"
     read_only: true
 
+# NewHires
   mailserver-dev:
-    image: mailserver-dev
+    build: ./NewHire/mailserver-dev
     ports:
       - "587:9999"
     read_only: true
-
   payroll:
-    image: payroll
+    build: ./NewHire/payroll
     ports:
       - "19200:1000"
     read_only: true
