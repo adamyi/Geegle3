@@ -12,10 +12,10 @@
 /** Code used for loading program from file into arrays  */
 /* ===================================================== */
 static int read_next_line(FILE* file, char* line) {
-    if(fgets(line, 99, file) == NULL || strlen(line) <= 1) {
-        return 0; // REACHED EOF
-    }  
-    
+    if(fgets(line, 99, file) == NULL) {
+        error("Reached EOF without END");
+    }
+
     // Make sure the line has a newline
     char* newline = strchr(line, '\n');
     if (newline == NULL) {
@@ -24,6 +24,16 @@ static int read_next_line(FILE* file, char* line) {
     }
 
     *newline = 0; //remove newline
+
+
+    char* comment = strchr(line, '#');
+    if (comment != NULL) {
+        *comment = 0;
+    }
+
+    if (strcmp(line, "END") == 0) {
+        return 0;
+    }
 
     return 1;
 }
@@ -86,7 +96,7 @@ static void check_value(char* value) {
         error("Incorrect int found");
     }
 
-    if (*endptr == 0 && int_value <= INT_MAX && int_value >= -INT_MAX) {
+    if (*endptr == 0) {
         return; // VALID
     }
 
@@ -115,7 +125,7 @@ static void check_variable(char* value) {
     int ret;
 
     /* Match for non alphanumeric char */
-    ret = regcomp(&regex, "[^a-zA-Z0-9]", 0); 
+    ret = regcomp(&regex, "[^a-zA-Z0-9]", 0);
     if (ret) {
         error("Could not compile regex");
     }
@@ -189,13 +199,18 @@ static struct instruction* decode_instruction(char* line) {
 void load_program(char* filename, struct instruction* program[MAX_INSTRS]) {
     FILE* file = fopen(filename, "r");
     char line[MAX_LINE_LEN] = {0};
-    
+
     // Reach each line
     int count = 0;
     while(read_next_line(file, line)) {
         if (count >= MAX_INSTRS) {
             error("Too many instructions");
         }
+
+        if (strlen(line) < 2) {
+            continue;
+        }
+
         struct instruction* instr = decode_instruction(line);
         program[count++] = instr;
     }

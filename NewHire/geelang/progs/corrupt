@@ -1,5 +1,0 @@
-INT a 1
-DEL a
-BOX b 99
-PRINT a
-PRINT b

@@ -55,12 +55,12 @@ services:
 
 # NewHires
   mailserver-dev:
-    build: ./NewHire/mailserver-dev
+    build: ./NewHire/pwn-mailserver-dev
     ports:
       - "587:9999"
     read_only: true
   payroll:
-    build: ./NewHire/payroll
+    build: ./NewHire/pwn-payroll
     ports:
       - "19200:1000"
     read_only: true

@@ -21,6 +21,6 @@ int main(int argc, char* argv[], char* envp[]) {
     assert(argc == 2);
     load_program(argv[1], program);
     run_program(program);
-    
+
 }
 
