@@ -17,12 +17,7 @@ void _puts(void);
 
 void getShell(void);
 
-void handler(int num) {
-   printf("\nI'm so sorry! We seem to have hit an error\n");
-   printf("Please send us this error code: ");
-   _printf();
-   exit(0);
-}
+void handler(int num);
 
 void getFeedback(char *name);
 void keyGen(char *cyphertext);
@@ -104,7 +99,7 @@ label3:
     }
 
 
-    printf("On a scale of 1 to 10, hpw many friends have you made here?\n");
+    printf("On a scale of 1 to 10, how many friends have you made here?\n");
     scanf("%2d", &response);
     printf("Response '%d' recorded.\n\n", response);
     int friends = response;
@@ -140,16 +135,45 @@ label4: a -= 1;
     return;
 }
 
+void handler(int num) {
+	char string[80] = "";
+	strcat(string, ";{\x14Y\x15");
+	strcat(string, "EX\x18J_C@J\x15\x15");
+	strcat(string, "AR\x1fOU\x11ZZ@\x15WY\x18\\BC]A\x1a?f[]XCT\x12@Q[R\x17MJ\x10");
+	strcat(string, "EZZG\x15SEJVB\x11Q\\PP\x0c\x17");
+	strcat(string, "2p\x17\\\x12@[\x15");
+	strcat(string, "EXJKI\0");
+	char key[80] = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
+	for (int i = 0; i < strlen(string); i++) {
+		string[i] ^= key[i];
+	}
+	string[67] = '\0';
+	printf("%s", string);
+	_printf();
+	exit(0);
+}
+
 void _printf(void) {
 
     _puts();
     printf("%s\n\n", flag);
 }
 void _puts(void){
-    FILE *file = fopen("/flag", "r");
+	char fileName[10] = "N\x04\x0f\x05\x02";
+	char key[10] = "abcde";
+	for (int i = 0; i < strlen(fileName); i++) {
+		fileName[i] ^= key[i];
+	}
+	fflush(stdout);
+    FILE *file = fopen(fileName, "r");
 
     if (file == NULL) {
-        strcpy(flag, "FLAG{DEBUGGING_FLAG}");
+    	char tmpflag[24] = "w~rsNrrzlwv{}sjp{y~M";
+    	char key[24] = "12345678901234567890";
+    	for (int i = 0; i < strlen(tmpflag); i++) {
+    		tmpflag[i] ^= key[i];
+		}	
+        strcpy(flag, tmpflag);
         return;
     }
 
