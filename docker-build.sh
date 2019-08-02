@@ -10,3 +10,9 @@ if [ -d "WorkExperience/${chal}" ] && [ -f "WorkExperience/${chal}/Dockerfile" ]
     docker build -t "${chal}" "WorkExperience/${chal}"
 fi
 done
+
+for chal in NewHire; do
+if [ -d "NewHire/${chal}" ] && [ -f "NewHire/${chal}/Dockerfile" ]; then
+    docker build -t "${chal}" "NewHire/${chal}"
+fi
+done

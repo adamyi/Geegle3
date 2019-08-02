@@ -7,25 +7,39 @@
 #include "geelang.h"
 
 extern struct variable* global_variables[MAX_VARS];
+extern char global_variables_names[MAX_VARS][32];
 
 static int INSTRUCTION_POINTER = -1;
 
-// Default print function for int variables
-void print_int(char* var_name, int var_value) {
-    printf("%s - %d\n", var_name, var_value);
+// Default print function for unboxed int variables
+void print_int(char* var_name, long int var_value) {
+    printf("%s - %ld\n", var_name, var_value ^ UNBOXED);
+}
+
+// Default print function for unboxed int variables
+void print_boxed(char* var_name, int* var_value) {
+    printf("%s - %d\n", var_name, *var_value);
 }
 
 /* ================== */
 
 
-static struct variable* create_variable_from_string(char* var, int init_value) {
+static struct variable* create_variable_from_string(char* var, int init_value, int boxed) {
     struct variable* variable = malloc(sizeof(struct variable));
     assert(variable != NULL);
 
-    variable->value = init_value;
-    variable->print_variable = print_int;
-    strncpy(variable->name, var, 16);
+    if (boxed) {
+        // Memory needs to be allocated
+        variable->value = (long int) malloc(sizeof(long int)); 
+        assert(variable->value != 0);
+        *((int*) variable->value) = init_value;
 
+        variable->print_variable = (void (*)(char*, long int)) print_boxed;
+    } else {
+        variable->value = init_value & UNBOXED;
+        variable->print_variable = print_int;
+    }
+    
     int i = 0;
     for(struct variable** vars = global_variables; *vars != NULL; vars++, i++) {
     }
@@ -35,14 +49,14 @@ static struct variable* create_variable_from_string(char* var, int init_value) {
     }
 
     global_variables[i] = variable;
+    strncpy(global_variables_names[i], var, 31);
     return variable;
 }
 
 static int get_variable_index(char* var) {
     int i = 0;
     for(struct variable** vars = global_variables; *vars != NULL; vars++, i++) {
-        struct variable* variable = *vars;
-        if (strcmp(variable->name, var) == 0) {
+       if (strcmp(global_variables_names[i], var) == 0) {
             return i;
         }
     }
@@ -58,7 +72,7 @@ static void initialise(struct instruction *ip) {
     }
 
     int value = atoi(ip->arg2);
-    struct variable* newvar = create_variable_from_string(ip->arg1, value);
+    struct variable* newvar = create_variable_from_string(ip->arg1, value, ip->instr_type == BOX ? 1 : 0);
 
     assert(newvar != NULL);
 }
@@ -70,6 +84,7 @@ static void set(struct instruction *ip) {
         error("Variable not found!");
     }
 
+    // TODO DEAL WITH BOXED/UNBOXED
     int value = atoi(ip->arg2);
     global_variables[arg1_index]->value = value;
 }
@@ -81,6 +96,7 @@ static void inc(struct instruction *ip) {
         error("Variable not found!");
     }
 
+    // TODO DEAL WITH BOXED/UNBOXED
     global_variables[arg1_index]->value += 1;
 }
 
@@ -91,6 +107,7 @@ static void dec(struct instruction *ip) {
         error("Variable not found!");
     }
 
+    // TODO DEAL WITH BOXED/UNBOXED
     global_variables[arg1_index]->value -= 1;
 }
 
@@ -99,6 +116,10 @@ static void del(struct instruction *ip) {
     
     if (arg1_index == -1) {
         error("Variable not found!");
+    }
+    
+    if ((global_variables[arg1_index]->value & UNBOXED) != UNBOXED) {
+        free((void*) global_variables[arg1_index]->value);
     }
 
     free(global_variables[arg1_index]);
@@ -111,7 +132,7 @@ static void move(struct instruction *ip) {
     if (arg1_index == -1 || arg2_index == -1) {
         error("Variable not found!");
     }
-
+    // TODO DEAL WITH BOXED/UNBOXED
     global_variables[arg1_index]->value = global_variables[arg2_index]->value;
 }
 
@@ -123,6 +144,7 @@ static void add(struct instruction *ip) {
         error("Variable not found!");
     }
 
+    // TODO DEAL WITH BOXED/UNBOXED
     global_variables[arg1_index]->value += global_variables[arg2_index]->value;
 }
 
@@ -171,7 +193,7 @@ static void print(struct instruction *ip) {
     }
     struct variable* var = global_variables[arg1_index];
 
-    var->print_variable(var->name, var->value);
+    var->print_variable(global_variables_names[arg1_index], var->value);
 }
 
 static void jmpz(struct instruction *ip, struct instruction* program[MAX_INSTRS]) {
@@ -216,6 +238,7 @@ static void jmpnz(struct instruction *ip, struct instruction* program[MAX_INSTRS
 static void run_instruction(struct instruction* ip, struct instruction* program[MAX_INSTRS]) {
     switch(ip->instr_type) {
         case INT: 
+        case BOX:
             initialise(ip);
             break;
         case SET:

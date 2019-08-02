@@ -16,9 +16,6 @@ RUN apt-get install -y libc6:i386 libstdc++6:i386
 RUN apt-get install -y xinetd
 RUN update-rc.d xinetd disable
 
-# Install nc for debugging
-RUN apt-get install -y netcat
-
 # Add the ctf dir
 RUN mkdir /home/ctf
 
@@ -32,17 +29,15 @@ RUN useradd -M -U\
 RUN chown ctf:ctf /home/ctf
 
 # Add the content
-COPY src/intern-project /home/ctf/pwn
+COPY chal/payroll /home/ctf/pwn
 COPY xinetd.conf /etc/xinetd.conf
 COPY flag /flag
-
-RUN chmod 775 /var/mail
 
 # Make the binary
 WORKDIR /home/ctf
 
 # Expose the service port
-EXPOSE 19204
+EXPOSE 1000
 
 # Clean up setup files
 RUN ["chmod","775","/flag"]

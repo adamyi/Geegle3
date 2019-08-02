@@ -19,32 +19,38 @@ services:
     ports:
     - "8056:80"
 
-  
-  
+
+
   hs-recursive:
     image: golang:1.11
     volumes:
       - ./WorkExperience/recursive_dir/generate_site.sh:/generate_site.sh
       - ./WorkExperience/recursive_dir/main.go:/main.go
-    command: bash /generate_site.sh 
+    command: bash /generate_site.sh
     ports:
       - "9000:80"
 
-  local_intranet: 
+  local_intranet:
     image: easy_ssrf
     ports:
       - "9001:80"
     hostname: internal.docs
 
-  intern-management: 
+  intern-management:
     image: cookies
     ports:
       - "9002:80"
 
-  etcpasswd: 
+  etcpasswd:
     image: etcpasswd
     ports:
       - "9003:22"
+    read_only: true
+
+  intern-project:
+    image: intern-project
+    ports:
+      - "19204:19204"
     read_only: true
 
   mailserver-dev:
@@ -53,12 +59,11 @@ services:
       - "587:9999"
     read_only: true
 
-  intern-project: 
-    image: intern-project
+  payroll:
+    image: payroll
     ports:
-      - "19204:19204"
+      - "19200:1000"
     read_only: true
-
 
 networks:
   geegle_test:

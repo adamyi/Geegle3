@@ -32,6 +32,9 @@ static enum INSTR_TYPE get_instr_type(char* oper, int len) {
     if (strncmp(oper, "INT", len) == 0) {
         return INT;
     }
+    if (strncmp(oper, "BOX", len) == 0) {
+        return BOX;
+    }
     if (strncmp(oper, "SET", len) == 0) {
         return SET;
     }
@@ -69,7 +72,7 @@ static enum INSTR_TYPE get_instr_type(char* oper, int len) {
         return JMPNZ;
     }
 
-    error("Unknown operating");
+    error("Unknown operator");
 }
 
 static void check_value(char* value) {
@@ -147,10 +150,11 @@ static struct instruction* decode_instruction(char* line) {
 
     switch(instr->instr_type) {
         case INT:
+        case BOX:
         case SET:
         case JMPZ:
         case JMPNZ:
-           temp = strtok(NULL, " ");
+            temp = strtok(NULL, " ");
             check_value(temp); // Make sure valid int
 
             instr->arg2 = strdup(temp);

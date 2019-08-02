@@ -10,19 +10,18 @@ void __attribute__((noreturn)) error(char* msg);
 // Max length of a single line
 #define MAX_LINE_LEN 100
 
-struct variable {
-    int value; 
-    int unused;
-    
-    // Functon called to print this variable
-    void (*print_variable)(char* name, int value);
+#define UNBOXED 0xFFFF000000000000
 
-    // NAME of NULL means this is a value not a variable
-    char name[16]; 
+struct variable {
+    long int value; 
+
+    // Functon called to print this variable
+    void (*print_variable)(char* name, long int value);
 };
 
 enum INSTR_TYPE {
     INT,
+    BOX,
     SET,
     MOV,
     INC,
@@ -49,7 +48,6 @@ struct instruction {
 
     
 void load_program(char* filename, struct instruction* program[MAX_INSTRS]);
-
 
 void run_program(struct instruction* program[MAX_INSTRS]);
 #endif

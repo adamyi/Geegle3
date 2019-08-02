@@ -8,9 +8,12 @@ Variable naming convention:
 
 Statements must end in a newline
 
+boxed vs unboxed
+
 Statements: 
 # Comment
-INT x <val>     # Create int variable named X, value <value> (Must be 32 bit signed int)
+INT x <val>     # Create's a unboxed int variable named X, value <value> (Must be 32 bit signed int)
+BOX x <val>     # Create's a boxed int variable named X, value <value> (Must be 32 bit signed int)
 SET x <val>     # Reassigns variable x to value <value>. Variable x must exist
 MOV x y         # move variable y into x
 DEL x           # Deletes variable x and frees resources associated to x
@@ -22,7 +25,7 @@ ADD x y         # Adds variable x and y, stores value in x
 SUB x y         # Subtracts variable y from x, stores value in x
 MUL x y         # Multiplies variable x and y, stores value in x
 DIV x y         # Divides variable x by y, stores value in x
-PRINTX x        # Prints variable x in HEXADECIMAL
+PRINT x         # Prints variable x as a decimal
 
 JMPZ x <line>     # Jmp to line if x is 0
 JMPNZ x <line>    # Jmp to line if x is not 0

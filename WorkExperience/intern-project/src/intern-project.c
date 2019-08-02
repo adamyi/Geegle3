@@ -34,11 +34,10 @@ void decrypt(char* encrypted, int key) {
 
 
 char* load_flag() {
-
     printf("*** loading flag ***\n");
 
     char* flag = malloc(64);
-    FILE* file = fopen("/flag", "r");
+    FILE* file = fopen("flag", "r");
     
     if (file == NULL) {
         strncpy(flag, "FLAG{DEBUGGING_FLAG}", 64);
@@ -53,8 +52,33 @@ char* load_flag() {
     return flag;
 }
 
+void no_brute_forcing_please() {
+    printf("L"); 
+    sleep(1);
+    printf("O"); 
+    sleep(1);
+    printf("A"); 
+    sleep(1);
+    printf("D"); 
+    sleep(1);
+    printf("I"); 
+    sleep(1);
+    printf("N"); 
+    sleep(1);
+    printf("G"); 
+    sleep(1);
+    printf("."); 
+    sleep(1);
+    printf("."); 
+    sleep(1);
+    printf(".\n"); 
+    sleep(1);
+}
+
 int main(void) {
     setbuf(stdout, NULL);
+    no_brute_forcing_please();
+
     init_random();
     
     puts("Cool now that we have enough randomness... Let's try to decrypt the flag.\n");

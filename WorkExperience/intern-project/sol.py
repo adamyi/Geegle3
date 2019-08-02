@@ -2,7 +2,7 @@ from pwn import *
 context.log_level = 'error'
 PROGNAME   = "src/intern-project"
 REMOTEIP   = "127.0.0.1"
-REMOTEPORT = 19204
+REMOTEPORT = 9005
 
 for i in range(0, 0x10000):
     if args.REMOTE:
