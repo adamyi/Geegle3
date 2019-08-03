@@ -2,10 +2,15 @@ INT prev 0
 INT next 1
 INT sum 0
 INT count 10
+
 MOV sum prev
 ADD sum next
 MOV prev next
 MOV next sum
-DEC count
+
 PRINT prev
+
+DEC count
 JMPNZ count 5
+
+END

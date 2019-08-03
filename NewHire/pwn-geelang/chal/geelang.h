@@ -1,5 +1,6 @@
 #ifndef geelang
 #define geelang
+#include <stdio.h>
 
 void __attribute__((noreturn)) error(char* msg);
 
@@ -45,7 +46,7 @@ struct instruction {
 };
 
 
-void load_program(char* filename, struct instruction* program[MAX_INSTRS]);
+void load_program(FILE* file, struct instruction* program[MAX_INSTRS]);
 
 void run_program(struct instruction* program[MAX_INSTRS]);
 #endif

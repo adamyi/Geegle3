@@ -196,8 +196,7 @@ static struct instruction* decode_instruction(char* line) {
     return instr;
 }
 
-void load_program(char* filename, struct instruction* program[MAX_INSTRS]) {
-    FILE* file = fopen(filename, "r");
+void load_program(FILE* file, struct instruction* program[MAX_INSTRS]) {
     char line[MAX_LINE_LEN] = {0};
 
     // Reach each line

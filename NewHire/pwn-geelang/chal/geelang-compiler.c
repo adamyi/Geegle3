@@ -18,8 +18,20 @@ char global_variables_names[MAX_VARS][32];
 static struct instruction* program[MAX_INSTRS];
 
 int main(int argc, char* argv[], char* envp[]) {
-    assert(argc == 2);
-    load_program(argv[1], program);
+    setbuf(stdout, NULL);
+    FILE* file = stdin;
+    if (argc == 2) {
+        file = fopen(argv[1], "r");
+        if (file == NULL) {
+            puts("Failed to open file\n");
+            exit(0);
+        }
+    } else {
+        puts("Enter program to stdin:");
+        puts("To end the program send the command END");
+    }
+
+    load_program(file, program);
     run_program(program);
 
 }
