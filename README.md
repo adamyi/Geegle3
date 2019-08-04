@@ -4,6 +4,16 @@ Monorepo for COMP9301 CTF.
 
 ---
 
+## Building docker files
+
+To build docker files
+./docker-build.sh    
+
+## Running 
+
+To run
+docker-compose up
+
 ## Scenario 1: Work Experience
 Work experience time! You've just started a work experience placement at one of Australia's biggest tech companies, Geegle. Famous for their products, Geegle have a solution for everything. Welcome to day 1 of the security experience program - your training starts now.
 

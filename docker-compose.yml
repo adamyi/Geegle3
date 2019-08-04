@@ -1,7 +1,7 @@
 version: '2'
 services:
   kix:
-    build: ./kix
+    build: ./NewHire/kix
     networks:
       geegle_test:
   redis:
@@ -18,5 +18,85 @@ services:
       geegle_test:
     ports:
     - "8056:80"
+
+
+# High school
+  web-filesystem:
+    image: golang:1.11
+    volumes:
+      - ./WorkExperience/web-filesystem/generate_site.sh:/generate_site.sh
+      - ./WorkExperience/web-filesystem/main.go:/main.go
+    command: bash /generate_site.sh
+    ports:
+      - "9000:80"
+
+  misc-quicksort:
+    build: ./WorkExperience/misc-quicksort
+    ports:
+      - "8999:1000"
+    read_only: true
+
+  misc-who-is-attacking-me:
+    build: ./WorkExperience/misc-who-is-attacking-me
+    ports:
+      - "8998:1000"
+    read_only: true
+
+  misc-etcpasswd:
+    build: ./WorkExperience/crypto-etcpasswd
+    ports:
+      - "8997:1000"
+    read_only: true
+
+
+
+  web-local_intranet:
+    build: ./WorkExperience/web-intranet
+    ports:
+      - "9001:80"
+    hostname: internal.docs
+
+  web-intern-management:
+    build: ./WorkExperience/web-intern-account-manager
+    ports:
+      - "9002:80"
+
+  web-guest-kiosk:
+    build: ./WorkExperience/web-guest-kiosk
+    ports:
+      - "9003:80"
+
+  web-privatefile:
+    build: ./WorkExperience/web-privatefile
+    ports:
+      - "9004:80"
+
+
+
+  pwn-intern-project:
+    build: ./WorkExperience/pwn-intern-project
+    ports:
+      - "19204:19204"
+    read_only: true
+
+
+# NewHires
+  pwn-mailserver-dev:
+    build: ./NewHire/pwn-mailserver-dev
+    ports:
+      - "587:9999"
+    read_only: true
+  pwn-payroll:
+    build: ./NewHire/pwn-payroll
+    ports:
+      - "19200:1000"
+    read_only: true
+
+  re-trycatch:
+    build: ./NewHire/re-trycatch
+    ports:
+      - "19201:1000"
+    read_only: true
+
 networks:
   geegle_test:
