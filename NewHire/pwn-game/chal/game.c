@@ -45,12 +45,12 @@ int main(int argc, char * argv[]) {
     printf("Welcome to the totally legal not-gambling game, where you pay money to use surprise mechanics that maybe give you a prize!!!\n");
     printf("Ready to play? [Y/n] ");
     if (toupper(getchar()) == 'Y') {
+        flush();
         gameHandler();
     } else {
         printf("Come back when you want to risk valuable things for prizes!\n");
     }
 
-    flush();
     return EXIT_SUCCESS;
 }
 
