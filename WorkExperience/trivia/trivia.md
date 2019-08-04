@@ -3,7 +3,7 @@
 
 ---
 
-1. Who is widely hailed as the inventor of the internet?
+1. Who is widely hailed as the inventor of the World Wide Web?
     Tim Berners-Lee
 
 2. The first published computer architecture was called ___ _______ Architecture.
@@ -27,7 +27,7 @@
 8. Who wrote the Hackers Manifesto?
     The Mentor
 
-9. Can something ever be unhackable?
+9. Can something ever be unhackable, in a practical sense?
     No
 
 10. Write 1337 using english letters:
