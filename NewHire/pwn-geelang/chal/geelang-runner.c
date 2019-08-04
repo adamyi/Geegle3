@@ -94,6 +94,7 @@ static void set(struct instruction *ip) {
     int arg1_index = get_variable_index(ip->arg1);
 
     if (arg1_index == -1) {
+        printf("!!!%s\n", ip->arg1);
         error("Variable not found!");
     }
 
@@ -105,6 +106,7 @@ static void inc(struct instruction *ip) {
     int arg1_index = get_variable_index(ip->arg1);
 
     if (arg1_index == -1) {
+        printf("!!!%s\n", ip->arg1);
         error("Variable not found!");
     }
 
@@ -115,6 +117,7 @@ static void dec(struct instruction *ip) {
     int arg1_index = get_variable_index(ip->arg1);
 
     if (arg1_index == -1) {
+        printf("!!!%s\n", ip->arg1);
         error("Variable not found!");
     }
 
@@ -126,6 +129,7 @@ static void del(struct instruction *ip) {
     int arg1_index = get_variable_index(ip->arg1);
 
     if (arg1_index == -1) {
+        printf("!!!%s\n", ip->arg1);
         error("Variable not found!");
     }
 
@@ -137,6 +141,8 @@ static void move(struct instruction *ip) {
     int arg2_index = get_variable_index(ip->arg2);
 
     if (arg1_index == -1 || arg2_index == -1) {
+        printf("!!!%s\n", ip->arg1);
+        printf("!!!%s\n", ip->arg2);
         error("Variable not found!");
     }
 
@@ -148,6 +154,8 @@ static void add(struct instruction *ip) {
     int arg2_index = get_variable_index(ip->arg2);
 
     if (arg1_index == -1 || arg2_index == -1) {
+        printf("!!!%s\n", ip->arg1);
+        printf("!!!%s\n", ip->arg2);
         error("Variable not found!");
     }
 
@@ -159,6 +167,8 @@ static void sub(struct instruction *ip) {
     int arg2_index = get_variable_index(ip->arg2);
 
     if (arg1_index == -1 || arg2_index == -1) {
+        printf("!!!%s\n", ip->arg1);
+        printf("!!!%s\n", ip->arg2);
         error("Variable not found!");
     }
 
@@ -170,6 +180,8 @@ static void mul(struct instruction *ip) {
     int arg2_index = get_variable_index(ip->arg2);
 
     if (arg1_index == -1 || arg2_index == -1) {
+        printf("!!!%s\n", ip->arg1);
+        printf("!!!%s\n", ip->arg2);
         error("Variable not found!");
     }
 
@@ -181,6 +193,8 @@ static void divi(struct instruction *ip) {
     int arg2_index = get_variable_index(ip->arg2);
 
     if (arg1_index == -1 || arg2_index == -1) {
+        printf("!!!%s\n", ip->arg1);
+        printf("!!!%s\n", ip->arg2);
         error("Variable not found!");
     }
 
@@ -195,6 +209,7 @@ static void print(struct instruction *ip) {
     int arg1_index = get_variable_index(ip->arg1);
 
     if (arg1_index == -1) {
+        printf("!!!%s\n", ip->arg1);
         error("Variable not found!");
     }
     struct variable* var = global_variables[arg1_index];
@@ -206,6 +221,7 @@ static void jmpz(struct instruction *ip, struct instruction* program[MAX_INSTRS]
     int arg1_index = get_variable_index(ip->arg1);
 
     if (arg1_index == -1) {
+        printf("!!!%s\n", ip->arg1);
         error("Variable not found!");
     }
 
@@ -224,6 +240,7 @@ static void jmpnz(struct instruction *ip, struct instruction* program[MAX_INSTRS
     int arg1_index = get_variable_index(ip->arg1);
 
     if (arg1_index == -1) {
+        printf("!!!%s\n", ip->arg1);
         error("Variable not found!");
     }
 

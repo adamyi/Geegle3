@@ -62,8 +62,6 @@ var defaultVisitors = []VisitorData{
 var flag_web = []VisitorData{createVisitor("flag{user1:pass1}", time.Now(), "adamt")}
 
 func main() {
-	Setup()
-
 	r := mux.NewRouter()
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 
@@ -182,5 +180,5 @@ func main() {
 		RenderTemplate(w, "qr.html", base64.StdEncoding.EncodeToString(png))
 	})
 
-	SetupHTTPS(r)
+	http.ListenAndServe(":80", r)
 }

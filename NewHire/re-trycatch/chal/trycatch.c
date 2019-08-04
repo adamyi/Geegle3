@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <ctype.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -9,7 +10,7 @@ struct totalDataStore {
 	char b;
 	char c[1024];
 	void *d;
-}; 
+};
 
 char flag[64] = {0};
 void _printf(void);
@@ -49,7 +50,7 @@ void getFeedback(char *name) {
 label2:	setbuf(stdout, NULL);
 
 label3:
-	
+
 	printf("\nHow long have you been working with us?\n");
 
 	char timeWorking[64];
@@ -93,7 +94,7 @@ label3:
     printf("On a scale of 1 to 10, how many pancakes do you want?\n");
     scanf("%2d", &response);
     printf("Response '%d' recorded.\n\n", response);
-    int pancakes = response; 
+    int pancakes = response;
     if (strncmp(block->c, name, strlen(name))) {
     	goto label3;
     }
@@ -117,7 +118,7 @@ label3:
     printf(".");
     sleep(1);
     printf(".");
-    sleep(1);  
+    sleep(1);
 
     int a = like * pancakes;
     int b = like % friends;
@@ -172,7 +173,7 @@ void _puts(void){
     	char key[24] = "12345678901234567890";
     	for (int i = 0; i < strlen(tmpflag); i++) {
     		tmpflag[i] ^= key[i];
-		}	
+		}
         strcpy(flag, tmpflag);
         return;
     }

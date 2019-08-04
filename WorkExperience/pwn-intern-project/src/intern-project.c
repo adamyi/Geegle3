@@ -7,17 +7,17 @@
 
 void init_random() {
     printf("Crypto requires genuine randomness... Please enter up to 16 characters to seed random number: ");
-    
+
     char buffer[17] = {0};
     fgets(buffer, 17, stdin);
-    
+
     int sum = 0;
 
     for (char* c = buffer; *c != 0; c++) {
         sum += (int) *c;
     }
 
-    srand(sum); 
+    srand(sum);
 }
 
 void encrypt(char* flag, int key) {
@@ -38,7 +38,7 @@ char* load_flag() {
 
     char* flag = malloc(64);
     FILE* file = fopen("flag", "r");
-    
+
     if (file == NULL) {
         strncpy(flag, "FLAG{DEBUGGING_FLAG}", 64);
         encrypt(flag, KEY);
@@ -53,25 +53,25 @@ char* load_flag() {
 }
 
 void no_brute_forcing_please() {
-    printf("L"); 
+    printf("L");
     sleep(1);
-    printf("O"); 
+    printf("O");
     sleep(1);
-    printf("A"); 
+    printf("A");
     sleep(1);
-    printf("D"); 
+    printf("D");
     sleep(1);
-    printf("I"); 
+    printf("I");
     sleep(1);
-    printf("N"); 
+    printf("N");
     sleep(1);
-    printf("G"); 
+    printf("G");
     sleep(1);
-    printf("."); 
+    printf(".");
     sleep(1);
-    printf("."); 
+    printf(".");
     sleep(1);
-    printf(".\n"); 
+    printf(".\n");
     sleep(1);
 }
 
@@ -80,7 +80,7 @@ int main(void) {
     no_brute_forcing_please();
 
     init_random();
-    
+
     puts("Cool now that we have enough randomness... Let's try to decrypt the flag.\n");
     printf("The flag is xor encrypted with the byte 0x%x\n", KEY);
     printf("Let's hope the next call to (rand() %% 0xFF) returns the decryption byte (0x%x)\n\n", KEY);
@@ -88,7 +88,7 @@ int main(void) {
     int decrypt_key = rand() % 0xFF;
 
     printf("Decryption key generated. Key is 0x%x\n", decrypt_key);
-    
+
     char* flag = load_flag();
     decrypt(flag, decrypt_key);
 
