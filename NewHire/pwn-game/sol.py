@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from pwn import *
 
-p = process("./game")
+p = remote("localhost", 19201)#process("./game")
 p.sendline('y')
 p.sendline('1')
 p.sendline('A')
