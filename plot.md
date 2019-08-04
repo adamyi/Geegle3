@@ -20,4 +20,44 @@ Challenges 3.1.x:
 Challenges 3.2.x:
 - Network/HackTheBox - "I know your placement finishes up soon, but you seem to be able to do everything... Can you do one last thing, please?"
 
+
+
+> challenge desc website
+   - email  
+> flag submission
+
+
+> web 
+   - local Javascript stuff
+   - trivial sqli
+   - IDOR - (increment user id or somethn)
+   - recursive directory bs
+   - overflow in web
+> scripting / programming chals
+   - pico ctf
+   - csaw ctf
+> trivia
+
+> forensics (pcap / strings)
+> basic crypto (think rot)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## New Employee
+
+
