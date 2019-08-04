@@ -12,4 +12,4 @@ RUN go get "golang.org/x/crypto/acme/autocert"
 COPY app /kiosk
 
 WORKDIR /kiosk
-CMD go run main.go helper.go -production
+CMD go run main.go helper.go 

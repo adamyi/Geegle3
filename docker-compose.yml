@@ -21,11 +21,11 @@ services:
 
 
 # High school
-  web-privatefile:
+  web-filesystem:
     image: golang:1.11
     volumes:
-      - ./WorkExperience/web-privatefile/generate_site.sh:/generate_site.sh
-      - ./WorkExperience/web-privatefile/main.go:/main.go
+      - ./WorkExperience/web-filesystem/generate_site.sh:/generate_site.sh
+      - ./WorkExperience/web-filesystem/main.go:/main.go
     command: bash /generate_site.sh
     ports:
       - "9000:80"
@@ -65,7 +65,12 @@ services:
     build: ./WorkExperience/web-guest-kiosk
     ports:
       - "9003:80"
-    read_only: true
+
+  web-privatefile:
+    build: ./WorkExperience/web-privatefile
+    ports:
+      - "9004:80"
+
 
 
   pwn-intern-project:
@@ -76,15 +81,21 @@ services:
 
 
 # NewHires
-  mailserver-dev:
+  pwn-mailserver-dev:
     build: ./NewHire/pwn-mailserver-dev
     ports:
       - "587:9999"
     read_only: true
-  payroll:
+  pwn-payroll:
     build: ./NewHire/pwn-payroll
     ports:
       - "19200:1000"
+    read_only: true
+
+  re-trycatch:
+    build: ./NewHire/re-trycatch
+    ports:
+      - "19201:1000"
     read_only: true
 
 networks:

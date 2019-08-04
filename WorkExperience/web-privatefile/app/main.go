@@ -47,5 +47,5 @@ func main() {
 		RenderTemplate(w, "index.html", data)
 	})
 
-	http.ListenAndServe(":8001", r)
+	http.ListenAndServe(":80", r)
 }

