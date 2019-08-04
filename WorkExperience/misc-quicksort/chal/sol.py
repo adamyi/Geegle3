@@ -2,7 +2,7 @@
 
 from pwn import *
 
-p = process('./gen.py')
+p = remote("localhost", 8999)#process('./gen.py')
 
 p.recvline()
 p.recvline()

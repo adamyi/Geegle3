@@ -21,37 +21,59 @@ services:
 
 
 # High school
-  hs-recursive:
+  web-privatefile:
     image: golang:1.11
     volumes:
-      - ./WorkExperience/recursive_dir/generate_site.sh:/generate_site.sh
-      - ./WorkExperience/recursive_dir/main.go:/main.go
+      - ./WorkExperience/web-privatefile/generate_site.sh:/generate_site.sh
+      - ./WorkExperience/web-privatefile/main.go:/main.go
     command: bash /generate_site.sh
     ports:
       - "9000:80"
 
-  local_intranet:
-    build: ./WorkExperience/easy_ssrf
+  misc-quicksort:
+    build: ./WorkExperience/misc-quicksort
+    ports:
+      - "8999:1000"
+    read_only: true
+
+  misc-who-is-attacking-me:
+    build: ./WorkExperience/misc-who-is-attacking-me
+    ports:
+      - "8998:1000"
+    read_only: true
+
+  misc-etcpasswd:
+    build: ./WorkExperience/crypto-etcpasswd
+    ports:
+      - "8997:1000"
+    read_only: true
+
+
+
+  web-local_intranet:
+    build: ./WorkExperience/web-intranet
     ports:
       - "9001:80"
     hostname: internal.docs
 
-  intern-management:
-    build: ./WorkExperience/cookies
+  web-intern-management:
+    build: ./WorkExperience/web-intern-account-manager
     ports:
       - "9002:80"
 
-  etcpasswd:
-    build: ./WorkExperience/etcpasswd
+  web-guest-kiosk:
+    build: ./WorkExperience/web-guest-kiosk
     ports:
-      - "9003:22"
+      - "9003:80"
     read_only: true
 
-  intern-project:
-    build: ./WorkExperience/intern-project
+
+  pwn-intern-project:
+    build: ./WorkExperience/pwn-intern-project
     ports:
       - "19204:19204"
     read_only: true
+
 
 # NewHires
   mailserver-dev:

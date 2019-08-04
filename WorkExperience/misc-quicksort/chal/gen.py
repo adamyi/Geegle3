@@ -2,8 +2,9 @@
 
 import time
 import random
+import signal
 
-MAX_TIME = 1000 * 1
+
 
 nums = []
 for i in range(1000):
@@ -16,10 +17,17 @@ time.sleep(5)
 
 for elem in nums:
     print(elem)
-print("What is your response:")
+print("What is your response (you have 10 seconds):")
 
-startTime = time.time()*1000.0
 nums.sort()
+
+def handler(a, b):
+    print('You took too long')
+    exit(0)
+
+signal.signal(signal.SIGALRM, handler)
+signal.alarm(10)
+
 
 responses = []
 for i in range(len(nums)):
@@ -27,11 +35,8 @@ for i in range(len(nums)):
         responses.append(int(input()))
     except ValueError:
         print("Make sure you input numbers!!")
-endTime = time.time()*1000.0
 
-if endTime - startTime > MAX_TIME:
-    print("No, I need them faster than that!\nThis is useless now!!")
-    exit(0)
+signal.alarm(0) # Disable alarm
 
 if nums == responses:
     try:
@@ -39,7 +44,7 @@ if nums == responses:
     except FileNotFoundError:
         print("FLAG{DEBUG_FLAG}")
         exit(1)
-    print(f.read())
+    print(fh.read())
     fh.close()
     exit(0)
 
