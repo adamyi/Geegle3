@@ -1,0 +1,26 @@
+{{ define "title" }}Web Browser{{ end }}
+
+{{ define "content" }}
+
+<div class="container">
+    <h1>Intranet Browser</h1>
+    <br />
+    <p>Use this site to navigate the internal intranet.</p>
+    <p>Sysadmins visit <a href="/private">/private</a> to view internal statistics.</p>
+    <p>Interns/Employees start by visiting the internal docs at <a href="http://internal.docs">http://internal.docs</a> to view internal statistics.</p>
+    <br />
+    <form method="POST" id='form'>
+        <label class="control-label" for="filename">Browse local intranet</label>
+        <input class="form-control form-control-lg" name="search" id="search" type="text" placeholder="http://internal.docs" value="{{ .URL }}">
+       
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+    {{ if not (eq .URL "") }} 
+         <div class="form-group">
+             <label for="comment">{{ .URL }}</label>
+             <textarea class="form-control" rows="5" id="comment" readonly>{{.Content }}</textarea>
+        </div> 
+    {{ end }}
+</div>
+{{ end }}
