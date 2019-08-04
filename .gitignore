@@ -3,7 +3,3 @@
 .gdb_history
 core
 *.o
-WorkExperience/scripting/search/output.log
-*.id[0-9]
-*.nam
-*.til
