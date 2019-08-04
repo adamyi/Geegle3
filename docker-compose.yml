@@ -91,11 +91,17 @@ services:
     ports:
       - "19200:1000"
     read_only: true
+  pwn-game:
+    build: ./NewHire/pwn-game
+    ports:
+      - "19201:1000"
+    read_only: true
+
 
   re-trycatch:
     build: ./NewHire/re-trycatch
     ports:
-      - "19201:1000"
+      - "19202:1000"
     read_only: true
 
 networks:
