@@ -46,7 +46,7 @@ You are tasked with finding who is attacking us... Here is a file- email us the 
 Info:
     Hi,
 
-    Apologies, I seem to have attached the wrong file to the last email. Please do not read the last file, it was a confidential matter. Instead, please see attached the new file.
+    Apologies, I seem to have attached the wrong file to the last email. Please do not read the last file, it was a confidential matter. Instead, please see attached the correct file.
 
     Thanks,
 
@@ -57,23 +57,44 @@ You intercepted an email between HR and your manager... can you decode what they
 
 ## Ch 3
 
-### web-intern-account-manager:
+Both challenges sent together, with the following info.
+Solving either challenge grants progression.
 
 Info:
-    
+    Hey,
 
-is a SSO Intern Management website to increase their pay, Where if you Login, it will inform you have intern's are not able to access this site.
+    We forgot to get you setup with access to a few systems unfortunately, which is going to slow work down for a while. Ideally, you should have access to both [YEET](YEET) and [DEET](DEET), however neither of these have been setup for you. Unfortunately the HR Rep is away on long service leave so we won't be able to put it through in time - what I've managed to do is organise permission for you to perform a security audit of both services - if you can break into them, you can update them yourself, and we give you permission to do this. 
+
+    I suppose if you want to get paid, you better get onto it!
+
+    Cheers,
+
+    Adam
+    Work Experience Manager
+
+### web-intern-account-manager:
+
+Is a SSO Intern Management website to increase their pay, Where if you Login, it will inform you have intern's are not able to access this site.
 
 ### web-intranet:
 
-is a Local intranet browser, the idea is that interns don't have access to the employee VPN, so to access documentation on internal Geegle services, they must access the documents via this page
+Is a Local intranet browser, the idea is that interns don't have access to the employee VPN, so to access documentation on internal Geegle services, they must access the documents via this page
 
 ## Ch 4
 
 ### web-filesystem:
 
+Info:
+    ATTENTION
+
+    We have logged an unauthorised access to one of either [account manager](web-intern-account-manager) or [intranet](web-intranet). This is an automated alert message informing you to verify that the [filesystem](is still secure).
+
+    Automated Message, please do not reply.
+
+    == This message is from IceEar Monitoring software ==
+
 you found a link to an open file browser on the internal network, are there any cool files here?
-      - idea maybe have etcpasswd in here?
+      - have etcpasswd in here. The file will have to have the location of a server in it.
 
 ### crypto-etcpasswd:
 
@@ -87,7 +108,7 @@ So the employees found that one of the interns was intercepting and reading shit
 
 ## Ch 6
 
-    ### pwn-intern-project:
+### pwn-intern-project:
         
 
 ### web-privatefile:
