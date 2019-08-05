@@ -1,0 +1,21 @@
+{{ define "title" }}Intern Account Manager{{ end }}
+
+{{ define "content" }}
+
+<div class="container">
+
+    {{ if eq . "" }}
+        <form method="POST" id='form'>
+            <button class="btn btn-primary" type="submit">Single click Login</button>
+        </form>
+    {{ else if eq . "employee" }} 
+        <p>Authentication code: 1i3n98da2m3ed</p>
+        Email this authentication code to `flag@geegle.org` to update your account's permission.
+    {{ else }}
+        <p>Sorry, this page is only available for members with permission `<code>employee</code>`<p>
+        <p>You have permission: `<code>{{ . }}</code>`</p>
+    {{ end }}
+
+</div>
+
+{{ end }}
