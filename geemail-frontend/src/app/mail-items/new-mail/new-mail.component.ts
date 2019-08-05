@@ -19,11 +19,15 @@ export class NewMailComponent implements OnInit {
   d = new Date();
 
   onSubmit() {
-    // this.mail.time = (this.monthNames[this.d.getMonth()]).substring(0, 3) + " " + this.d.getDate() + ", " + this.d.getHours() + ":" + this.d.getMinutes() + "h";
-    this.mail.time = new Date().getTime()
+    this.mail.time = new Date().getTime();
+    this.mail.sender = this.mailService.username;
     this.mail.body = btoa(this.mail.body);
-    this.mailService.sentMail.unshift(this.mail);
-    alert("Backend for sending email is under development, but it should appear in the frontend now");
+    this.mailService.sendMail(this.mail).subscribe(mail => {
+      this.mailService.sentMail.unshift(this.mail);
+      if (this.mail.receiver == this.mail.sender) {
+        this.mailService.inboxMail.unshift(this.mail);
+      }
+    });
     this.data.changeButton(false);
     this.dialogRef.close();
   }

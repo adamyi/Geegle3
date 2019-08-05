@@ -47,13 +47,17 @@ func readConfig() {
 func initGmRsp(rsp http.ResponseWriter) {
 	rsp.Header().Add("Server", "geemail")
 	rsp.Header().Add("Access-Control-Allow-Origin", "http://mail.corp.geegle.org")
-	rsp.Header().Add("Access-Control-Allow-Methods", "GET, POST")
+	rsp.Header().Add("Access-Control-Allow-Methods", "OPTIONS, GET, POST")
 	rsp.Header().Add("Access-Control-Allow-Credentials", "true")
+	rsp.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 }
 
 // for user to get its own info and emails
 func userInfo(rsp http.ResponseWriter, req *http.Request) {
 	initGmRsp(rsp)
+	if req.Method == "OPTIONS" {
+		return
+	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
 	user, err := getJwtUserName(tknStr, _configuration.JwtKey)
@@ -68,8 +72,7 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 		Inbox:    []Email{},
 		Sent:     []Email{},
 	}
-	//TODO: sqli
-	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where sender='" + user + "' or receiver='" + user + "'")
+	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where sender=? or receiver=?", user, user)
 	if err != nil {
 		fmt.Println(err.Error())
 		rsp.WriteHeader(http.StatusInternalServerError)
@@ -98,11 +101,26 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 // for user to send email
 func sendMail(rsp http.ResponseWriter, req *http.Request) {
 	initGmRsp(rsp)
+	if req.Method == "OPTIONS" {
+		return
+	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
-	_, err := getJwtUserName(tknStr, _configuration.JwtKey)
+	user, err := getJwtUserName(tknStr, _configuration.JwtKey)
 	if err != nil {
 		rsp.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	decoder := json.NewDecoder(req.Body)
+	var e Email
+	err = decoder.Decode(&e)
+	if err != nil {
+		rsp.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", user, e.Receiver, e.Subject, e.Body, time.Now().UnixNano())
+	if err != nil {
+		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 }
@@ -110,11 +128,28 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 // to be called by trusted apps, e.g. smtpd
 func addMail(rsp http.ResponseWriter, req *http.Request) {
 	initGmRsp(rsp)
+	if req.Method == "OPTIONS" {
+		return
+	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
 	_, err := getJwtUserName(tknStr, _configuration.JwtKey)
 	if err != nil {
 		rsp.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	// TODO: whitelist services to call this function
+
+	decoder := json.NewDecoder(req.Body)
+	var e Email
+	err = decoder.Decode(&e)
+	if err != nil {
+		rsp.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano())
+	if err != nil {
+		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 }

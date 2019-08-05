@@ -2,7 +2,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
 import { Mail } from "./mail.model";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 const API_URL = environment.apiUrl;
 
@@ -19,6 +19,7 @@ export class MailService {
   sentMail: Mail[] = [];
 
   check: boolean = false;
+  username: string = "user@geegle.org";
 
   private inboxMails = new BehaviorSubject<Mail[]>(this.inboxMail);
   currentInbox = this.inboxMails.asObservable();
@@ -31,7 +32,6 @@ export class MailService {
   }
 
   getInboxMail(index: number) {
-    console.log(this.inboxMail);
     return this.inboxMail[index];
   }
 
@@ -44,10 +44,15 @@ export class MailService {
       response => {
         this.inboxMail = response['inbox'];
         this.sentMail = response['sent'];
+        this.username = response['username'];
         this.inboxMails.next(this.inboxMail);
         this.sentMails.next(this.sentMail);
       },
     );
+  }
+
+  sendMail(mail: Mail): Observable<Mail> {
+    return this.http.post<Mail>(API_URL + '/api/sendmail', mail);
   }
 
   mailCount(path: string) {
