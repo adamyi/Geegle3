@@ -33,7 +33,7 @@ However you got here - work experience program, grad hire, career step - welcome
 | training-welcome  |   |
 | training-linux  |   |
 | **Scripting**  |   |
-| base8*8 (to decrypt your username)  |   |
+| base8\*8 (to decrypt your username)  |   |
 | caesar (to decrypt your password)  |   | 
 | hashbag (While you're there, I've forgotten my password - help me out?)  |   | 
 | quickSort (I forgot about this deadline, get this done for me!)  |   | 

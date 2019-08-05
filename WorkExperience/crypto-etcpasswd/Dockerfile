@@ -2,26 +2,22 @@ FROM python:latest
 
 RUN apt-get update
 
-# Install xinetd
-RUN apt-get install -y xinetd
-RUN update-rc.d xinetd disable
+RUN apt-get install -y wget unzip
 
-# Add the content
 COPY chal /app
 COPY flag /flag
-COPY xinetd.conf /etc/xinetd.conf
+COPY static /static
 
 WORKDIR /app
 
-# add the ctf user
 RUN useradd -M -U\
     -d /app \
     ctf
 
 RUN chown ctf:ctf /app
-EXPOSE 1000
 
-# Clean up setup files
-CMD ["chmod", "777", "/app/app.py"]
-CMD ["chmod", "777", "/flag"]
-CMD ["script", "-c", "xinetd -d -dontfork","/dev/null"]
+RUN wget https://github.com/joewalnes/websocketd/releases/download/v0.3.0/websocketd-0.3.0-linux_amd64.zip && unzip websocketd-0.3.0-linux_amd64.zip
+
+RUN ["chmod","775","/flag"]
+RUN ["chmod","775","/app/app.py"]
+CMD ["./websocketd", "--port=80", "--staticdir=/static", "/app/app.py"]

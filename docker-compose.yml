@@ -1,17 +1,16 @@
 version: '2'
 services:
-  kix:
-    build: ./NewHire/kix
-    networks:
-      geegle_test:
+  # infra
   redis:
     image: redis:latest
     networks:
       geegle_test:
+
   mss:
     build: ./mss
     networks:
       geegle_test:
+
   gae:
     build: ./gae
     networks:
@@ -19,90 +18,155 @@ services:
     ports:
     - "8056:80"
 
+  uberproxy:
+    build: ./uberproxy
+    networks:
+      beyondcorp_filesystem:
+      beyondcorp_quicksort:
+      beyondcorp_who_is_attacking_me:
+      beyondcorp_etcpasswd:
+      beyondcorp_intranet:
+      beyondcorp_intern_manager:
+      beyondcorp_guest_kiosk:
+      beyondcorp_privatefile:
+      beyondcorp_intern_project:
+      beyondcorp_kix:
+      beyondcorp_payroll:
+      beyondcorp_game:
+      beyondcorp_trycatch:
+    ports:
+    - "80:80"
 
-# High school
+
+  # High school
   web-filesystem:
     image: golang:1.11
     volumes:
       - ./WorkExperience/web-filesystem/generate_site.sh:/generate_site.sh
       - ./WorkExperience/web-filesystem/main.go:/main.go
     command: bash /generate_site.sh
-    ports:
-      - "9000:80"
+    networks:
+      beyondcorp_filesystem:
+        aliases:
+          - webfiles.corp.geegle.org
 
   misc-quicksort:
     build: ./WorkExperience/misc-quicksort
-    ports:
-      - "8999:1000"
+    networks:
+      beyondcorp_quicksort:
+        aliases:
+          - quicksort.corp.geegle.org
     read_only: true
 
   misc-who-is-attacking-me:
     build: ./WorkExperience/misc-who-is-attacking-me
-    ports:
-      - "8998:1000"
+    networks:
+      beyondcorp_who_is_attacking_me:
+        aliases:
+          - attack-check.corp.geegle.org
     read_only: true
 
   misc-etcpasswd:
     build: ./WorkExperience/crypto-etcpasswd
-    ports:
-      - "8997:1000"
+    networks:
+      beyondcorp_etcpasswd:
+        aliases:
+          - sysadmin-shell.corp.geegle.org
     read_only: true
 
 
 
   web-local_intranet:
     build: ./WorkExperience/web-intranet
-    ports:
-      - "9001:80"
-    hostname: internal.docs
+    networks:
+      beyondcorp_intranet:
+        aliases:
+          - intranet-browser.corp.geegle.org
+      chal_intranet:
+        aliases:
+          - internal.docs
 
   web-intern-management:
     build: ./WorkExperience/web-intern-account-manager
-    ports:
-      - "9002:80"
+    networks:
+      beyondcorp_intern_manager:
+        aliases:
+          - intern-acc-manager.corp.geegle.org
 
   web-guest-kiosk:
     build: ./WorkExperience/web-guest-kiosk
-    ports:
-      - "9003:80"
+    networks:
+      beyondcorp_guest_kiosk:
+        aliases:
+          - guest.corp.geegle.org
 
   web-privatefile:
     build: ./WorkExperience/web-privatefile
-    ports:
-      - "9004:80"
-
-
+    networks:
+      beyondcorp_privatefile:
+        aliases:
+          - drive-lite.corp.geegle.org
 
   pwn-intern-project:
     build: ./WorkExperience/pwn-intern-project
-    ports:
-      - "19204:19204"
+    networks:
+      beyondcorp_intern_project:
+        aliases:
+          - intern-project.corp.geegle.org
     read_only: true
 
+  # NewHires
+  kix:
+    build: ./NewHire/kix
+    networks:
+      beyondcorp_kix:
+        aliases:
+          - docs.corp.geegle.org
 
-# NewHires
+  # TODO: move this outside to another separate server, listen on port 25
   pwn-mailserver-dev:
     build: ./NewHire/pwn-mailserver-dev
     ports:
       - "587:9999"
     read_only: true
+
   pwn-payroll:
     build: ./NewHire/pwn-payroll
-    ports:
-      - "19200:1000"
-    read_only: true
-  pwn-game:
-    build: ./NewHire/pwn-game
-    ports:
-      - "19201:1000"
+    networks:
+      beyondcorp_payroll:
+        aliases:
+          - payroll.corp.geegle.org
     read_only: true
 
+  pwn-game:
+    build: ./NewHire/pwn-game
+    networks:
+      beyondcorp_game:
+        aliases:
+          - game.corp.geegle.org
+    read_only: true
 
   re-trycatch:
     build: ./NewHire/re-trycatch
-    ports:
-      - "19202:1000"
+    networks:
+      beyondcorp_trycatch:
+        aliases:
+          - trycatch.corp.geegle.org
     read_only: true
 
 networks:
   geegle_test:
+  beyondcorp_filesystem:
+  beyondcorp_quicksort:
+  beyondcorp_who_is_attacking_me:
+  beyondcorp_etcpasswd:
+  beyondcorp_intranet:
+  beyondcorp_intern_manager:
+  beyondcorp_guest_kiosk:
+  beyondcorp_privatefile:
+  beyondcorp_intern_project:
+  beyondcorp_kix:
+  beyondcorp_payroll:
+  beyondcorp_game:
+  beyondcorp_trycatch:
+  chal_intranet:
