@@ -1,21 +1,23 @@
 Challenge desc
 ------------------
 
-parallel: 
-   trivia + coding stuff is the first thing they do
+1 - parallel: 
+   trivia + scripting stuff is the first thing they do
 
 
-New hire to incidence response team:
-   You are tasked with finding who is attacking us... Here is a file- email us the ip thats attacking us
+2 - 
+    New hire to incidence response team:
+       You are tasked with finding who is attacking us... Here is a file- email us the ip thats attacking us
 
-email-intercept:
-   you intercepted an email between HR and your manager... can you decode what they were saying?
+    email-intercept:
+       you intercepted an email between HR and your manager... can you decode what they were saying?
 
-Cookies:
-   is a SSO Intern Management website to increase their pay, Where if you Login, it will inform you have intern's are not able to access this site.
+3 -
+    Cookies:
+       is a SSO Intern Management website to increase their pay, Where if you Login, it will inform you have intern's are not able to access this site.
 
-easy_ssrf:
-   is a Local intranet browser, the idea is that interns don't have access to the employee VPN, so to access documentation on internal Geegle services, they must access the documents via this page
+    easy_ssrf:
+       is a Local intranet browser, the idea is that interns don't have access to the employee VPN, so to access documentation on internal Geegle services, they must access the documents via this page
 
 recursive:
    you found a link to an open file browser on the internal network, are there any cool files here?
