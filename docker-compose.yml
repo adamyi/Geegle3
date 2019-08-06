@@ -1,3 +1,12 @@
+# how zero-trust network works:
+# create separate networks for each service containing only that service and uberproxy
+# this way all communication goes through uberproxy, even including inter-service ones
+# we currently have a geegle_unsecure network but we will migrate all of them to
+# beyondcorp later
+#
+# for binary challenges, we are tunneling the traffic through websocket using
+# cli-relay.corp.geegle.org
+
 version: '2'
 services:
   # infra
@@ -14,7 +23,7 @@ services:
   gae:
     build: ./gae
     networks:
-      geegle_test:
+      geegle_unsecure:
     ports:
     - "8056:80"
 
@@ -34,9 +43,10 @@ services:
       beyondcorp_payroll:
       beyondcorp_game:
       beyondcorp_trycatch:
+      beyondcorp_geemail_frontend:
+      beyondcorp_geemail_backend:
     ports:
     - "80:80"
-
 
   # High school
   web-filesystem:
@@ -73,8 +83,6 @@ services:
         aliases:
           - sysadmin-shell.corp.geegle.org
     read_only: true
-
-
 
   web-local_intranet:
     build: ./WorkExperience/web-intranet
@@ -154,8 +162,22 @@ services:
           - trycatch.corp.geegle.org
     read_only: true
 
+  geemail_frontend:
+    build: ./geemail-frontend
+    networks:
+      beyondcorp_geemail_frontend:
+        aliases:
+          - mail.corp.geegle.org
+
+  geemail_backend:
+    build: ./geemail-backend
+    networks:
+      beyondcorp_geemail_backend:
+        aliases:
+          - geemail-backend.corp.geegle.org
+
 networks:
-  geegle_test:
+  geegle_unsecure:
   beyondcorp_filesystem:
   beyondcorp_quicksort:
   beyondcorp_who_is_attacking_me:
@@ -169,4 +191,6 @@ networks:
   beyondcorp_payroll:
   beyondcorp_game:
   beyondcorp_trycatch:
+  beyondcorp_geemail_frontend:
+  beyondcorp_geemail_backend:
   chal_intranet:
