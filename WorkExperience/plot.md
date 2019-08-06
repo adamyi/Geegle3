@@ -104,24 +104,54 @@ you have leaked two files from a server, can you login to the server?
 
 ### crypto-intercepted:
 
+Info:
+
+    so uhhh we may be in trouble
+
+    they've figured out that we're poking into stuff we're not meant to. i don't think they know who is doing it yet but everyone seems to have switched to using encrypted email. ive intercepted this but it's useless. can you crack the encryption so we can see what they're saying about us?
+
+    ta
+
+    Lachlan
+    Work Experience Placement, 2019
+
 So the employees found that one of the interns was intercepting and reading shit they wern't supposed to, they started to communicate using a custom cipher they developed... We managed to intercept both the cipher text and the key.. Can you decode it??
 
 ## Ch 6
 
+Info:
+    yo its me again
+
+    ive found what looks like a new game geegles developing but its behind some custom crypto stuff. nobody can write decent crypto so odds are its broken somehow. do me a solid and check [Private](web-private-files) to find the source code for [this](pwn-internproject) binary program then break the crypto for me so I can get into the game.
+
+    ta
+
+    Lachlan
+    Work Experience Placement, 2019
+
+Challs sent together as described above
+
 ### pwn-intern-project:
-        
+
 
 ### web-privatefile:
-        
-
-## Ch 7
-
-### overflow-retAddress:
 
 
-### overflow-stackVar:
 
 ## Ch 8
+
+Info:
+    Hi!
+
+    Thanks for taking part in the Work Experience Program with Geegle! We really hoped you've enoyed working with us!
+    Unfortunately all good things must come to an end. We'd love to have you back, so please keep an eye out for our awesome Intern program which runs soon! A few new interns are arriving in the building today, so just be careful as you leave not to disturb the [Guest Kiosks](web-guest-kiosk), as that is how we tell the interns apart from the general public when they sign in!
+
+    Thank you so much for working with us, and we can't wait to see you again soon.
+
+    Thanks,
+
+    Chris
+    HR Manager
 
 ### web-guest-kiosk:
         
