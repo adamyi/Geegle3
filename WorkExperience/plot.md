@@ -16,7 +16,7 @@ Info:
 
     All the best,
 
-    Chris
+    Adam
     HR Manager
 
 trivia + scripting stuff is the first thing they do
@@ -150,7 +150,7 @@ Info:
 
     Thanks,
 
-    Chris
+    Adam
     HR Manager
 
 ### web-guest-kiosk:
