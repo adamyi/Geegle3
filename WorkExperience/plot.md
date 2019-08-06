@@ -63,7 +63,7 @@ Solving either challenge grants progression.
 Info:
     Hey,
 
-    We forgot to get you setup with access to a few systems unfortunately, which is going to slow work down for a while. Ideally, you should have access to both [YEET](YEET) and [DEET](DEET), however neither of these have been setup for you. Unfortunately the HR Rep is away on long service leave so we won't be able to put it through in time - what I've managed to do is organise permission for you to perform a security audit of both services - if you can break into them, you can update them yourself, and we give you permission to do this. 
+    We forgot to get you setup with access to a few systems unfortunately, which is going to slow work down for a while. Ideally, you should have access to both [Intranet](web-intranet) and [Account Manager](web-intern-account-manager), however neither of these have been setup for you. Unfortunately the HR Rep is away on long service leave so we won't be able to put it through in time - what I've managed to do is organise permission for you to perform a security audit of the [intranet](web-intranet) services - if you can get into it, you can update the records yourself. We do NOT have permission for a similar test on [Account Manager](web-intern-account-manager), but if the HR Rep gets it changed while he's away he'll send you a secret code - send it to me if you get it so I can verify it's sorted thanks.
 
     I suppose if you want to get paid, you better get onto it!
 
