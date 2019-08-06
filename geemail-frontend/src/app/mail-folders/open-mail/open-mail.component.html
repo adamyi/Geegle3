@@ -1,0 +1,15 @@
+<div class="open-mail">
+  <div>
+    <img src="assets/back.png" class="back-icon" title="Go Back" (click)="goBack()">
+  </div>
+  <p class="open-subject">{{ openMail.subject }}</p>
+  <div class="open-sender">
+    <p class="sender-address">{{ openMail.sender }} </p>
+    <p> <span class="open-address">
+        <{{ openMail.receiver }}>
+      </span> <span class="open-time">{{ openMail.time | date:'short' }}</span></p>
+  </div>
+  <div class="open-message">
+    <p>{{ openMail.body | b64decode }}</p>
+  </div>
+</div>

@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -47,59 +48,62 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		handleLogin(rsp, req)
 		return
 	}
-	c, err := req.Cookie("uberproxy_auth")
 	full_url := req.Host + req.RequestURI
-	if err != nil {
-		http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), 303)
-		return
-	}
-	tknStr := c.Value
-	claims := &Claims{}
-
-	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-		return _configuration.JwtKey, nil
-	})
-
-	if err != nil {
-		if err == jwt.ErrSignatureInvalid {
-			log.Println("Signature Invalid")
-			rsp.WriteHeader(http.StatusUnauthorized)
+	ptstr := ""
+	if req.Method != "OPTIONS" {
+		c, err := req.Cookie("uberproxy_auth")
+		if err != nil {
+			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
 			return
 		}
-		log.Println("JWT Error")
-		log.Println(err.Error())
-		rsp.WriteHeader(http.StatusBadRequest)
-		return
-	}
+		tknStr := c.Value
+		claims := &Claims{}
 
-	if !tkn.Valid {
-		log.Println("JWT Invalid")
-		rsp.WriteHeader(http.StatusUnauthorized)
-		return
-	}
+		tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+			return _configuration.JwtKey, nil
+		})
 
-	if claims.Service != "uberproxy@services.geegle.org" {
-		log.Println(claims.Service)
-		rsp.WriteHeader(http.StatusUnauthorized)
-		return
-	}
+		if err != nil {
+			if err == jwt.ErrSignatureInvalid {
+				log.Println("Signature Invalid")
+				http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+				return
+			}
+			log.Println("JWT Error")
+			log.Println(err.Error())
+			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+			return
+		}
 
-	// TODO: check if user has permission to access this site
+		if !tkn.Valid {
+			log.Println("JWT Invalid")
+			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+			return
+		}
 
-	expirationTime := time.Now().Add(5 * time.Minute)
-	pclaims := Claims{
-		Username: claims.Username,
-		Service:  claims.Service, //TODO: check service name
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-	}
-	ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
-	ptstr, err := ptoken.SignedString(_configuration.JwtKey)
-	if err != nil {
-		fmt.Println(err.Error())
-		rsp.WriteHeader(http.StatusInternalServerError)
-		return
+		if claims.Service != "uberproxy@services.geegle.org" {
+			log.Println(claims.Service)
+			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+			return
+		}
+
+		// TODO: check if user has permission to access this site
+
+		expirationTime := time.Now().Add(5 * time.Minute)
+		pclaims := Claims{
+			Username: claims.Username,
+			Service:  claims.Service, //TODO: check service name
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: expirationTime.Unix(),
+			},
+		}
+		ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
+		ptstr, err = ptoken.SignedString(_configuration.JwtKey)
+		if err != nil {
+			fmt.Println(err.Error())
+			rsp.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	}
 
 	preq, err := http.NewRequest(req.Method, "http://"+full_url, req.Body)
@@ -138,10 +142,13 @@ func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 		fmt.Fprint(rsp, string(body))
 	} else if req.Method == "POST" {
 		req.ParseForm()
-		username := req.Form.Get("username")
+		username := strings.ToLower(req.Form.Get("username"))
+		if !strings.HasSuffix(username, "@geegle.org") {
+			username = username + "@geegle.org"
+		}
 		_ = req.Form.Get("password")
 		//TODO: verify password
-		expirationTime := time.Now().Add(1 * time.Hour)
+		expirationTime := time.Now().Add(24 * 30 * time.Hour)
 		pclaims := Claims{
 			Username: username,
 			Service:  "uberproxy@services.geegle.org",

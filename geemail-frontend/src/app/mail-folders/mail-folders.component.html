@@ -1,0 +1,20 @@
+<div class="mail-folders">
+  <div>
+    <button [disabled]="checkIfopen" class="compose" (click)="newMail()"> <img id="compose-img" src="assets/compose.png"
+        alt="new message"><span id="compose-txt">Compose</span></button>
+  </div>
+  <div class="folder-links" [routerLink]="['inbox']" routerLinkActive="active-inbox">
+    <img class="icon" src="assets/inbox.png" alt="inbox">
+    <a [routerLink]="['inbox']" class="folder" routerLinkActive="active-inbox"> <span class="name name-inbox">Inbox
+      </span> <span class="counter">{{
+        mailCounter('inbox') }}</span></a>
+  </div>
+  <div class="folder-links" [routerLink]="['sent']" routerLinkActive="active">
+    <img class="icon" src="assets/sent.png" alt="sent">
+    <a [routerLink]="['sent']" class="folder" routerLinkActive="active"> <span class="name">Sent </span> <span class="counter">{{
+        mailCounter('sent') }}</span></a>
+  </div>
+  <br>
+</div>
+
+<router-outlet></router-outlet>

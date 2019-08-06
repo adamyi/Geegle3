@@ -1,0 +1,21 @@
+<div class="new-message">
+  <div>
+    <h3 id="new-message">New Message</h3>
+    <form (ngSubmit)="onSubmit()" #mailForm="ngForm">
+      <div>
+        <input class="new-info" type="email" name="email" placeholder="Recipient" required [(ngModel)]="mail.receiver"
+          name="receiver">
+      </div>
+      <div>
+        <input class="new-info" type="text" placeholder="Subject" required [(ngModel)]="mail.subject" name="subject">
+      </div>
+      <div>
+        <textarea id="text" rows="23" [(ngModel)]="mail.body" name="message"></textarea>
+      </div>
+      <div id="new-footer">
+        <button [disabled]="!mailForm.form.valid" type="submit" class="button" id="send">Send</button>
+        <button type="reset" (mousedown)="onCancel()" class="button" id="cancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
