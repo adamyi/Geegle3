@@ -13,12 +13,18 @@ services:
   redis:
     image: redis:latest
     networks:
-      geegle_test:
+      geegle_unsecure:
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   mss:
     build: ./mss
     networks:
-      geegle_test:
+      geegle_unsecure:
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   gae:
     build: ./gae
@@ -26,6 +32,9 @@ services:
       geegle_unsecure:
     ports:
     - "8056:80"
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   uberproxy:
     build: ./uberproxy
@@ -47,6 +56,9 @@ services:
       beyondcorp_geemail_backend:
     ports:
     - "80:80"
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   # High school
   web-filesystem:
@@ -59,6 +71,9 @@ services:
       beyondcorp_filesystem:
         aliases:
           - webfiles.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   misc-quicksort:
     build: ./WorkExperience/misc-quicksort
@@ -67,6 +82,9 @@ services:
         aliases:
           - quicksort.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   misc-who-is-attacking-me:
     build: ./WorkExperience/misc-who-is-attacking-me
@@ -75,6 +93,9 @@ services:
         aliases:
           - attack-check.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   misc-etcpasswd:
     build: ./WorkExperience/crypto-etcpasswd
@@ -83,6 +104,9 @@ services:
         aliases:
           - sysadmin-shell.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-local_intranet:
     build: ./WorkExperience/web-intranet
@@ -93,6 +117,9 @@ services:
       chal_intranet:
         aliases:
           - internal.docs
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-intern-management:
     build: ./WorkExperience/web-intern-account-manager
@@ -100,6 +127,9 @@ services:
       beyondcorp_intern_manager:
         aliases:
           - intern-acc-manager.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-guest-kiosk:
     build: ./WorkExperience/web-guest-kiosk
@@ -107,6 +137,9 @@ services:
       beyondcorp_guest_kiosk:
         aliases:
           - guest.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-privatefile:
     build: ./WorkExperience/web-privatefile
@@ -114,6 +147,9 @@ services:
       beyondcorp_privatefile:
         aliases:
           - drive-lite.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   pwn-intern-project:
     build: ./WorkExperience/pwn-intern-project
@@ -122,6 +158,9 @@ services:
         aliases:
           - intern-project.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   # NewHires
   kix:
@@ -130,6 +169,9 @@ services:
       beyondcorp_kix:
         aliases:
           - docs.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   # TODO: move this outside to another separate server, listen on port 25
   pwn-mailserver-dev:
@@ -137,6 +179,9 @@ services:
     ports:
       - "587:9999"
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   pwn-payroll:
     build: ./NewHire/pwn-payroll
@@ -145,6 +190,9 @@ services:
         aliases:
           - payroll.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   pwn-game:
     build: ./NewHire/pwn-game
@@ -153,6 +201,9 @@ services:
         aliases:
           - game.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   re-trycatch:
     build: ./NewHire/re-trycatch
@@ -161,6 +212,9 @@ services:
         aliases:
           - trycatch.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   geemail_frontend:
     build: ./geemail-frontend
@@ -168,6 +222,9 @@ services:
       beyondcorp_geemail_frontend:
         aliases:
           - mail.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   geemail_backend:
     build: ./geemail-backend
@@ -175,6 +232,9 @@ services:
       beyondcorp_geemail_backend:
         aliases:
           - geemail-backend.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
 networks:
   geegle_unsecure:
