@@ -36,4 +36,4 @@ RUN wget https://github.com/joewalnes/websocketd/releases/download/v0.3.0/websoc
 
 RUN ["chmod","775","/flag"]
 RUN ["chmod","775","/home/ctf/pwn"]
-CMD ["./websocketd", "--port=80", "--staticdir=/home/ctf/static", "/home/ctf/pwn"]
+CMD ["./websocketd", "--port=80", "--staticdir=/home/ctf/static", "--binary=true", "/home/ctf/pwn"]

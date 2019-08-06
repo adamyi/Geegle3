@@ -272,8 +272,14 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	copyResponse(rsp, presp)
 }
 func handleCLIRelay(rsp http.ResponseWriter, req *http.Request) {
-	body, _ := ioutil.ReadFile("templates/ws.html")
-	fmt.Fprint(rsp, string(body))
+	if req.URL.Path == "/cli-relay.py" {
+		rsp.Header().Set("Content-Type", "text/x-python")
+		body, _ := ioutil.ReadFile("templates/cli-relay.py")
+		fmt.Fprint(rsp, string(body))
+	} else {
+		body, _ := ioutil.ReadFile("templates/ws.html")
+		fmt.Fprint(rsp, string(body))
+	}
 }
 
 func handleLogin(rsp http.ResponseWriter, req *http.Request) {

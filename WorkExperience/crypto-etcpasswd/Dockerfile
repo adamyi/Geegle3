@@ -20,4 +20,4 @@ RUN wget https://github.com/joewalnes/websocketd/releases/download/v0.3.0/websoc
 
 RUN ["chmod","775","/flag"]
 RUN ["chmod","775","/app/app.py"]
-CMD ["./websocketd", "--port=80", "--staticdir=/static", "/app/app.py"]
+CMD ["./websocketd", "--port=80", "--staticdir=/static", "--binary=true", "/app/app.py"]
