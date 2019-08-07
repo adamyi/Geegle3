@@ -2,19 +2,28 @@ package main
 
 import (
 	"database/sql"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
 )
+
+type Challenge struct {
+	Flag  string
+	Email string
+}
 
 type Configuration struct {
 	ListenAddress string
 	JwtKey        []byte
+	Challenges    []Challenge
 }
 
 type UserInfo struct {
@@ -98,6 +107,22 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(rsp).Encode(info)
 }
 
+func addFlag(user string, body string) error {
+	// TODO remove
+	for _, challenge := range _configuration.Challenges {
+		if strings.Contains(body, challenge.Flag) {
+			b64 := base64.StdEncoding.EncodeToString([]byte(challenge.Email))
+			_, err := _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", b64, time.Now().UnixNano())
+
+			return err
+		}
+	}
+	b64 := base64.StdEncoding.EncodeToString([]byte("Sorry, we did not recognise that flag :("))
+	_, err := _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", b64, time.Now().UnixNano())
+
+	return err
+}
+
 // for user to send email
 func sendMail(rsp http.ResponseWriter, req *http.Request) {
 	initGmRsp(rsp)
@@ -122,6 +147,11 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
+	}
+
+	//TODO make better
+	if e.Receiver == "flag@geegle.org" {
+		addFlag(e.Receiver, string(e.Body))
 	}
 }
 
