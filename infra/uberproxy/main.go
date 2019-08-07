@@ -293,7 +293,11 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		preq.Header.Set(name, value[0])
 	}
 	preq.Header.Set("X-Geegle-JWT", ptstr)
-	client := &http.Client{}
+	client := &http.Client{
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
 	presp, err := client.Do(preq)
 	if err != nil {
 		returnError(UPError{Code: http.StatusBadGateway, Title: "Bad Gateway", Description: "Something went wrong connecting to internal service"}, rsp)
