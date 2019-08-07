@@ -14,10 +14,13 @@ Info:
 
     We're so happy to have you as one of our newest Work Experience placements. We don't want to give you anything boring to work on, so we're going to throw you into the thick of it and see how you go. After all, the best way to learn how to swim is to jump in the deep end right?
     To start with we've got a couple of basic tasks for you - some general knowledge and basic programming challenges.  Work your way through most of those, and then we'll get you into the real work. Have fun!
+    
+    - [Programming](quicksort.corp.geegle.org)
+    - [General Knowledge]()
 
     All the best,
 
-    Adam
+    Sven
     HR Manager
 
 trivia + scripting stuff is the first thing they do
@@ -29,7 +32,7 @@ Second email to be sent 10 seconds after the first.
 misc-email-intercept is not required to progress, but gains extra points.
 
 
-### misc-incident-response:
+### misc-who-is-attacking-me:
 
 Info:
 
@@ -42,7 +45,7 @@ Info:
     Adam
     Work Experience Manager
 
-You are tasked with finding who is attacking us... Here is a file- email us the ip thats attacking us
+You are tasked with finding who is attacking us... Here is a file - email us the ip thats attacking us
 
 ### misc-email-intercept:
 
@@ -50,7 +53,9 @@ Info:
 
     Hi,
 
-    Apologies, I seem to have attached the wrong file to the last email. Please do not read the last file, it was a confidential matter. Instead, please see attached the correct file.
+    Apologies, I seem to have attached the wrong file to the last email. Please do not read the last file, it was a confidential matter. Instead, please see below the correct data.
+    
+    [incident logs](attack-check.corp.geegle.org).
 
     Thanks,
 
@@ -158,7 +163,7 @@ Info:
 
     Thanks,
 
-    Adam
+    Sven
     HR Manager
 
 ### web-guest-kiosk:
