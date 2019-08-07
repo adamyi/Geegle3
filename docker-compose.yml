@@ -4,131 +4,257 @@
 # we currently have a geegle_unsecure network but we will migrate all of them to
 # beyondcorp later
 #
-# TODO: don't expose ports, put them behind uberproxy
+# for binary challenges, we are tunneling the traffic through websocket using
+# cli-relay.corp.geegle.org
 
 version: '2'
 services:
-  kix:
-    build: ./NewHire/kix
-    networks:
-      geegle_unsecure:
-  redis:
-    image: redis:latest
-    networks:
-      geegle_unsecure:
-  mss:
-    build: ./mss
-    networks:
-      geegle_unsecure:
-  gae:
-    build: ./gae
-    networks:
-      geegle_unsecure:
-    ports:
-    - "8056:80"
+  # infra
   uberproxy:
-    build: ./uberproxy
+    build: ./infra/uberproxy
     networks:
+      beyondcorp_gae:
+      beyondcorp_filesystem:
+      beyondcorp_quicksort:
+      beyondcorp_who_is_attacking_me:
+      beyondcorp_etcpasswd:
+      beyondcorp_intranet:
+      beyondcorp_intern_manager:
+      beyondcorp_guest_kiosk:
+      beyondcorp_privatefile:
+      beyondcorp_intern_project:
+      beyondcorp_kix:
+      beyondcorp_payroll:
+      beyondcorp_game:
+      beyondcorp_trycatch:
       beyondcorp_geemail_frontend:
       beyondcorp_geemail_backend:
     ports:
     - "80:80"
+    - "443:443"
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
-# High school
+  redis:
+    image: redis:latest
+    networks:
+      geegle_unsecure:
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  mss:
+    build: ./infra/mss
+    networks:
+      geegle_unsecure:
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  gae:
+    build: ./infra/gae
+    networks:
+      geegle_unsecure:
+      beyondcorp_gae:
+        aliases:
+          - apps.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  gsmtpd:
+    build: ./infra/gsmtpd
+    ports:
+      - "25:9999"
+    read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  geemail_frontend:
+    build: ./infra/geemail-frontend
+    networks:
+      beyondcorp_geemail_frontend:
+        aliases:
+          - mail.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  geemail_backend:
+    build: ./infra/geemail-backend
+    networks:
+      beyondcorp_geemail_backend:
+        aliases:
+          - geemail-backend.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+
+  # High school
   web-filesystem:
     image: golang:1.11
     volumes:
       - ./WorkExperience/web-filesystem/generate_site.sh:/generate_site.sh
       - ./WorkExperience/web-filesystem/main.go:/main.go
     command: bash /generate_site.sh
-    ports:
-      - "9000:80"
+    networks:
+      beyondcorp_filesystem:
+        aliases:
+          - webfiles.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   misc-quicksort:
     build: ./WorkExperience/misc-quicksort
-    ports:
-      - "8999:1000"
+    networks:
+      beyondcorp_quicksort:
+        aliases:
+          - quicksort.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   misc-who-is-attacking-me:
     build: ./WorkExperience/misc-who-is-attacking-me
-    ports:
-      - "8998:1000"
+    networks:
+      beyondcorp_who_is_attacking_me:
+        aliases:
+          - attack-check.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   misc-etcpasswd:
     build: ./WorkExperience/crypto-etcpasswd
-    ports:
-      - "8997:1000"
+    networks:
+      beyondcorp_etcpasswd:
+        aliases:
+          - sysadmin-shell.corp.geegle.org
     read_only: true
-
-
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-local_intranet:
     build: ./WorkExperience/web-intranet
-    ports:
-      - "9001:80"
-    hostname: internal.docs
+    networks:
+      beyondcorp_intranet:
+        aliases:
+          - intranet-browser.corp.geegle.org
+      chal_intranet:
+        aliases:
+          - internal.docs
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-intern-management:
     build: ./WorkExperience/web-intern-account-manager
-    ports:
-      - "9002:80"
+    networks:
+      beyondcorp_intern_manager:
+        aliases:
+          - intern-acc-manager.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-guest-kiosk:
     build: ./WorkExperience/web-guest-kiosk
-    ports:
-      - "9003:80"
+    networks:
+      beyondcorp_guest_kiosk:
+        aliases:
+          - guest.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   web-privatefile:
     build: ./WorkExperience/web-privatefile
-    ports:
-      - "9004:80"
-
-
+    networks:
+      beyondcorp_privatefile:
+        aliases:
+          - drive-lite.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
   pwn-intern-project:
     build: ./WorkExperience/pwn-intern-project
-    ports:
-      - "19204:19204"
+    networks:
+      beyondcorp_intern_project:
+        aliases:
+          - intern-project.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
+  # NewHires
+  kix:
+    build: ./NewHire/kix
+    networks:
+      beyondcorp_kix:
+        aliases:
+          - docs.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
-# NewHires
-  pwn-mailserver-dev:
-    build: ./NewHire/pwn-mailserver-dev
-    ports:
-      - "587:9999"
-    read_only: true
   pwn-payroll:
     build: ./NewHire/pwn-payroll
-    ports:
-      - "19200:1000"
+    networks:
+      beyondcorp_payroll:
+        aliases:
+          - payroll.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
   pwn-game:
     build: ./NewHire/pwn-game
-    ports:
-      - "19201:1000"
+    networks:
+      beyondcorp_game:
+        aliases:
+          - game.corp.geegle.org
     read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
   re-trycatch:
     build: ./NewHire/re-trycatch
-    ports:
-      - "19202:1000"
+    networks:
+      beyondcorp_trycatch:
+        aliases:
+          - trycatch.corp.geegle.org
     read_only: true
-  geemail_frontend:
-    build: ./geemail-frontend
-    networks:
-      beyondcorp_geemail_frontend:
-        aliases:
-          - mail.corp.geegle.org
-  geemail_backend:
-    build: ./geemail-backend
-    networks:
-      beyondcorp_geemail_backend:
-        aliases:
-          - geemail-backend.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
 
 networks:
   geegle_unsecure:
+  beyondcorp_gae:
+  beyondcorp_filesystem:
+  beyondcorp_quicksort:
+  beyondcorp_who_is_attacking_me:
+  beyondcorp_etcpasswd:
+  beyondcorp_intranet:
+  beyondcorp_intern_manager:
+  beyondcorp_guest_kiosk:
+  beyondcorp_privatefile:
+  beyondcorp_intern_project:
+  beyondcorp_kix:
+  beyondcorp_payroll:
+  beyondcorp_game:
+  beyondcorp_trycatch:
   beyondcorp_geemail_frontend:
   beyondcorp_geemail_backend:
+  chal_intranet:
