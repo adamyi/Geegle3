@@ -1,0 +1,394 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+  background-color: #3b3e48;
+  font-family: 'Roboto', sans-serif;
+}
+
+.mail {
+  width: 100%;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  box-shadow: inset 0 -1px 0 0 rgba(100, 121, 143, 0.122);
+  font-family: Roboto;
+}
+
+.header {
+  background-color: white;
+  height: 60px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+h3 {
+  margin: 0 auto;
+}
+
+#header-image {
+  padding-left: 28px;
+  padding-top: 15px;
+  cursor: pointer;
+  outline: none;
+}
+
+.container {
+  width: 1200px;
+  height: 950px;
+  background-color: white;
+  margin: 0 auto;
+  padding: 0;
+  border: 1px solid black;
+}
+
+.mail-folders {
+  width: 200px;
+  height: 620px;
+  float: left;
+  box-sizing: border-box;
+  margin: 10px;
+}
+
+.compose {
+  display: block;
+  width: 145px;
+  height: 48px;
+  border: 1px solid #D1D1D1;
+  border-radius: 24px;
+  background-color: white;
+  cursor: pointer;
+  margin-bottom: 15px;
+  box-shadow: #DEDEDE 0 1px 2px 1px;
+  transition: box-shadow .10s linear;
+}
+
+.compose:hover {
+  box-shadow: 0 2px 3px 0 rgba(60, 64, 67, 0.302), 0 3px 3px 1px rgba(60, 64, 67, 0.149);
+}
+
+.compose:focus {
+  outline: none;
+}
+
+#compose-img {
+  padding-right: 15px;
+  vertical-align: middle;
+}
+
+#compose-txt {
+  display: inline-block;
+  letter-spacing: .25px;
+  color: #3c4043;
+  font-weight: 700;
+}
+
+.active-inbox {
+  background-color: #e6e8fc;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  color: #2534d9 !important;
+}
+
+.active {
+  background-color: #e8eaed;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  font-weight: 700;
+}
+
+.folder-links {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  width: 170px;
+  height: 32px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  height: auto;
+  letter-spacing: 0.2px;
+  outline: none;
+}
+
+.icon {
+  margin: 0 auto;
+  padding-right: 15px;
+  position: relative;
+  top: 5px;
+  left: 5px;
+  outline: none;
+  fill: #202124;
+}
+
+.name {
+  display: inline-block;
+  width: 50px;
+  padding-right: 5px;
+  padding-bottom: 7px;
+}
+
+.name-inbox {
+  font-weight: 700;
+}
+
+.counter {
+  padding-left: 40px;
+  margin-left: 5px;
+  font-size: 14px;
+  text-align: right;
+  font-weight: 400;
+  color: #5f6368;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+.tabs {
+  width: 500px;
+  margin: 60px auto;
+  color: #666;
+}
+
+.tabs h3 {
+  font-size: 16px;
+}
+
+.tabs p {
+  font-size: 14px;
+}
+
+.empty {
+  width: 600px;
+  margin-top: 100px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.empty-drafts {
+  width: 700px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.mail-items {
+  width: 910px;
+  height: 620px;
+  float: left;
+  box-sizing: border-box;
+  margin-top: 73px;
+}
+
+.list {
+  box-sizing: border-box;
+  font-size: 14px;
+  height: 35px;
+  border-bottom: 1px solid #D1D1D1;
+}
+
+.sender {
+  display: inline-block;
+  width: 150px;
+  text-align: left;
+  padding-right: 10px;
+  padding-left: 5px;
+  padding-top: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+.subject {
+  display: inline-block;
+  width: 180px;
+  height: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+.message {
+  display: inline-block;
+  width: 420px;
+  padding-right: 20px;
+  color: #5f6368;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: bottom;
+}
+
+.date {
+  display: inline-block;
+  width: 120px;
+}
+
+.open-mail {
+  width: 900px;
+  margin-left: 220px;
+  margin-top: 15px;
+}
+
+.open-subject {
+  font-size: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #CFCFCF;
+}
+
+.open-sender {
+  font-size: 15px;
+}
+
+.open-sender p {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.open-address {
+  display: inline-block;
+  width: 700px;
+  font-size: 14px;
+  color: #7A7A7A;
+}
+
+
+.open-time {
+  padding-left: 70px;
+}
+
+.open-message {
+  width: 700px;
+}
+
+.sender-address {
+  display: inline-block;
+  width: 700px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.back-icon {
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 5px auto auto;
+}
+
+.back-icon:hover {
+  background-color: #EDEDED;
+  border-radius: 100%;
+}
+
+#reply-icon {
+  margin-top: 20px;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.new-message {
+  border: 1px solid #404040;
+  height: 600px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+#new-message {
+  width: 800px;
+  background-color: #404040;
+  color: white;
+  margin: 0 auto;
+  height: 40px;
+  padding-top: 11px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .2px;
+}
+
+.new-info {
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  font-size: 15px;
+  padding-left: 5px;
+  outline: none;
+  border: 1px solid #E0E0E0;
+}
+
+textarea {
+  resize: none;
+  font-size: 15px;
+}
+
+#text {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 5px 5px 0 7px;
+  border: none;
+  outline: none;
+}
+
+.button {
+  width: 72px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: white;
+}
+
+#send {
+  background-color: #1a73e8;
+  margin: 10px 5px 5px 15px;
+}
+
+#send:hover {
+  background-color: #297BE6;
+}
+
+#cancel {
+  float: right;
+  margin: 10px 15px 5px 5px;
+  background-color: #757575;
+}
+
+#cancel:hover {
+  background-color: #7D7D7D;
+}
+
+#new-footer {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0;
+  height: 55px;
+}
+
+#send-icons {
+  vertical-align: -9px;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+  border-left: 3px solid #6BD671;
+}
+
+.ng-invalid:not(form) {
+  border-left: 3px solid #de5448;
+}
