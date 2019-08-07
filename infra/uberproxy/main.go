@@ -1,14 +1,16 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/websocket"
+	"html/template"
 	"io"
-	"io/ioutil"
 	"log"
 	"math/rand"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -33,6 +35,18 @@ var (
 	upgrader = websocket.Upgrader{CheckOrigin: checkOrigin}
 	dialer   = websocket.DefaultDialer
 )
+
+type UPError struct {
+	Title       string
+	Description string
+	Code        int
+}
+
+func returnError(err UPError, rsp http.ResponseWriter) {
+	rsp.WriteHeader(err.Code)
+	tmpl := template.Must(template.ParseFiles("templates/error.html"))
+	tmpl.Execute(rsp, err)
+}
 
 func readConfig() {
 	file, _ := os.Open("config.json")
@@ -162,7 +176,11 @@ func handleWs(rsp http.ResponseWriter, req *http.Request, jwttoken string) {
 func copyHeader(dst, src http.Header) {
 	for k, vv := range src {
 		for _, v := range vv {
-			dst.Add(k, v)
+			if k == "Server" {
+				dst.Set(k, v)
+			} else {
+				dst.Add(k, v)
+			}
 		}
 	}
 }
@@ -178,16 +196,33 @@ func copyResponse(rw http.ResponseWriter, resp *http.Response) error {
 
 func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	initUPRsp(rsp)
+	if req.Host != "geegle.org" && (!strings.HasSuffix(req.Host, ".geegle.org")) {
+		returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
+		return
+	}
 	if req.Host == "login.corp.geegle.org" {
 		handleLogin(rsp, req)
 		return
 	}
 	full_url := req.Host + req.RequestURI
+	if req.Host != "cli-relay.corp.geegle.org" && (!strings.HasSuffix(req.Host, ".apps.geegle.org")) {
+		ips, err := net.LookupIP(req.Host)
+		if err != nil {
+			returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
+			return
+		}
+		for ip := range ips {
+			if !isDockerIP(ips[ip]) {
+				returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
+				return
+			}
+		}
+	}
 	ptstr := ""
 	if req.Method != "OPTIONS" {
 		c, err := req.Cookie("uberproxy_auth")
 		if err != nil {
-			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+			http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 			return
 		}
 		tknStr := c.Value
@@ -200,24 +235,24 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			if err == jwt.ErrSignatureInvalid {
 				log.Println("Signature Invalid")
-				http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+				http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 				return
 			}
 			log.Println("JWT Error")
 			log.Println(err.Error())
-			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+			http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 			return
 		}
 
 		if !tkn.Valid {
 			log.Println("JWT Invalid")
-			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+			http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 			return
 		}
 
 		if claims.Service != "uberproxy@services.geegle.org" {
 			log.Println(claims.Service)
-			http.Redirect(rsp, req, "http://login.corp.geegle.org/?return_url="+url.QueryEscape("http://"+full_url), 303)
+			http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 			return
 		}
 
@@ -234,8 +269,7 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
 		ptstr, err = ptoken.SignedString(_configuration.JwtKey)
 		if err != nil {
-			fmt.Println(err.Error())
-			rsp.WriteHeader(http.StatusInternalServerError)
+			returnError(UPError{Code: http.StatusInternalServerError, Title: "Internal Server Error", Description: "Something went wrong while generating JWT"}, rsp)
 			return
 		}
 	}
@@ -251,9 +285,7 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 
 	preq, err := http.NewRequest(req.Method, "http://"+full_url, req.Body)
 	if err != nil {
-		fmt.Println("test")
-		fmt.Println(err.Error())
-		rsp.WriteHeader(http.StatusInternalServerError)
+		returnError(UPError{Code: http.StatusBadGateway, Title: "Bad Gateway", Description: "Something went wrong connecting to internal service"}, rsp)
 		return
 	}
 	for name, value := range req.Header {
@@ -264,65 +296,33 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	client := &http.Client{}
 	presp, err := client.Do(preq)
 	if err != nil {
-		fmt.Println("haha")
-		fmt.Println(err.Error())
-		rsp.WriteHeader(http.StatusInternalServerError)
+		returnError(UPError{Code: http.StatusBadGateway, Title: "Bad Gateway", Description: "Something went wrong connecting to internal service"}, rsp)
 		return
 	}
 	copyResponse(rsp, presp)
 }
-func handleCLIRelay(rsp http.ResponseWriter, req *http.Request) {
-	if req.URL.Path == "/cli-relay.py" {
-		rsp.Header().Set("Content-Type", "text/x-python")
-		body, _ := ioutil.ReadFile("templates/cli-relay.py")
-		fmt.Fprint(rsp, string(body))
-	} else {
-		body, _ := ioutil.ReadFile("templates/ws.html")
-		fmt.Fprint(rsp, string(body))
-	}
-}
 
-func handleLogin(rsp http.ResponseWriter, req *http.Request) {
-	if req.Method == "GET" {
-		//TODO: cache this
-		body, _ := ioutil.ReadFile("templates/login.html")
-		fmt.Fprint(rsp, string(body))
-	} else if req.Method == "POST" {
-		req.ParseForm()
-		username := strings.ToLower(req.Form.Get("username"))
-		if !strings.HasSuffix(username, "@geegle.org") {
-			username = username + "@geegle.org"
+func initHTTPOptions() {
+	dialer := &net.Dialer{
+		Timeout:   30 * time.Second,
+		KeepAlive: 30 * time.Second,
+		DualStack: false,
+	}
+
+	http.DefaultTransport.(*http.Transport).DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
+		if strings.HasSuffix(addr, ".apps.geegle.org:80") {
+			addr = "apps.geegle.org:80"
 		}
-		_ = req.Form.Get("password")
-		//TODO: verify password
-		expirationTime := time.Now().Add(24 * 30 * time.Hour)
-		pclaims := Claims{
-			Username: username,
-			Service:  "uberproxy@services.geegle.org",
-			StandardClaims: jwt.StandardClaims{
-				ExpiresAt: expirationTime.Unix(),
-			},
-		}
-		ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
-		ptstr, err := ptoken.SignedString(_configuration.JwtKey)
-		if err != nil {
-			rsp.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		authcookie := &http.Cookie{Name: "uberproxy_auth", Value: ptstr, HttpOnly: true, Domain: "corp.geegle.org"}
-		http.SetCookie(rsp, authcookie)
-		http.Redirect(rsp, req, req.URL.Query()["return_url"][0], 303)
-	} else {
-		rsp.WriteHeader(http.StatusBadRequest)
+		return dialer.DialContext(ctx, network, addr)
 	}
 }
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
+	initPrivateIP()
+	initHTTPOptions()
 	readConfig()
-	http.HandleFunc("/", handleUP)
-	err := http.ListenAndServe(_configuration.ListenAddress, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+	go http.ListenAndServe(":80", http.HandlerFunc(redirectSSL))
+	server := buildSSLServer()
+	server.ListenAndServeTLS("", "")
 }

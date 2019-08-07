@@ -23,7 +23,7 @@
           if (ws) {
             return false;
           }
-          ws = new WebSocket("ws://" + host.value + "/ws");
+          ws = new WebSocket("wss://" + host.value + "/ws");
           ws.onopen = function(evt) {
             print("Connecting to " + host.value + "...\n");
           }

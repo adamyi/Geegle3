@@ -13,6 +13,7 @@ services:
   uberproxy:
     build: ./infra/uberproxy
     networks:
+      beyondcorp_gae:
       beyondcorp_filesystem:
       beyondcorp_quicksort:
       beyondcorp_who_is_attacking_me:
@@ -30,6 +31,7 @@ services:
       beyondcorp_geemail_backend:
     ports:
     - "80:80"
+    - "443:443"
     dns_search:
       - corp.geegle.org
       - geegle.org
@@ -54,8 +56,9 @@ services:
     build: ./infra/gae
     networks:
       geegle_unsecure:
-    ports:
-    - "8056:80"
+      beyondcorp_gae:
+        aliases:
+          - apps.geegle.org
     dns_search:
       - corp.geegle.org
       - geegle.org
@@ -238,6 +241,7 @@ services:
 
 networks:
   geegle_unsecure:
+  beyondcorp_gae:
   beyondcorp_filesystem:
   beyondcorp_quicksort:
   beyondcorp_who_is_attacking_me:
