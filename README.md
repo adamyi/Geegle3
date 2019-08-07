@@ -4,6 +4,10 @@ Monorepo for COMP9301 CTF.
 
 ---
 
+## SSl Certs
+Download https://drive.google.com/open?id=10CRmIhlakQkCnpp75GjrmzdWcBzqPj2z
+Put uncompressed files to infra/uberproxy/certs
+
 ## Building docker files
 
 To build docker files

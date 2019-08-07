@@ -1,6 +1,6 @@
 from flask import Flask
 
-HOST = 'apps.geegle.org:8056'
+HOST = 'apps.geegle.org'
 SERVER_NAME = 'Geegle Frontend'
 
 class gaeFlask(Flask):

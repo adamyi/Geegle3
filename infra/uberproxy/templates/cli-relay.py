@@ -110,7 +110,7 @@ def main():
   if args.verbose > 1:
     websocket.enableTrace(True)
   options = {'header': ["Cookie: uberproxy_auth=" + args.auth]}
-  ws = websocket.create_connection("ws://" + args.server + "/ws", **options)
+  ws = websocket.create_connection("wss://" + args.server + "/ws", **options)
   console = NonInteractive()
 
   def recv():

@@ -10,35 +10,10 @@
 version: '2'
 services:
   # infra
-  redis:
-    image: redis:latest
-    networks:
-      geegle_unsecure:
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
-  mss:
-    build: ./mss
-    networks:
-      geegle_unsecure:
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
-  gae:
-    build: ./gae
-    networks:
-      geegle_unsecure:
-    ports:
-    - "8056:80"
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
   uberproxy:
-    build: ./uberproxy
+    build: ./infra/uberproxy
     networks:
+      beyondcorp_gae:
       beyondcorp_filesystem:
       beyondcorp_quicksort:
       beyondcorp_who_is_attacking_me:
@@ -56,9 +31,67 @@ services:
       beyondcorp_geemail_backend:
     ports:
     - "80:80"
+    - "443:443"
     dns_search:
       - corp.geegle.org
       - geegle.org
+
+  redis:
+    image: redis:latest
+    networks:
+      geegle_unsecure:
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  mss:
+    build: ./infra/mss
+    networks:
+      geegle_unsecure:
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  gae:
+    build: ./infra/gae
+    networks:
+      geegle_unsecure:
+      beyondcorp_gae:
+        aliases:
+          - apps.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  gsmtpd:
+    build: ./infra/gsmtpd
+    ports:
+      - "25:9999"
+    read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  geemail_frontend:
+    build: ./infra/geemail-frontend
+    networks:
+      beyondcorp_geemail_frontend:
+        aliases:
+          - mail.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  geemail_backend:
+    build: ./infra/geemail-backend
+    networks:
+      beyondcorp_geemail_backend:
+        aliases:
+          - geemail-backend.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
 
   # High school
   web-filesystem:
@@ -173,16 +206,6 @@ services:
       - corp.geegle.org
       - geegle.org
 
-  # TODO: move this outside to another separate server, listen on port 25
-  pwn-mailserver-dev:
-    build: ./NewHire/pwn-mailserver-dev
-    ports:
-      - "587:9999"
-    read_only: true
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
   pwn-payroll:
     build: ./NewHire/pwn-payroll
     networks:
@@ -216,28 +239,9 @@ services:
       - corp.geegle.org
       - geegle.org
 
-  geemail_frontend:
-    build: ./geemail-frontend
-    networks:
-      beyondcorp_geemail_frontend:
-        aliases:
-          - mail.corp.geegle.org
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
-  geemail_backend:
-    build: ./geemail-backend
-    networks:
-      beyondcorp_geemail_backend:
-        aliases:
-          - geemail-backend.corp.geegle.org
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
 networks:
   geegle_unsecure:
+  beyondcorp_gae:
   beyondcorp_filesystem:
   beyondcorp_quicksort:
   beyondcorp_who_is_attacking_me:
