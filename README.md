@@ -4,6 +4,10 @@ Monorepo for COMP9301 CTF.
 
 ---
 
+## SSl Certs
+Download https://drive.google.com/open?id=10CRmIhlakQkCnpp75GjrmzdWcBzqPj2z
+Put uncompressed files to infra/uberproxy/certs
+
 ## Building docker files
 
 To build docker files
@@ -33,7 +37,7 @@ However you got here - work experience program, grad hire, career step - welcome
 | training-welcome  |   |
 | training-linux  |   |
 | **Scripting**  |   |
-| base8*8 (to decrypt your username)  |   |
+| base8\*8 (to decrypt your username)  |   |
 | caesar (to decrypt your password)  |   | 
 | hashbag (While you're there, I've forgotten my password - help me out?)  |   | 
 | quickSort (I forgot about this deadline, get this done for me!)  |   | 

@@ -1,0 +1,20 @@
+# all domains to resolve to main server (alphabetical order)
+apps.geegle.org
+attack-check.corp.geegle.org
+cli-relay.corp.geegle.org
+docs.corp.geegle.org
+drive-lite.corp.geegle.org
+game.corp.geegle.org
+geemail-backend.corp.geegle.org
+guest.corp.geegle.org
+intern-acc-manager.corp.geegle.org
+intern-project.corp.geegle.org
+intranet-browser.corp.geegle.org
+login.corp.geegle.org
+mail.corp.geegle.org
+manage.apps.geegle.org
+payroll.corp.geegle.org
+quicksort.corp.geegle.org
+sysadmin-shell.corp.geegle.org
+trycatch.corp.geegle.org
+webfiles.corp.geegle.org

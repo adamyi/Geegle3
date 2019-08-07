@@ -55,7 +55,7 @@ func readConfig() {
 
 func initGmRsp(rsp http.ResponseWriter) {
 	rsp.Header().Add("Server", "geemail")
-	rsp.Header().Add("Access-Control-Allow-Origin", "http://mail.corp.geegle.org")
+	rsp.Header().Add("Access-Control-Allow-Origin", "https://mail.corp.geegle.org")
 	rsp.Header().Add("Access-Control-Allow-Methods", "OPTIONS, GET, POST")
 	rsp.Header().Add("Access-Control-Allow-Credentials", "true")
 	rsp.Header().Add("Access-Control-Allow-Headers", "Content-Type")
