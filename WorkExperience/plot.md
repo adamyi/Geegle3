@@ -40,6 +40,8 @@ Info:
 
     So I know you haven't quite finished the intro tasks yet, but we've just got word from our monitoring team that someone is trying to use a Dictionary brute force to login to our staff portal. I've got the traffic logs here and it's all hands on deck, so I'm going to have to pull you away from the intro tasks to help us out. Can you take a look and figure out which IP address the attacker is coming from so we can IP ban them?
 
+    [Incident logs](link to email.dump)
+
     Thanks so much,
 
     Adam
