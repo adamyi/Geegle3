@@ -131,10 +131,16 @@
         </div>
         <div class="center">
           <h1 class="title">Direct Web Access is not Possible</h1>
-          <h3 class="description">Please use <a href="http://cli-relay.corp.geegle.org">CLI-Relay</a> to access.</h3>
+          <h3 class="description">Please use <a id="cli-relay-link" href="https://cli-relay.corp.geegle.org">CLI-Relay</a> to access.</h3>
         </div>
       </div>
     </div>
   </div>
 </body>
 </html>
+
+<script>
+  document.getElementById("cli-relay-link").setAttribute("href", "https://cli-relay.corp.geegle.org?host=" + window.location.hostname);
+</script>
+
+
