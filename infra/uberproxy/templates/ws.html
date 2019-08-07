@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+      window.addEventListener("load", function(evt) {
+        var urlParams = new URLSearchParams(window.location.search);
+        var output = document.getElementById("output");
+        var input = document.getElementById("input");
+        var host = document.getElementById("host");
+        var ws;
+        var print = function(message) {
+          output.innerHTML += message;
+        };
+        var printblob = async function(blob) {
+          text = await new Response(blob).text();
+          print(text);
+        }
+        if (urlParams.has('host')) {
+          host.value = urlParams.get('host');
+        }
+        document.getElementById("open").onclick = function(evt) {
+          if (ws) {
+            return false;
+          }
+          ws = new WebSocket("wss://" + host.value + "/ws");
+          ws.onopen = function(evt) {
+            print("Connecting to " + host.value + "...\n");
+          }
+          ws.onclose = function(evt) {
+            print("Closing connection...\n");
+            ws = null;
+          }
+          ws.onmessage = function(evt) {
+            printblob(evt.data);
+          }
+          ws.onerror = function(evt) {
+            print("ERROR: " + evt.data + "\n");
+          }
+          return false;
+        };
+        document.getElementById("send").onclick = function(evt) {
+          if (!ws) {
+            return false;
+          }
+          print(input.value + "\n");
+          ws.send(input.value);
+          return false;
+        };
+        document.getElementById("close").onclick = function(evt) {
+          if (!ws) {
+            return false;
+          }
+          ws.close();
+          return false;
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <table>
+      <tr><td valign="top" width="50%">
+          <p>Updates: there's a new <a href="/cli-relay.py">cli-relay.py</a> available.</p>
+          <p><input id="host" type="text" value="quicksort.corp.geegle.org" style="width: 250px;">
+          <p>Click "Open" to create a connection to the server,
+          "Send" to send a message to the server and "Close" to close the connection.
+          You can change the message and send multiple times.
+          <p>
+          <form>
+            <button id="open">Open</button>
+            <button id="close">Close</button>
+            <p><input id="input" type="text" value="Hello world!">
+            <button id="send">Send</button>
+          </form>
+        </td><td valign="top" width="50%">
+          <pre id="output"></pre>
+        </td></tr></table>
+  </body>
+</html>
+
