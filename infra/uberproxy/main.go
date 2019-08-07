@@ -211,8 +211,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 			returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
 			return
 		}
-		for ip := range ips {
-			if !isDockerIP(ips[ip]) {
+		for _, ip := range ips {
+			if !isDockerIP(ip) {
 				returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
 				return
 			}
