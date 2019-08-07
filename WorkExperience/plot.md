@@ -9,6 +9,7 @@ And associated copy.
 ### All:
 
 Info:
+
     Welcome to Geegle!
 
     We're so happy to have you as one of our newest Work Experience placements. We don't want to give you anything boring to work on, so we're going to throw you into the thick of it and see how you go. After all, the best way to learn how to swim is to jump in the deep end right?
@@ -31,7 +32,9 @@ misc-email-intercept is not required to progress, but gains extra points.
 ### misc-incident-response:
 
 Info:
+
     Hey newbie,
+
     So I know you haven't quite finished the intro tasks yet, but we've just got word from our monitoring team that someone is trying to use a Dictionary brute force to login to our staff portal. I've got the traffic logs here and it's all hands on deck, so I'm going to have to pull you away from the intro tasks to help us out. Can you take a look and figure out which IP address the attacker is coming from so we can IP ban them?
 
     Thanks so much,
@@ -44,6 +47,7 @@ You are tasked with finding who is attacking us... Here is a file- email us the 
 ### misc-email-intercept:
 
 Info:
+
     Hi,
 
     Apologies, I seem to have attached the wrong file to the last email. Please do not read the last file, it was a confidential matter. Instead, please see attached the correct file.
@@ -61,6 +65,7 @@ Both challenges sent together, with the following info.
 Solving either challenge grants progression.
 
 Info:
+
     Hey,
 
     We forgot to get you setup with access to a few systems unfortunately, which is going to slow work down for a while. Ideally, you should have access to both [Intranet](web-intranet) and [Account Manager](web-intern-account-manager), however neither of these have been setup for you. Unfortunately the HR Rep is away on long service leave so we won't be able to put it through in time - what I've managed to do is organise permission for you to perform a security audit of the [intranet](web-intranet) services - if you can get into it, you can update the records yourself. We do NOT have permission for a similar test on [Account Manager](web-intern-account-manager), but if the HR Rep gets it changed while he's away he'll send you a secret code - send it to me if you get it so I can verify it's sorted thanks.
@@ -85,6 +90,7 @@ Is a Local intranet browser, the idea is that interns don't have access to the e
 ### web-filesystem:
 
 Info:
+
     ATTENTION
 
     We have logged an unauthorised access to one of either [account manager](web-intern-account-manager) or [intranet](web-intranet). This is an automated alert message informing you to verify that the [filesystem](is still secure).
@@ -120,6 +126,7 @@ So the employees found that one of the interns was intercepting and reading shit
 ## Ch 6
 
 Info:
+
     yo its me again
 
     ive found what looks like a new game geegles developing but its behind some custom crypto stuff. nobody can write decent crypto so odds are its broken somehow. do me a solid and check [Private](web-private-files) to find the source code for [this](pwn-internproject) binary program then break the crypto for me so I can get into the game.
@@ -141,6 +148,7 @@ Challs sent together as described above
 ## Ch 8
 
 Info:
+
     Hi!
 
     Thanks for taking part in the Work Experience Program with Geegle! We really hoped you've enoyed working with us!
