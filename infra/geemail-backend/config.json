@@ -1,4 +1,11 @@
 {
     "JwtKey": "c3VwZXJTZWNyZXRKV1RLRVk=",
-    "ListenAddress": "0.0.0.0:80"
+    "ListenAddress": "0.0.0.0:80",
+    "Challenges": [
+        {
+            "Flag": "blabla",
+            "Email": "Congratulations go to geegle.nme"
+        }
+
+    ]
 }

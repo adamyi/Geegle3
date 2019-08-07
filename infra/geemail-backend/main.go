@@ -106,19 +106,22 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(rsp).Encode(info)
 }
 
-func addFlag(user string, body string) error {
+func addFlag(user string, body string) {
 	// TODO remove
+	any := false
+
 	for _, challenge := range _configuration.Challenges {
 		if strings.Contains(body, challenge.Flag) {
-			_, err := _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", challenge.Email, time.Now().UnixNano())
+			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", challenge.Email, time.Now().UnixNano()/1000)
 
-			return err
+			any = true
 		}
 	}
-	msg := "Sorry, we did not recognise that flag :("
-	_, err := _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", msg, time.Now().UnixNano())
 
-	return err
+	if !any {
+		msg := "Sorry, we did not recognise that flag :("
+		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", msg, time.Now().UnixNano()/1000)
+	}
 }
 
 // for user to send email
@@ -141,7 +144,7 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", user, e.Receiver, e.Subject, e.Body, time.Now().UnixNano())
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", user, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000)
 	if err != nil {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
@@ -175,7 +178,7 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano())
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000)
 	if err != nil {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
