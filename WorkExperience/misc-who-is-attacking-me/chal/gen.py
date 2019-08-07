@@ -22,7 +22,7 @@ SIZES = [2**i for i in range(0, 10)]
 
 print("Hello intern. We are under attack!")
 print("We need your help to identify who is attacking us...")
-print(f"Who is sending the most data to {target}")
+print("Who is sending the most data to " + target)
 
 time.sleep(2)
 print("Ready?")
@@ -50,7 +50,6 @@ print(json.dumps(logs, indent=4))
 
 print("Which IP is attacking us? (you have 5 seconds):")
 
-print("[+] DEBUG: " + MAX_target)
 def handler(a, b):
     print('You took too long')
     exit(0)
@@ -73,4 +72,4 @@ if answer.strip() == MAX_target:
     fh.close()
     exit(0)
 
-print(f"Wrong... It was {MAX_target}")
+print("Wrong... It was " + MAX_target)
