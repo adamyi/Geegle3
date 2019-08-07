@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://geemail-backend.corp.geegle.org'
+  apiUrl: 'https://geemail-backend.corp.geegle.org'
 };
