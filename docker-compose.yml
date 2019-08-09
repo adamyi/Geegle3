@@ -11,7 +11,7 @@ version: '2'
 services:
   # infra
   uberproxy:
-    build: ./infra/uberproxy
+    image: gcr.io/geegle/infra/uberproxy:latest
     networks:
       beyondcorp_gae:
       beyondcorp_filesystem:
@@ -45,7 +45,7 @@ services:
       - geegle.org
 
   mss:
-    build: ./infra/mss
+    image: gcr.io/geegle/infra/mss:latest
     networks:
       geegle_unsecure:
     dns_search:
@@ -53,7 +53,7 @@ services:
       - geegle.org
 
   gae:
-    build: ./infra/gae
+    image: gcr.io/geegle/infra/gae:latest
     networks:
       geegle_unsecure:
       beyondcorp_gae:
@@ -73,7 +73,7 @@ services:
       - geegle.org
 
   geemail_frontend:
-    build: ./infra/geemail-frontend
+    image: gcr.io/geegle/infra/geemail-frontend:latest
     networks:
       beyondcorp_geemail_frontend:
         aliases:
@@ -83,7 +83,7 @@ services:
       - geegle.org
 
   geemail_backend:
-    build: ./infra/geemail-backend
+    image: gcr.io/geegle/infra/geemail-backend:latest
     networks:
       beyondcorp_geemail_backend:
         aliases:

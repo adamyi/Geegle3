@@ -95,6 +95,13 @@ new_container_pull(
 )
 
 new_container_pull(
+    name = "tomcat-jython",
+    registry = "index.docker.io",
+    repository = "adamyi/tomcat-jython",
+    tag = "latest",
+)
+
+new_container_pull(
     name = "alpine_linux_amd64",
     registry = "index.docker.io",
     repository = "library/alpine",
@@ -250,3 +257,17 @@ ts_setup_workspace()
 load("@io_bazel_rules_sass//sass:sass_repositories.bzl", "sass_repositories")
 
 sass_repositories()
+
+load("@io_bazel_rules_python//python:pip.bzl", "pip_import")
+
+pip_import(
+    name = "gae_pip",
+    requirements = "//infra/gae:src/requirements.txt",
+)
+
+load(
+    "@gae_pip//:requirements.bzl",
+    _gae_install = "pip_install",
+)
+
+_gae_install()
