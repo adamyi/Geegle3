@@ -1,0 +1,20 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+container_image(
+    name = "image",
+    base = "@python3-base//image",
+    cmd = [
+        "/websocketd",
+        "--port=80",
+        "--staticdir=/static",
+        "--binary=true",
+        "/gen.py",
+    ],
+    files = [
+        ":chal/gen.py",
+        ":flag",
+        "//infra/cli-static",
+        "@websocketd",
+    ],
+    visibility = ["//visibility:public"],
+)

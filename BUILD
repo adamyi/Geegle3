@@ -27,6 +27,15 @@ container_bundle(
         "gcr.io/geegle/infra/geemail-frontend:latest": "//infra/geemail-frontend:image",
         "gcr.io/geegle/infra/uberproxy:latest": "//infra/uberproxy:image",
         "gcr.io/geegle/infra/gae:latest": "//infra/gae:image",
+        "gcr.io/geegle/highschool/crypto-etcpasswd:latest": "//highschool/crypto-etcpasswd:image",
+        "gcr.io/geegle/highschool/misc-quicksort:latest": "//highschool/misc-quicksort:image",
+        "gcr.io/geegle/highschool/misc-who-is-attacking-me:latest": "//highschool/misc-who-is-attacking-me:image",
+        "gcr.io/geegle/highschool/pwn-intern-project:latest": "//highschool/pwn-intern-project:image",
+        "gcr.io/geegle/highschool/web-filesystem:latest": "//highschool/web-filesystem:image",
+        "gcr.io/geegle/highschool/web-guest-kiosk/:latest": "//highschool/web-guest-kiosk/app:image",
+        "gcr.io/geegle/highschool/web-intern-account-manager:latest": "//highschool/web-intern-account-manager/app:image",
+        "gcr.io/geegle/highschool/web-intranet:latest": "//highschool/web-intranet/app:image",
+        "gcr.io/geegle/highschool/web-privatefile:latest": "//highschool/web-privatefile/app:image",
     },
 )
 

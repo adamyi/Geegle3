@@ -11,8 +11,10 @@ Put uncompressed files to infra/uberproxy/certs
 ## Building docker files
 
 ### Bazel (Experimental)
+Please build using Linux AMD64. Cuz it's hard to set up cross-compiling for C programs on mac, ceebs.
+
 ```
-bazel build --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //:all_containers
+bazel build //:all_containers
 ```
 
 ### Dockerfile (Deprecated)

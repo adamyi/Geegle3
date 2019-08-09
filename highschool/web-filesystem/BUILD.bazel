@@ -1,0 +1,30 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+container_image(
+    name = "image",
+    base = "@alpine_linux_amd64//image",
+    cmd = ["/run.sh"],
+    entrypoint = [
+        "/bin/sh",
+        "-c",
+    ],
+    files = [
+        ":generate_site.sh",
+        ":web-filesystem",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "geegle.org/WorkExperience/web-filesystem",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "web-filesystem",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

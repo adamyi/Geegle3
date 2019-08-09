@@ -115,6 +115,20 @@ new_container_pull(
     tag = "latest",
 )
 
+new_container_pull(
+    name = "python2-base",
+    registry = "index.docker.io",
+    repository = "python",
+    tag = "2.7",
+)
+
+new_container_pull(
+    name = "python3-base",
+    registry = "index.docker.io",
+    repository = "python",
+    tag = "3.7",
+)
+
 go_repository(
     name = "com_github_dgrijalva_jwt_go",
     importpath = "github.com/dgrijalva/jwt-go",
@@ -271,3 +285,10 @@ load(
 )
 
 _gae_install()
+
+http_archive(
+    name = "websocketd",
+    build_file = "//third_party:BUILD.websocketd",
+    sha256 = "fdadea9886e942c1d766aaa4303c3b8fe746caa66e7d012f726bbdb71e2cef3a",
+    url = "https://github.com/joewalnes/websocketd/releases/download/v0.3.0/websocketd-0.3.0-linux_amd64.zip",
+)
