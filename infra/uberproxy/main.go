@@ -44,12 +44,12 @@ type UPError struct {
 
 func returnError(err UPError, rsp http.ResponseWriter) {
 	rsp.WriteHeader(err.Code)
-	tmpl := template.Must(template.ParseFiles("templates/error.html"))
+	tmpl := template.Must(template.ParseFiles(os.Args[3] + "/error.html"))
 	tmpl.Execute(rsp, err)
 }
 
 func readConfig() {
-	file, _ := os.Open("config.json")
+	file, _ := os.Open(os.Args[1])
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)

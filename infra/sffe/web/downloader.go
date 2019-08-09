@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/adamyi/geegle-sffe/context"
+	"geegle.org/infra/sffe/context"
 	"github.com/syndtr/goleveldb/leveldb"
 )
 

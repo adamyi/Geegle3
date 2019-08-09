@@ -1,0 +1,51 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+container_image(
+    name = "image",
+    base = ":image_base",
+    ports = [
+        "80",
+        "443",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+go_image(
+    name = "image_base",
+    args = [
+        "$(location :config.json)",
+        "$(location :certs)",
+        "$(location :templates)",
+    ],
+    data = [
+        ":certs",
+        ":config.json",
+        ":templates",
+    ],
+    embed = [":go_default_library"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "clirelay.go",
+        "ip.go",
+        "login.go",
+        "main.go",
+        "ssl.go",
+    ],
+    importpath = "geegle.org/infra/uberproxy",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_dgrijalva_jwt_go//:go_default_library",
+        "@com_github_gorilla_websocket//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "uberproxy",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

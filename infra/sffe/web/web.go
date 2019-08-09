@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/adamyi/geegle-sffe/context"
+	"geegle.org/infra/sffe/context"
 )
 
 func initSffeRsp(w http.ResponseWriter) {

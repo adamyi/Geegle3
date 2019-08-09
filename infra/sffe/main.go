@@ -4,14 +4,14 @@ import (
 	"flag"
 	"log"
 
-	"github.com/adamyi/geegle-sffe/context"
-	"github.com/adamyi/geegle-sffe/web"
+	"geegle.org/infra/sffe/context"
+	"geegle.org/infra/sffe/web"
 )
 
 func main() {
 	flagData := flag.String("data", "data",
 		"The location to use for the data store")
-	flagAddr := flag.String("addr", ":8067",
+	flagAddr := flag.String("addr", ":80",
 		"The address that the HTTP server will bind")
 	flag.Parse()
 

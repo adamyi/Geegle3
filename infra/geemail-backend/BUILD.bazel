@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+
+go_image(
+    name = "image",
+    args = [
+        "$(location :config.json)",
+        "$(location :geemail.db)",
+    ],
+    data = [
+        ":config.json",
+        ":geemail.db",
+    ],
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "auth.go",
+        "main.go",
+    ],
+    importpath = "geegle.org/infra/geemail-backend",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_dgrijalva_jwt_go//:go_default_library",
+        "@com_github_mattn_go_sqlite3//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "geemail-backend",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

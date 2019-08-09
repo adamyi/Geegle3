@@ -1,0 +1,30 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+
+proto_library(
+    name = "main_proto",
+    srcs = ["test.proto"],
+    visibility = ["//visibility:public"],
+)
+
+go_proto_library(
+    name = "main_go_proto",
+    importpath = "geegle.org/NewHire/drive",
+    proto = ":main_proto",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = ["load.go"],
+    embed = [":main_go_proto"],
+    importpath = "geegle.org/NewHire/drive",
+    visibility = ["//visibility:private"],
+    deps = ["@com_github_golang_protobuf//proto:go_default_library"],
+)
+
+go_binary(
+    name = "drive",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

@@ -1,14 +1,9 @@
 {
-  "name": "geemail-app",
+  "name": "geegle3-monorepo",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "postinstall": "ngc -p ./angular-metadata.tsconfig.json",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "postinstall": "ngc -p ./angular-metadata.tsconfig.json"
   },
   "private": true,
   "dependencies": {
@@ -39,9 +34,9 @@
     "@bazel/ibazel": "^0.10.2",
     "@bazel/karma": "0.32.2",
     "@bazel/typescript": "0.32.2",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "^5.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

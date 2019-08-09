@@ -12,9 +12,9 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/clsung/grcode"
 	"github.com/gorilla/mux"
 	"github.com/skip2/go-qrcode"
+	qrencode "github.com/tuotoo/qrcode"
 )
 
 func parseFile(r *http.Request) ([]byte, error) {
@@ -99,7 +99,7 @@ func main() {
 			return
 		}
 
-		img, img_type, err := image.Decode(bytes.NewReader(file))
+		_, img_type, err := image.Decode(bytes.NewReader(file))
 		if err != nil || (img_type != "png" && img_type != "jpeg") {
 			if err == nil {
 				data.Flash = "File must be a jpg or png"
@@ -110,21 +110,15 @@ func main() {
 			return
 		}
 
-		results, err := grcode.GetDataFromImage(img)
+		results, err := qrencode.Decode(bytes.NewReader(file))
 		if err != nil {
-			data.Flash = err.Error()
-			RenderTemplate(w, "scan.html", data)
-			return
-		}
-
-		if len(results) == 0 {
 			data.Flash = "Photo is not a qrcode"
 			RenderTemplate(w, "scan.html", data)
 			return
 		}
 
 		wd, _ := os.Getwd()
-		cmd, _ := exec.Command("runuser", "-l", "nobody", "-c", wd+"/binary/vuln "+results[0]).Output()
+		cmd, _ := exec.Command("runuser", "-l", "nobody", "-c", wd+"/binary/vuln "+results.Content).Output()
 		if "access granted" == string(cmd) {
 			cookie := http.Cookie{Name: "flash", Value: "Nice. Flag{username:password}", Expires: time.Now().Add(30 * time.Second)}
 			http.SetCookie(w, &cookie)

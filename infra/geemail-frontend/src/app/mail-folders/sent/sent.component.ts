@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MailService } from 'src/app/shared/mail.service';
-import { Mail } from 'src/app/shared/mail.model';
+import { MailService } from '../../shared/mail.service';
+import { Mail } from '../../shared/mail.model';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({

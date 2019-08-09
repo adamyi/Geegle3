@@ -1,0 +1,51 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
+
+container_run_and_commit(
+    name = "jython_install",
+    commands = [
+        "curl -fSL -o jython_installer.jar \"http://search.maven.org/remotecontent?filepath=org/python/jython-installer/2.7.1/jython-installer-2.7.1.jar\"",
+        "java -jar jython_installer.jar -s -d /usr/local/jython",
+        "rm jython_installer.jar",
+        "ln -s /usr/local/jython/bin/jython /usr/local/jython/bin/python",
+        "ln -s /usr/local/jython/bin/jython /usr/local/jython/bin/python2",
+        "mkdir /geegle",
+    ],
+    image = "@tomcat9//image",
+)
+
+container_image(
+    name = "jython_install_wrapper",
+    base = ":jython_install_commit.tar",
+    env = {
+        "PATH": "/usr/local/jython/bin:/usr/local/tomcat/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "JYTHONPATH": "/geegle/gae/java",
+    },
+    files = [
+        ":src",
+        ":tomcat",
+    ],
+    symlinks = {
+        "/usr/local/tomcat/conf/Catalina/localhost/ROOT.xml": "/tomcat/ROOT.xml",
+        "/usr/local/tomcat/conf/server.xml": "/tomcat/server.xml",
+    },
+)
+
+container_run_and_commit(
+    name = "gae_install",
+    commands = [
+        "mv /src /geegle/gae",
+        "pip install -r /geegle/gae/requirements.txt",
+        "javac /geegle/gae/java/org/geegle/gae/*.java",
+        "mkdir /geegle/gae/WEB-INF/lib",
+        "cp /usr/local/jython/jython.jar /geegle/gae/WEB-INF/lib",
+        "rm -rf /usr/local/tomcat/webapps/*",
+    ],
+    image = ":jython_install_wrapper.tar",
+)
+
+container_image(
+    name = "image",
+    base = ":gae_install_commit.tar",
+    visibility = ["//visibility:public"],
+)

@@ -3,3 +3,6 @@
 .gdb_history
 core
 *.o
+bazel-*
+node_modules
+dist

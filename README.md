@@ -10,6 +10,12 @@ Put uncompressed files to infra/uberproxy/certs
 
 ## Building docker files
 
+### Bazel (Experimental)
+```
+bazel build --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //:all_containers
+```
+
+### Dockerfile (Deprecated)
 To build docker files
 ./docker-build.sh    
 
