@@ -57,8 +57,7 @@ commands:
 jobs:
   build:
     working_directory: ~/code/
-    machine:
-      enabled: true
+    docker:
       image: google/cloud-sdk:latest
     steps:
       - gcloud-auth
@@ -85,8 +84,7 @@ jobs:
       - save-caches
   deploy:
     working_directory: ~/code/
-    machine:
-      enabled: true
+    docker:
       image: google/cloud-sdk:latest
     steps:
       - gcloud-auth
