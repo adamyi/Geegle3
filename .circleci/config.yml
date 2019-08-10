@@ -58,7 +58,7 @@ jobs:
   build:
     working_directory: ~/code/
     docker:
-      image: google/cloud-sdk:latest
+      - image: google/cloud-sdk:latest
     steps:
       - gcloud-auth
       - checkout
@@ -85,7 +85,7 @@ jobs:
   deploy:
     working_directory: ~/code/
     docker:
-      image: google/cloud-sdk:latest
+      - image: google/cloud-sdk:latest
     steps:
       - gcloud-auth
       - checkout
