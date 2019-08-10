@@ -1,18 +1,23 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//:tools/tarscript.bzl", "tarscript")
+
+tarscript(
+    name = "site",
+    src = ":generate_site.sh",
+)
 
 container_image(
     name = "image",
-    base = "@alpine_linux_amd64//image",
-    cmd = ["/run.sh"],
-    entrypoint = [
-        "/bin/sh",
-        "-c",
-    ],
-    files = [
-        ":generate_site.sh",
-        ":web-filesystem",
-    ],
+    base = ":image_without_site",
+    tars = [":site"],
+    visibility = ["//visibility:public"],
+)
+
+go_image(
+    name = "image_without_site",
+    embed = [":go_default_library"],
     visibility = ["//visibility:public"],
 )
 

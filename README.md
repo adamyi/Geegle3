@@ -13,8 +13,19 @@ Put uncompressed files to infra/uberproxy/certs
 ### Bazel (Experimental)
 Please build using Linux AMD64. Cuz it's hard to set up cross-compiling for C programs on mac, ceebs.
 
+Build only:
 ```
 bazel build //:all_containers
+```
+
+Build and tag locally (so that you can use docker to boot them up):
+```
+bazel run //:all_containers
+```
+
+Build and push to remote:
+```
+bazel run //:all_containers_push
 ```
 
 ### Dockerfile (Deprecated)

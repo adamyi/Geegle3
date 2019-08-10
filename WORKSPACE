@@ -70,6 +70,7 @@ git_repository(
 )
 
 load("@io_bazel_rules_docker//container:new_pull.bzl", "new_container_pull")
+load("@io_bazel_rules_docker//container:pull.bzl", "container_pull")
 load("@io_bazel_rules_docker//java:image.bzl", _java_image_repos = "repositories")
 load("@io_bazel_rules_docker//go:image.bzl", _go_image_repos = "repositories")
 load("@io_bazel_rules_docker//python:image.bzl", _py_image_repos = "repositories")
@@ -94,7 +95,7 @@ new_container_pull(
     tag = "9.0.21-jdk8",
 )
 
-new_container_pull(
+container_pull(
     name = "tomcat-jython",
     registry = "index.docker.io",
     repository = "adamyi/tomcat-jython",
@@ -109,9 +110,9 @@ new_container_pull(
 )
 
 new_container_pull(
-    name = "ubuntu1604",
+    name = "ubuntu1804",
     registry = "gcr.io",
-    repository = "cloud-marketplace/google/ubuntu1604",
+    repository = "cloud-marketplace/google/ubuntu1804",
     tag = "latest",
 )
 
@@ -226,7 +227,7 @@ http_archive(
 ####################################
 # Load and install our dependencies downloaded above.
 
-load("@build_bazel_rules_nodejs//:defs.bzl", "node_repositories", "npm_install")
+load("@build_bazel_rules_nodejs//:defs.bzl", "node_repositories", "yarn_install")
 
 # Setup the Node repositories. We need a NodeJS version that is more recent than v10.15.0
 # because "selenium-webdriver" which is required for "ng e2e" cannot be installed.
@@ -240,12 +241,10 @@ node_repositories(
     node_version = "10.16.0",
 )
 
-npm_install(
+yarn_install(
     name = "npm",
-    # TODO(gregmagolan): fix rules_nodejs so that if @bazel/hide-bazel-files is detected then this is forced true
-    always_hide_bazel_files = True,
     package_json = "//:package.json",
-    package_lock_json = "//:package-lock.json",
+    yarn_lock = "//:yarn.lock",
 )
 
 load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")

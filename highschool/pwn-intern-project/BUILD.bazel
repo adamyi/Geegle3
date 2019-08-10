@@ -7,7 +7,7 @@ cc_binary(
 
 container_image(
     name = "image",
-    base = "@alpine_linux_amd64//image",
+    base = "@ubuntu1804//image",
     cmd = [
         "/websocketd",
         "--port=80",

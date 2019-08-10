@@ -54,3 +54,9 @@ container_image(
     ],
     visibility = ["//visibility:public"],
 )
+
+container_image(
+    name = "image2",
+    base = "@tomcat-jython//image",
+    visibility = ["//visibility:public"],
+)

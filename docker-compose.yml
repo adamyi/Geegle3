@@ -95,11 +95,7 @@ services:
 
   # High school
   web-filesystem:
-    image: golang:1.11
-    volumes:
-      - ./WorkExperience/web-filesystem/generate_site.sh:/generate_site.sh
-      - ./WorkExperience/web-filesystem/main.go:/main.go
-    command: bash /generate_site.sh
+    image: gcr.io/geegle/highschool/web-filesystem:latest
     networks:
       beyondcorp_filesystem:
         aliases:
@@ -109,7 +105,7 @@ services:
       - geegle.org
 
   misc-quicksort:
-    build: ./WorkExperience/misc-quicksort
+    image: gcr.io/geegle/highschool/misc-quicksort:latest
     networks:
       beyondcorp_quicksort:
         aliases:
@@ -120,7 +116,7 @@ services:
       - geegle.org
 
   misc-who-is-attacking-me:
-    build: ./WorkExperience/misc-who-is-attacking-me
+    image: gcr.io/geegle/highschool/misc-who-is-attacking-me:latest
     networks:
       beyondcorp_who_is_attacking_me:
         aliases:
@@ -131,7 +127,7 @@ services:
       - geegle.org
 
   misc-etcpasswd:
-    build: ./WorkExperience/crypto-etcpasswd
+    image: gcr.io/geegle/highschool/crypto-etcpasswd:latest
     networks:
       beyondcorp_etcpasswd:
         aliases:
@@ -142,7 +138,7 @@ services:
       - geegle.org
 
   web-local_intranet:
-    build: ./WorkExperience/web-intranet
+    image: gcr.io/geegle/highschool/web-intranet:latest
     networks:
       beyondcorp_intranet:
         aliases:
@@ -155,7 +151,7 @@ services:
       - geegle.org
 
   web-intern-management:
-    build: ./WorkExperience/web-intern-account-manager
+    image: gcr.io/geegle/highschool/web-intern-account-manager:latest
     networks:
       beyondcorp_intern_manager:
         aliases:
@@ -165,7 +161,7 @@ services:
       - geegle.org
 
   web-guest-kiosk:
-    build: ./WorkExperience/web-guest-kiosk
+    image: gcr.io/geegle/highschool/web-guest-kiosk:latest
     networks:
       beyondcorp_guest_kiosk:
         aliases:
@@ -175,7 +171,7 @@ services:
       - geegle.org
 
   web-privatefile:
-    build: ./WorkExperience/web-privatefile
+    image: gcr.io/geegle/highschool/web-privatefile:latest
     networks:
       beyondcorp_privatefile:
         aliases:
@@ -185,7 +181,7 @@ services:
       - geegle.org
 
   pwn-intern-project:
-    build: ./WorkExperience/pwn-intern-project
+    image: gcr.io/geegle/highschool/pwn-intern-project:latest
     networks:
       beyondcorp_intern_project:
         aliases:
@@ -197,7 +193,7 @@ services:
 
   # NewHires
   kix:
-    build: ./NewHire/kix
+    build: ./advanced/kix
     networks:
       beyondcorp_kix:
         aliases:
@@ -207,7 +203,7 @@ services:
       - geegle.org
 
   pwn-payroll:
-    build: ./NewHire/pwn-payroll
+    build: ./advanced/pwn-payroll
     networks:
       beyondcorp_payroll:
         aliases:
@@ -218,7 +214,7 @@ services:
       - geegle.org
 
   pwn-game:
-    build: ./NewHire/pwn-game
+    build: ./advanced/pwn-game
     networks:
       beyondcorp_game:
         aliases:
@@ -229,7 +225,7 @@ services:
       - geegle.org
 
   re-trycatch:
-    build: ./NewHire/re-trycatch
+    build: ./advanced/re-trycatch
     networks:
       beyondcorp_trycatch:
         aliases:
