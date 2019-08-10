@@ -24,7 +24,7 @@ go_image(
 go_library(
     name = "go_default_library",
     srcs = ["main.go"],
-    importpath = "geegle.org/WorkExperience/web-filesystem",
+    importpath = "geegle.org/highschool/web-filesystem",
     visibility = ["//visibility:private"],
 )
 

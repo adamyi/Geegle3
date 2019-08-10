@@ -4,9 +4,10 @@ Monorepo for COMP9301 CTF.
 
 ---
 
-## SSl Certs
-Download https://drive.google.com/open?id=10CRmIhlakQkCnpp75GjrmzdWcBzqPj2z
-Put uncompressed files to infra/uberproxy/certs
+## Encryption
+Secret keys and configurations are encrypted using [git-crypt](https://github.com/AGWA/git-crypt)
+
+Please download `g3.key` and use `git-crypt unlock PATH_TO_g3.key`
 
 ## Building docker files
 

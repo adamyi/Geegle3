@@ -19,7 +19,7 @@ go_library(
         "helper.go",
         "main.go",
     ],
-    importpath = "geegle.org/WorkExperience/web-intern-account-manager/app",
+    importpath = "geegle.org/highschool/web-intern-account-manager/app",
     visibility = ["//visibility:private"],
     deps = ["@com_github_gorilla_mux//:go_default_library"],
 )

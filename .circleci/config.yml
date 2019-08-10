@@ -1,0 +1,118 @@
+version: 2.1
+commands:
+  install-bazel:
+    steps:
+      - run:
+          name: Install bazel
+          command: |
+            apt update
+            apt install -y unzip g++
+            curl -OL https://github.com/bazelbuild/bazel/releases/download/0.28.1/bazel-0.28.1-installer-linux-x86_64.sh
+            chmod +x bazel-0.28.1-installer-linux-x86_64.sh
+            ./bazel-0.28.1-installer-linux-x86_64.sh
+            rm ./bazel-0.28.1-installer-linux-x86_64.sh
+            bazel info release
+
+  git-decrypt:
+    steps:
+      - run:
+          name: Install git-crypt
+          command: |
+            apt install git-crypt
+            echo $G3_ENCRYPT_KEY | base64 -d > g3.key
+            git-crypt unlock g3.key
+
+  gcloud-auth:
+    steps:
+      - run:
+          name: Authenticating gcloud SDK
+          command: |
+            echo $GCLOUD_SERVICE_KEY | base64 -d | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud auth configure-docker --quiet
+
+  configure-bazel:
+    steps:
+      - run:
+          name: Configure Bazel (.bazelrc)
+          command: |
+            cat >> .bazelrc \<< EOF
+            startup --output_base $HOME/.cache/bazel
+            build --test_output errors
+            build --features race
+            EOF
+
+  restore-caches:
+    steps:
+      - restore_cache:
+          keys:
+            - "bazel_cache"
+
+  save-caches:
+    steps:
+      - save_cache:
+          key: "bazel_cache"
+          paths:
+            - "/home/circleci/.cache/bazel/"
+jobs:
+  build:
+    working_directory: ~/code/
+    machine:
+      enabled: true
+      image: google/cloud-sdk
+    steps:
+      - gcloud-auth
+      - checkout
+      - install-bazel
+      - git-decrypt
+      - restore-caches
+      - configure-bazel
+      - run:
+          name: Check that Bazel BUILD files are up-to-date
+          command: 'bazel run //:gazelle -- --mode=diff ||
+            (echo "ERROR: Bazel files out-of-date, please run \`bazel run :gazelle\`" >&2; exit 1)'
+            #- run:
+            #name: Run tests with Bazel
+            #command: bazel test //...
+      - run:
+          name: Check formatting of Bazel BUILD files
+          command: 'bazel run //:buildifier_check ||
+            (echo "ERROR: Bazel files not formatted, please run \`bazel run :buildifier\`" >&2; exit 1)'
+      - run:
+          name: Build Containers
+          command: 'bazel build //:all_containers ||
+            (echo "ERROR: Bazel build failed" >&2; exit 1)'
+      - save-caches
+  deploy:
+    working_directory: ~/code/
+    machine:
+      enabled: true
+      image: google/cloud-sdk
+    steps:
+      - gcloud-auth
+      - checkout
+      - install-bazel
+      - git-decrypt
+      - restore-caches
+      - configure-bazel
+      - run:
+          name: Build Containers
+          command: 'bazel build //:all_containers ||
+            (echo "ERROR: Bazel build failed" >&2; exit 1)'
+      - run:
+          name: Push Containers
+          command: 'bazel run //:all_containers_push ||
+            (echo "ERROR: Bazel push failed" >&2; exit 1)'
+      - save-caches
+
+workflows:
+  version: 2
+  default_workflow:
+    jobs:
+      - build 
+      - deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build

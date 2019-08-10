@@ -9,7 +9,7 @@ proto_library(
 
 go_proto_library(
     name = "main_go_proto",
-    importpath = "geegle.org/NewHire/drive",
+    importpath = "geegle.org/advanced/drive",
     proto = ":main_proto",
     visibility = ["//visibility:public"],
 )
@@ -18,7 +18,7 @@ go_library(
     name = "go_default_library",
     srcs = ["load.go"],
     embed = [":main_go_proto"],
-    importpath = "geegle.org/NewHire/drive",
+    importpath = "geegle.org/advanced/drive",
     visibility = ["//visibility:private"],
     deps = ["@com_github_golang_protobuf//proto:go_default_library"],
 )

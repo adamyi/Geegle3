@@ -6,27 +6,38 @@ load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 exports_files(["tsconfig.json"])
 
 # gazelle:exclude dist
+# gazelle:exclude node_modules
 # gazelle:prefix geegle.org
 gazelle(name = "gazelle")
 
 buildifier(
     name = "buildifier",
+    exclude_patterns = [
+        "./dist/*",
+        "./node_modules/*",
+    ],
 )
 
 buildifier(
     name = "buildifier_check",
+    exclude_patterns = [
+        "./dist/*",
+        "./node_modules/*",
+    ],
     mode = "check",
 )
 
 container_bundle(
     name = "all_containers",
     images = {
+        # infra
         "gcr.io/geegle/infra/mss:latest": "//infra/mss:image",
         "gcr.io/geegle/infra/sffe:latest": "//infra/sffe:image",
         "gcr.io/geegle/infra/geemail-backend:latest": "//infra/geemail-backend:image",
         "gcr.io/geegle/infra/geemail-frontend:latest": "//infra/geemail-frontend:image",
         "gcr.io/geegle/infra/uberproxy:latest": "//infra/uberproxy:image",
         "gcr.io/geegle/infra/gae:latest": "//infra/gae:image",
+        # highschool challenges
         "gcr.io/geegle/highschool/crypto-etcpasswd:latest": "//highschool/crypto-etcpasswd:image",
         "gcr.io/geegle/highschool/misc-quicksort:latest": "//highschool/misc-quicksort:image",
         "gcr.io/geegle/highschool/misc-who-is-attacking-me:latest": "//highschool/misc-who-is-attacking-me:image",
@@ -36,6 +47,7 @@ container_bundle(
         "gcr.io/geegle/highschool/web-intern-account-manager:latest": "//highschool/web-intern-account-manager/app:image",
         "gcr.io/geegle/highschool/web-intranet:latest": "//highschool/web-intranet/app:image",
         "gcr.io/geegle/highschool/web-privatefile:latest": "//highschool/web-privatefile/app:image",
+        # TODO: build advanced challenges with bazel
     },
 )
 
