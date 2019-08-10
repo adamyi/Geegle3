@@ -5,7 +5,6 @@ commands:
       - run:
           name: Install bazel
           command: |
-            sudo apt install -y unzip g++
             curl -OL https://github.com/bazelbuild/bazel/releases/download/0.28.1/bazel-0.28.1-installer-linux-x86_64.sh
             chmod +x bazel-0.28.1-installer-linux-x86_64.sh
             sudo ./bazel-0.28.1-installer-linux-x86_64.sh
@@ -39,23 +38,26 @@ commands:
           name: Configure Bazel (.bazelrc)
           command: |
             cat >> .bazelrc \<< EOF
-            startup --output_base $HOME/.cache/bazel
             build --test_output errors
             build --features race
+            build --remote_http_cache=https://storage.googleapis.com/geegle3-bazel-cache
+            build --google_default_credentials
+            run --remote_http_cache=https://storage.googleapis.com/geegle3-bazel-cache
+            run --google_default_credentials
             EOF
 
-  restore-caches:
-    steps:
-      - restore_cache:
-          keys:
-            - "bazel_cache"
+            #restore-caches:
+            #steps:
+            #- restore_cache:
+            #keys:
+            #- "bazel_cache"
 
-  save-caches:
-    steps:
-      - save_cache:
-          key: "bazel_cache"
-          paths:
-            - "/home/circleci/.cache/bazel/"
+            #save-caches:
+            #steps:
+            #- save_cache:
+            #key: "bazel_cache"
+            #paths:
+            #- "/home/circleci/.cache/bazel/"
 jobs:
   build:
     working_directory: ~/code/
@@ -66,7 +68,7 @@ jobs:
       - checkout
       - install-bazel
       - git-decrypt
-      - restore-caches
+        #- restore-caches
       - configure-bazel
       - run:
           name: Check that Bazel BUILD files are up-to-date
@@ -83,7 +85,7 @@ jobs:
           name: Build Containers
           command: 'bazel build //:all_containers ||
             (echo "ERROR: Bazel build failed" >&2; exit 1)'
-      - save-caches
+            #- save-caches
   deploy:
     working_directory: ~/code/
     machine:
@@ -93,7 +95,7 @@ jobs:
       - checkout
       - install-bazel
       - git-decrypt
-      - restore-caches
+        #- restore-caches
       - configure-bazel
       - run:
           name: Build Containers
@@ -103,7 +105,7 @@ jobs:
           name: Push Containers
           command: 'bazel run //:all_containers_push ||
             (echo "ERROR: Bazel push failed" >&2; exit 1)'
-      - save-caches
+            #- save-caches
 
 workflows:
   version: 2
