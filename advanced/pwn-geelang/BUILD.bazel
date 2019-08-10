@@ -1,0 +1,30 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+cc_binary(
+    name = "geelang-compiler",
+    srcs = glob([
+        "chal/*.c",
+        "chal/*.h",
+    ]),
+    copts = ["-g"],
+    linkopts = ["-g"],
+)
+
+container_image(
+    name = "image",
+    base = "@ubuntu1804//image",
+    cmd = [
+        "/websocketd",
+        "--port=80",
+        "--staticdir=/static",
+        "--binary=true",
+        "/geelang-compiler",
+    ],
+    files = [
+        ":flag",
+        ":geelang-compiler",
+        "//infra/cli-static",
+        "@websocketd",
+    ],
+    visibility = ["//visibility:public"],
+)

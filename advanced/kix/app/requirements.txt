@@ -1,4 +1,0 @@
-Flask
-requests
-gunicorn
-uuid

@@ -1,0 +1,34 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+cc_binary(
+    name = "game",
+    srcs = ["chal/game.c"],
+    copts = [
+        "-m32",
+        "-fno-stack-protector",
+        "-O0",
+    ],
+    linkopts = [
+        "-m32",
+        "-O0",
+    ],
+)
+
+container_image(
+    name = "image",
+    base = "@ubuntu1804//image",
+    cmd = [
+        "/websocketd",
+        "--port=80",
+        "--staticdir=/static",
+        "--binary=true",
+        "/game",
+    ],
+    files = [
+        ":flag",
+        ":game",
+        "//infra/cli-static",
+        "@websocketd",
+    ],
+    visibility = ["//visibility:public"],
+)

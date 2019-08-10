@@ -102,6 +102,13 @@ container_pull(
     tag = "latest",
 )
 
+container_pull(
+    name = "python-with-latex",
+    registry = "index.docker.io",
+    repository = "adamyi/python-with-latex",
+    tag = "latest",
+)
+
 new_container_pull(
     name = "alpine_linux_amd64",
     registry = "index.docker.io",
@@ -278,12 +285,24 @@ pip_import(
     requirements = "//infra/gae:src/requirements.txt",
 )
 
+pip_import(
+    name = "kix_pip",
+    requirements = "//advanced/web_kix:app/requirements.txt",
+)
+
 load(
     "@gae_pip//:requirements.bzl",
     _gae_install = "pip_install",
 )
 
 _gae_install()
+
+load(
+    "@kix_pip//:requirements.bzl",
+    _kix_install = "pip_install",
+)
+
+_kix_install()
 
 http_archive(
     name = "websocketd",

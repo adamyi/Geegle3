@@ -193,7 +193,7 @@ services:
 
   # NewHires
   kix:
-    build: ./advanced/kix
+    image: gcr.io/geegle/advanced/web_kix:latest
     networks:
       beyondcorp_kix:
         aliases:
@@ -203,7 +203,7 @@ services:
       - geegle.org
 
   pwn-payroll:
-    build: ./advanced/pwn-payroll
+    image: gcr.io/geegle/advanced/pwn-payroll:latest
     networks:
       beyondcorp_payroll:
         aliases:
@@ -214,7 +214,7 @@ services:
       - geegle.org
 
   pwn-game:
-    build: ./advanced/pwn-game
+    image: gcr.io/geegle/advanced/pwn-game:latest
     networks:
       beyondcorp_game:
         aliases:
@@ -225,7 +225,7 @@ services:
       - geegle.org
 
   re-trycatch:
-    build: ./advanced/re-trycatch
+    image: gcr.io/geegle/advanced/re-trycatch:latest
     networks:
       beyondcorp_trycatch:
         aliases:

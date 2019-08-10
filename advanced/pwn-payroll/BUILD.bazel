@@ -1,0 +1,35 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+cc_binary(
+    name = "payroll",
+    srcs = ["chal/payroll.c"],
+    copts = [
+        "-m32",
+        "-fno-stack-protector",
+        "-mpreferred-stack-boundary=2",
+        "-masm=intel",
+    ],
+    linkopts = [
+        "-m32",
+        "-no-pie",
+    ],
+)
+
+container_image(
+    name = "image",
+    base = "@ubuntu1804//image",
+    cmd = [
+        "/websocketd",
+        "--port=80",
+        "--staticdir=/static",
+        "--binary=true",
+        "/payroll",
+    ],
+    files = [
+        ":flag",
+        ":payroll",
+        "//infra/cli-static",
+        "@websocketd",
+    ],
+    visibility = ["//visibility:public"],
+)

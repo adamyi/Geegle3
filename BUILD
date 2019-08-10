@@ -47,7 +47,12 @@ container_bundle(
         "gcr.io/geegle/highschool/web-intern-account-manager:latest": "//highschool/web-intern-account-manager/app:image",
         "gcr.io/geegle/highschool/web-intranet:latest": "//highschool/web-intranet/app:image",
         "gcr.io/geegle/highschool/web-privatefile:latest": "//highschool/web-privatefile/app:image",
-        # TODO: build advanced challenges with bazel
+        # advanced challenges
+        "gcr.io/geegle/advanced/web_kix:latest": "//advanced/web_kix:image",
+        "gcr.io/geegle/advanced/pwn-game:latest": "//advanced/pwn-game:image",
+        "gcr.io/geegle/advanced/pwn-geelang:latest": "//advanced/pwn-geelang:image",
+        "gcr.io/geegle/advanced/pwn-payroll:latest": "//advanced/pwn-payroll:image",
+        "gcr.io/geegle/advanced/re-trycatch:latest": "//advanced/re-trycatch:image",
     },
 )
 
