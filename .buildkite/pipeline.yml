@@ -17,8 +17,7 @@ steps:
   - command: "bazel build //:all_containers || (echo \"ERROR: Bazel build failed\" >&2; exit 1)"
     label: "Containers BUILD"
 
-  - block: "Confirmation for Pushing to GCR"
-    branches: "master"
+  - wait
 
   - command: "bazel run //:all_containers_push || (echo \"ERROR: Bazel push failed\" >&2; exit 1)"
     label: "Push"

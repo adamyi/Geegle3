@@ -7,7 +7,8 @@ Monorepo for COMP9301 CTF.
 ## Encryption
 Secret keys and configurations are encrypted using [git-crypt](https://github.com/AGWA/git-crypt)
 
-Please download `g3.key` and use `git-crypt unlock PATH_TO_g3.key`
+Please download `g3.key` from https://drive.google.com/open?id=1vRF2AqRcSQQ-aYQCh3uGaTKbhUtwbZgs 
+and use `git-crypt unlock PATH_TO_g3.key`
 
 ## Building docker files
 
@@ -19,15 +20,14 @@ Build only:
 bazel build //:all_containers
 ```
 
-Build and tag locally (so that you can use docker to boot them up):
+Build and tag locally (so that you can use docker-compose to boot them up):
 ```
 bazel run //:all_containers
 ```
 
-Build and push to remote:
-```
-bazel run //:all_containers_push
-```
+Commits submitted to master branch will be automatically pushed to gcr.io/geegle, our container repo
+
+Please do not push to GCR manually
 
 ### Dockerfile (Deprecated)
 To build docker files
