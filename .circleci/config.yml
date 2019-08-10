@@ -59,7 +59,7 @@ jobs:
     working_directory: ~/code/
     machine:
       enabled: true
-      image: google/cloud-sdk
+      image: google/cloud-sdk:latest
     steps:
       - gcloud-auth
       - checkout
@@ -87,7 +87,7 @@ jobs:
     working_directory: ~/code/
     machine:
       enabled: true
-      image: google/cloud-sdk
+      image: google/cloud-sdk:latest
     steps:
       - gcloud-auth
       - checkout
