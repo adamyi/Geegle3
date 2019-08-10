@@ -28,7 +28,8 @@ commands:
             echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
             curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
             sudo apt-get update && sudo apt-get install google-cloud-sdk
-            echo $GCLOUD_SERVICE_KEY | base64 -d | gcloud auth activate-service-account --key-file=-
+            echo $GCLOUD_SERVICE_KEY | sudo base64 -d > /google.json
+            gcloud auth activate-service-account --key-file=/google.json
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud auth configure-docker --quiet
 
@@ -41,9 +42,9 @@ commands:
             build --test_output errors
             build --features race
             build --remote_http_cache=https://storage.googleapis.com/geegle3-bazel-cache
-            build --google_default_credentials
+            build --google_credentials=/google.json
             run --remote_http_cache=https://storage.googleapis.com/geegle3-bazel-cache
-            run --google_default_credentials
+            run --google_credentials=/google.json
             EOF
 
             #restore-caches:
