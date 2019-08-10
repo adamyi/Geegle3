@@ -1,7 +1,4 @@
 steps:
-  - command: "buildkite-agent pipeline upload"
-    label: ":pipeline:"
-
   - command: "git-crypt unlock /g3.key"
     label: "Decrypt Git"
 
