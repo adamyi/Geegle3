@@ -5,28 +5,30 @@ commands:
       - run:
           name: Install bazel
           command: |
-            apt update
-            apt install -y unzip g++
+            sudo apt install -y unzip g++
             curl -OL https://github.com/bazelbuild/bazel/releases/download/0.28.1/bazel-0.28.1-installer-linux-x86_64.sh
             chmod +x bazel-0.28.1-installer-linux-x86_64.sh
-            ./bazel-0.28.1-installer-linux-x86_64.sh
+            sudo ./bazel-0.28.1-installer-linux-x86_64.sh
             rm ./bazel-0.28.1-installer-linux-x86_64.sh
             bazel info release
 
   git-decrypt:
     steps:
       - run:
-          name: Install git-crypt
+          name: Decrypt repo
           command: |
-            apt install git-crypt
+            sudo apt install git-crypt
             echo $G3_ENCRYPT_KEY | base64 -d > g3.key
             git-crypt unlock g3.key
 
-  gcloud-auth:
+  install-gcloud:
     steps:
       - run:
-          name: Authenticating gcloud SDK
+          name: Install gcloud SDK
           command: |
+            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+            sudo apt-get update && sudo apt-get install google-cloud-sdk
             echo $GCLOUD_SERVICE_KEY | base64 -d | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud auth configure-docker --quiet
@@ -57,10 +59,10 @@ commands:
 jobs:
   build:
     working_directory: ~/code/
-    docker:
-      - image: google/cloud-sdk:latest
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
-      - gcloud-auth
+      - install-gcloud
       - checkout
       - install-bazel
       - git-decrypt
@@ -84,10 +86,10 @@ jobs:
       - save-caches
   deploy:
     working_directory: ~/code/
-    docker:
-      - image: google/cloud-sdk:latest
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
-      - gcloud-auth
+      - install-gcloud
       - checkout
       - install-bazel
       - git-decrypt
