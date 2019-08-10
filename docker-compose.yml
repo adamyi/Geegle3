@@ -26,6 +26,7 @@ services:
       beyondcorp_kix:
       beyondcorp_payroll:
       beyondcorp_game:
+      beyondcorp_geelang:
       beyondcorp_trycatch:
       beyondcorp_geemail_frontend:
       beyondcorp_geemail_backend:
@@ -224,6 +225,17 @@ services:
       - corp.geegle.org
       - geegle.org
 
+  pwn-geelang:
+    image: gcr.io/geegle/advanced/pwn-geelang:latest
+    networks:
+      beyondcorp_geelang:
+        aliases:
+          - geelang.corp.geegle.org
+    read_only: true
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
   re-trycatch:
     image: gcr.io/geegle/advanced/re-trycatch:latest
     networks:
@@ -250,6 +262,7 @@ networks:
   beyondcorp_kix:
   beyondcorp_payroll:
   beyondcorp_game:
+  beyondcorp_geelang:
   beyondcorp_trycatch:
   beyondcorp_geemail_frontend:
   beyondcorp_geemail_backend:
