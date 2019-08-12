@@ -1,0 +1,79 @@
+{{ define "title" }}SecLearn{{ end }}
+
+{{ define "content" }}
+
+<div class="container">
+    <div id="ad"></div>
+    <h1>SecLearn</h1>
+    <h3>{{ .Word }}</h3>
+    <div>
+      To learn about what it is, click <a href="https://google.com/search?query={{ .Word }}+security">here</a>
+      <h4>Related Concepts for You to Check Out:</h4>
+      <ul id="rec"></ul>
+    </div>
+    <form method="GET" id='form' action="/api/addconcept">
+      <label class="control-label" for="word">Look up new concept</label>
+      <input class="form-control form-control-lg" name="word" id="word" type="text" placeholder="SQL Injection">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    <div>
+      <h4>All the Concepts that might interest you today:</h4>
+      <ul id="rec2"></ul>
+    </div>
+</div>
+<script>var wordhistory = {{.History}};
+  var rec = document.getElementById("rec");
+  var rec2 = document.getElementById("rec2");
+  var form = document.getElementById("form");
+  document.addEventListener("click",function(e) {
+    if (e.target && e.target.matches("li")) {
+      document.getElementById("word").value = e.target.innerText;
+      document.getElementById("form").submit();
+    }
+  });
+  function render(data, element) {
+    for (var i = 0, len = data.length; i < len; i++) {
+      var t = document.createElement("li");
+      var node = document.createTextNode(data[i]["word"]);
+      t.appendChild(node);
+      element.appendChild(t);
+    }
+  }
+  function callback(data) {
+    render(data, rec);
+  }
+  interests = {};
+  function callback2(data) {
+    for (var i = 0, len = data.length; i < len; i++) {
+      if (data[i]['word'] in interests) {
+        interests[data[i]['word']] = Math.max(interests[data[i]['word']], data[i]['score']);
+      } else {
+        interests[data[i]['word']] = data[i]['score'];
+      }
+    }
+    rd = [];
+    Object.keys(interests).forEach(function(key) {
+      rd.push({"score":interests[key], "word":key})
+    });
+    rd = rd.sort(function(a, b) {
+      return b["score"] - a["score"];
+    });
+    rec2.innerHTML = "";
+    render(rd, rec2);
+  }
+  for (var i = 0, len = wordhistory.length; i < len; i++) {
+    var t = document.createElement("input");
+    t.setAttribute("type", "hidden");
+    t.setAttribute("name", "h");
+    t.setAttribute("value", wordhistory[i]);
+    form.appendChild(t);
+    var imported = document.createElement('script');
+    imported.src = '/recommendation/' + wordhistory[i]+ '/jsonp?cb=callback2';
+    document.body.appendChild(imported);
+  }
+  var imported = document.createElement('script');
+  imported.src = '/api/wait_for_ad';
+  document.body.appendChild(imported);
+  </script>
+<script src="/api/recommendation/{{ .Word }}/jsonp?cb=callback"></script>
+{{ end }}

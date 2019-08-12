@@ -24,6 +24,7 @@ services:
       beyondcorp_privatefile:
       beyondcorp_intern_project:
       beyondcorp_kix:
+      beyondcorp_seclearn:
       beyondcorp_payroll:
       beyondcorp_game:
       beyondcorp_geelang:
@@ -203,6 +204,16 @@ services:
       - corp.geegle.org
       - geegle.org
 
+  seclearn:
+    image: gcr.io/geegle/advanced/web_seclearn:latest
+    networks:
+      beyondcorp_seclearn:
+        aliases:
+          - docs.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
   pwn-payroll:
     image: gcr.io/geegle/advanced/pwn-payroll:latest
     networks:
@@ -260,6 +271,7 @@ networks:
   beyondcorp_privatefile:
   beyondcorp_intern_project:
   beyondcorp_kix:
+  beyondcorp_seclearn:
   beyondcorp_payroll:
   beyondcorp_game:
   beyondcorp_geelang:
