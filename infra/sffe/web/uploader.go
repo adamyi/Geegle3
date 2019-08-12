@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/adamyi/geegle-sffe/context"
+	"geegle.org/infra/sffe/context"
 )
 
 type Flag struct {

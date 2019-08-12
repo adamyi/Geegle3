@@ -5,6 +5,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -12,7 +13,7 @@ import (
 func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 	if req.Method == "GET" {
 		//TODO: cache this
-		body, _ := ioutil.ReadFile("templates/login.html")
+		body, _ := ioutil.ReadFile(os.Args[3] + "/login.html")
 		fmt.Fprint(rsp, string(body))
 	} else if req.Method == "POST" {
 		req.ParseForm()

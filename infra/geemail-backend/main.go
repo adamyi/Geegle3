@@ -43,7 +43,7 @@ var _configuration = Configuration{}
 var _db *sql.DB
 
 func readConfig() {
-	file, _ := os.Open("config.json")
+	file, _ := os.Open(os.Args[1])
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)
@@ -189,7 +189,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	readConfig()
 	var err error
-	_db, err = sql.Open("sqlite3", "geemail.db")
+	_db, err = sql.Open("sqlite3", os.Args[2])
 	if err != nil {
 		log.Fatal(err)
 	}

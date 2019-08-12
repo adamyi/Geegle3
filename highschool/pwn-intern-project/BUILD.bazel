@@ -1,0 +1,25 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+cc_binary(
+    name = "intern-project",
+    srcs = ["src/intern-project.c"],
+)
+
+container_image(
+    name = "image",
+    base = "@ubuntu1804//image",
+    cmd = [
+        "/websocketd",
+        "--port=80",
+        "--staticdir=/static",
+        "--binary=true",
+        "/intern-project",
+    ],
+    files = [
+        ":flag",
+        ":intern-project",
+        "//infra/cli-static",
+        "@websocketd",
+    ],
+    visibility = ["//visibility:public"],
+)

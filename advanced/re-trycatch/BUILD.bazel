@@ -1,0 +1,27 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+cc_binary(
+    name = "trycatch",
+    srcs = ["chal/trycatch.c"],
+    copts = ["-O0"],
+    linkopts = ["-O0"],
+)
+
+container_image(
+    name = "image",
+    base = "@ubuntu1804//image",
+    cmd = [
+        "/websocketd",
+        "--port=80",
+        "--staticdir=/static",
+        "--binary=true",
+        "/trycatch",
+    ],
+    files = [
+        ":flag",
+        ":trycatch",
+        "//infra/cli-static",
+        "@websocketd",
+    ],
+    visibility = ["//visibility:public"],
+)

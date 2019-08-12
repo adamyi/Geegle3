@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MailService } from 'src/app/shared/mail.service';
-import { DataService } from 'src/app/shared/data.service';
-import { Mail } from 'src/app/shared/mail.model';
+import { MailService } from '../../shared/mail.service';
+import { DataService } from '../../shared/data.service';
+import { Mail } from '../../shared/mail.model';
 
 @Component({
   selector: 'app-new-mail',
