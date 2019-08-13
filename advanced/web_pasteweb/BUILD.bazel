@@ -7,10 +7,8 @@ py_library(
     name = "app_lib",
     srcs = [
         "app/__init__.py",
-        "app/talisman.py",
     ],
     data = [
-        "app/pasteweb.db",
         "app/static",
         "app/templates",
     ],
@@ -29,6 +27,7 @@ py_library(
         requirement("Werkzeug"),
         requirement("lxml"),
         requirement("six"),
+        requirement("flask-talisman"),
     ],
 )
 
@@ -48,5 +47,6 @@ py_image(
 container_image(
     name = "base",
     base = "@python2-base//image",
+    files = [":pasteweb.db"],
     # TODO: add file here for XXE
 )

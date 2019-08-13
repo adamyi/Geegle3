@@ -14,3 +14,4 @@ Werkzeug==0.15.5
 setuptools==41.0.1
 lxml==4.4.1
 six==1.12.0
+flask-talisman==0.7.0

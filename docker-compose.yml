@@ -25,6 +25,7 @@ services:
       beyondcorp_intern_project:
       beyondcorp_kix:
       beyondcorp_seclearn:
+      beyondcorp_pasteweb:
       beyondcorp_payroll:
       beyondcorp_game:
       beyondcorp_geelang:
@@ -194,12 +195,32 @@ services:
       - geegle.org
 
   # NewHires
-  kix:
+  web_kix:
     image: gcr.io/geegle/advanced/web_kix:latest
     networks:
       beyondcorp_kix:
         aliases:
           - docs.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  web_seclearn:
+    image: gcr.io/geegle/advanced/web_seclearn:latest
+    networks:
+      beyondcorp_kix:
+        aliases:
+          - seclearn.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  web_pasteweb:
+    image: gcr.io/geegle/advanced/web_pasteweb:latest
+    networks:
+      beyondcorp_kix:
+        aliases:
+          - pasteweb.corp.geegle.org
     dns_search:
       - corp.geegle.org
       - geegle.org
@@ -310,34 +331,39 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.88/29
-  beyondcorp_payroll:
+  beyondcorp_pasteweb:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.96/29
-  beyondcorp_game:
+  beyondcorp_payroll:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.104/29
-  beyondcorp_geelang:
+  beyondcorp_game:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.112/29
-  beyondcorp_trycatch:
+  beyondcorp_geelang:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.120/29
-  beyondcorp_geemail_frontend:
+  beyondcorp_trycatch:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.128/29
-  beyondcorp_geemail_backend:
+  beyondcorp_geemail_frontend:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.136/29
+  beyondcorp_geemail_backend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.144/29
   chal_intranet:
