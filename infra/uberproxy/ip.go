@@ -12,6 +12,7 @@ func initPrivateIP() {
 		"10.0.0.0/8",     // RFC1918
 		"172.16.0.0/12",  // RFC1918
 		"192.168.0.0/16", // RFC1918
+		"100.64.0.0/10",  // RFC6598
 	} {
 		_, block, err := net.ParseCIDR(cidr)
 		if err != nil {

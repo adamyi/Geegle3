@@ -1,0 +1,12 @@
+.link-override{
+  color: white;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.link-override:hover {
+  color: #00bc8c;
+  text-decoration: none;
+}
+.container {
+  margin-top: 1rem;
+}

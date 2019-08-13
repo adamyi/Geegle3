@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<h1 id="pastet_title">View Paste</h1>
+<div class="row">
+  <iframe id="paste_sandbox" class="col-lg-12 col-md-12 col-sm-12" style="height: 80vh;" type="sandbox"></iframe>
+</div>
+<script nonce="{{ csp_nonce() }}">
+  var paste = ["{{ title }}", "{{ content }}"];
+  var title = atob(paste[0]);
+  var content = atob(paste[1]);
+  $("#paste_title").text(title);
+  try {
+    content = DOMPurify.sanitize(content, {SAFE_FOR_JQUERY: true}).toString();
+  } catch (err) {
+    $.ajax({
+      type: "POST",
+      url: "/api/bugreport/js",
+      data: JSON.stringify(err, Object.getOwnPropertyNames(err)),
+      success: null,
+      contentType: "application/json"
+    });
+  }
+  $("#paste_sandbox").attr("srcdoc", content + "<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\" integrity=\"sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT\" crossorigin=\"anonymous\"><\/script><script src=\"/static/feedback.js\" integrity=\"sha384-cC2m6yBYbHGgI8+RaJwvRVIG/+yU8d8oMCriPmy9bUONAcpdtJHSbR7xHq6Z9m7P\"><\/script>");
+</script>
+{% endblock %}

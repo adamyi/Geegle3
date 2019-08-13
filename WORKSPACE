@@ -302,6 +302,11 @@ pip_import(
     requirements = "//advanced/web_kix:app/requirements.txt",
 )
 
+pip_import(
+    name = "pasteweb_pip",
+    requirements = "//advanced/web_pasteweb:app/requirements.txt",
+)
+
 load(
     "@gae_pip//:requirements.bzl",
     _gae_install = "pip_install",
@@ -315,6 +320,13 @@ load(
 )
 
 _kix_install()
+
+load(
+    "@pasteweb_pip//:requirements.bzl",
+    _pasteweb_install = "pip_install",
+)
+
+_pasteweb_install()
 
 http_archive(
     name = "websocketd",
