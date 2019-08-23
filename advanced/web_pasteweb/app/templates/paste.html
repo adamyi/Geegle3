@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<h1 id="paste_title">{{ title|safe }}</h1>
+<div class="row">
+  <iframe id="ps" class="col-lg-12 col-md-12 col-sm-12" style="height: 80vh;" sandbox="allow-same-origin"></iframe>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.11/purify.min.js" integrity="sha384-ELH09WGRUcBpRT6iHTekFB2YBCT9kFMsKG4Y9LUAevHjihu8Otri8Sm01QgXOTht" crossorigin="anonymous"></script>
+<script nonce="{{ csp_nonce() }}">
+  var content = atob("{{ content }}");
+  try {
+    content = DOMPurify.sanitize(content, {SAFE_FOR_JQUERY: true}).toString();
+  } catch (err) {
+    $.ajax({
+      type: "POST",
+      url: "/api/bugreport/js",
+      data: JSON.stringify(err, Object.getOwnPropertyNames(err)),
+      success: null,
+      contentType: "application/json"
+    });
+  }
+  $("#ps").attr("srcdoc", content);
+</script>
+<script src="/static/feedback.js" nonce="{{ csp_nonce() }}"></script>
+
+{% endblock %}

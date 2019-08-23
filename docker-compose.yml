@@ -24,6 +24,8 @@ services:
       beyondcorp_privatefile:
       beyondcorp_intern_project:
       beyondcorp_kix:
+      beyondcorp_seclearn:
+      beyondcorp_pasteweb:
       beyondcorp_payroll:
       beyondcorp_game:
       beyondcorp_geelang:
@@ -193,12 +195,32 @@ services:
       - geegle.org
 
   # NewHires
-  kix:
+  web_kix:
     image: gcr.io/geegle/advanced/web_kix:latest
     networks:
       beyondcorp_kix:
         aliases:
           - docs.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  web_seclearn:
+    image: gcr.io/geegle/advanced/web_seclearn:latest
+    networks:
+      beyondcorp_kix:
+        aliases:
+          - seclearn.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  web_pasteweb:
+    image: gcr.io/geegle/advanced/web_pasteweb:latest
+    networks:
+      beyondcorp_kix:
+        aliases:
+          - pasteweb.corp.geegle.org
     dns_search:
       - corp.geegle.org
       - geegle.org
@@ -250,20 +272,98 @@ services:
 networks:
   geegle_unsecure:
   beyondcorp_gae:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.0/29
   beyondcorp_filesystem:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.8/29
   beyondcorp_quicksort:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.16/29
   beyondcorp_who_is_attacking_me:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.24/29
   beyondcorp_etcpasswd:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.32/29
   beyondcorp_intranet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.40/29
   beyondcorp_intern_manager:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.48/29
   beyondcorp_guest_kiosk:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.56/29
   beyondcorp_privatefile:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.64/29
   beyondcorp_intern_project:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.72/29
   beyondcorp_kix:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.80/29
+  beyondcorp_seclearn:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.88/29
+  beyondcorp_pasteweb:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.96/29
   beyondcorp_payroll:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.104/29
   beyondcorp_game:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.112/29
   beyondcorp_geelang:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.120/29
   beyondcorp_trycatch:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.128/29
   beyondcorp_geemail_frontend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.136/29
   beyondcorp_geemail_backend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.144/29
   chal_intranet:

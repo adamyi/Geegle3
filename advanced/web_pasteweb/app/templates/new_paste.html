@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <br>
+    <h1>New paste</h1>
+    <p class="lead">Share something with your coworkers</p>
+
+    <form method="POST">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="How many goats were teleported">
+        </div>
+
+        <div class="form-group">
+          <label for="content">Content</label>
+          <textarea name="content" class="form-control" id="" cols="30" rows="10">((94024 * 1737350766) &amp; 0x7FFFFFFF) + rand()</textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary">
+        </div>
+    </form>
+{% endblock %}

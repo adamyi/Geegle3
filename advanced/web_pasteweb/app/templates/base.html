@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css" integrity="sha384-Tj3gkbbrN5ZJbNwye/acn4VGljrVV2LEYqx6qw+NcRxKPJIVG9vWgumla43Wqt+Y" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
+    <title>PasteWeb</title>
+    <link rel="stylesheet" href="/static/pasteweb.css">
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">PasteWeb</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="link-override" href="/new">New Paste</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+    <div class="container{% if fluid is defined %}-fluid{% endif %}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-dismissible alert-{{category}}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p class="mb-0">{{message}}</p>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}
+
+    {% endblock content %}
+    </div>
+
+  </body>
+</html>

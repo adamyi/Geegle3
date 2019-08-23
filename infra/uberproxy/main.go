@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"github.com/gorilla/websocket"
 	"html/template"
 	"io"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net"
@@ -283,7 +285,10 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	preq, err := http.NewRequest(req.Method, "http://"+full_url, req.Body)
+	bodyBytes, _ := ioutil.ReadAll(req.Body)
+	// req.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+
+	preq, err := http.NewRequest(req.Method, "http://"+full_url, bytes.NewReader(bodyBytes))
 	if err != nil {
 		returnError(UPError{Code: http.StatusBadGateway, Title: "Bad Gateway", Description: "Something went wrong connecting to internal service"}, rsp)
 		return

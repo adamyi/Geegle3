@@ -1,0 +1,19 @@
+{{ define "title" }}SecLearn{{ end }}
+
+{{ define "content" }}
+
+<div class="container">
+    <h1>SecLearn</h1>
+    <br />
+    <p>Learning Security has never been easier.</p>
+    <p>One of the key things about security is that you gotta keep learning, since there are always new things that you didn't know about. SecLearn is our new internal security training system. It allows you to add new security concepts to your To-Learn list and go find info about them.</p>
+    <p>Equipped with state of the art <a href="https://en.wikipedia.org/wiki/Word_embedding">Word Embeddings</a> algorithm <a href="https://arxiv.org/pdf/1301.3781.pdf">Word2Vec</a>, for every concept you learn, SecLearn recommends related concepts to you so that you can actually discover things you didn't learn about.</p>
+    <br />
+    <form method="GET" id='form' action="/api/addconcept">
+        <label class="control-label" for="word">Look up new concept</label>
+        <input class="form-control form-control-lg" name="word" id="word" type="text" placeholder="SQL Injection">
+       
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+{{ end }}

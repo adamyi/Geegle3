@@ -209,6 +209,18 @@ go_repository(
     tag = "v0.0.1",
 )
 
+go_repository(
+    name = "com_sajari_code_word2vec",
+    importpath = "code.sajari.com/word2vec",
+    tag = "v1.0.0",
+)
+
+go_repository(
+    name = "com_github_ziutek_blas",
+    commit = "da4ca23e90bb",
+    importpath = "github.com/ziutek/blas",
+)
+
 RULES_NODEJS_VERSION = "0.32.2"
 
 RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"
@@ -290,6 +302,11 @@ pip_import(
     requirements = "//advanced/web_kix:app/requirements.txt",
 )
 
+pip_import(
+    name = "pasteweb_pip",
+    requirements = "//advanced/web_pasteweb:app/requirements.txt",
+)
+
 load(
     "@gae_pip//:requirements.bzl",
     _gae_install = "pip_install",
@@ -303,6 +320,13 @@ load(
 )
 
 _kix_install()
+
+load(
+    "@pasteweb_pip//:requirements.bzl",
+    _pasteweb_install = "pip_install",
+)
+
+_pasteweb_install()
 
 http_archive(
     name = "websocketd",

@@ -49,6 +49,8 @@ container_bundle(
         "gcr.io/geegle/highschool/web-privatefile:latest": "//highschool/web-privatefile/app:image",
         # advanced challenges
         "gcr.io/geegle/advanced/web_kix:latest": "//advanced/web_kix:image",
+        "gcr.io/geegle/advanced/web_seclearn:latest": "//advanced/web_seclearn:image",
+        "gcr.io/geegle/advanced/web_pasteweb:latest": "//advanced/web_pasteweb:image",
         "gcr.io/geegle/advanced/pwn-game:latest": "//advanced/pwn-game:image",
         "gcr.io/geegle/advanced/pwn-geelang:latest": "//advanced/pwn-geelang:image",
         "gcr.io/geegle/advanced/pwn-payroll:latest": "//advanced/pwn-payroll:image",
