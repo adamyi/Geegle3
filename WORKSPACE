@@ -109,6 +109,13 @@ container_pull(
     tag = "latest",
 )
 
+container_pull(
+    name = "nginx-php-fpm-with-imagick",
+    registry = "index.docker.io",
+    repository = "adamyi/nginx-php-fpm-with-imagick",
+    tag = "latest",
+)
+
 new_container_pull(
     name = "alpine_linux_amd64",
     registry = "index.docker.io",

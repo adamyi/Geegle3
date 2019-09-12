@@ -32,6 +32,7 @@ services:
       beyondcorp_trycatch:
       beyondcorp_geemail_frontend:
       beyondcorp_geemail_backend:
+      beyondcorp_memegen:
     ports:
     - "80:80"
     - "443:443"
@@ -225,6 +226,16 @@ services:
       - corp.geegle.org
       - geegle.org
 
+  web_memegen:
+    image: gcr.io/geegle/advanced/web_memegen:latest
+    networks:
+      beyondcorp_memegen:
+        aliases:
+          - memegen.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
   pwn-payroll:
     image: gcr.io/geegle/advanced/pwn-payroll:latest
     networks:
@@ -366,4 +377,9 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.144/29
+  beyondcorp_memegen:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.152/29
   chal_intranet:
