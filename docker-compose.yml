@@ -33,6 +33,7 @@ services:
       beyondcorp_geemail_frontend:
       beyondcorp_geemail_backend:
       beyondcorp_memegen:
+      beyondcorp_flatearth:
     ports:
     - "80:80"
     - "443:443"
@@ -236,6 +237,16 @@ services:
       - corp.geegle.org
       - geegle.org
 
+  web_flatearth:
+    image: gcr.io/geegle/advanced/web_flatearth:latest
+    networks:
+      beyondcorp_flatearth:
+        aliases:
+          - flatearth.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
   pwn-payroll:
     image: gcr.io/geegle/advanced/pwn-payroll:latest
     networks:
@@ -382,4 +393,9 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.152/29
+  beyondcorp_flatearth:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.160/29
   chal_intranet:

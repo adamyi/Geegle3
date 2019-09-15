@@ -116,6 +116,13 @@ container_pull(
     tag = "latest",
 )
 
+container_pull(
+    name = "nginx-php-fpm",
+    registry = "index.docker.io",
+    repository = "richarvey/nginx-php-fpm",
+    tag = "1.7.4",
+)
+
 new_container_pull(
     name = "alpine_linux_amd64",
     registry = "index.docker.io",
