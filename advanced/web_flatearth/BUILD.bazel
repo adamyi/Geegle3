@@ -1,0 +1,17 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+container_image(
+    name = "image",
+    base = "@nginx-php-fpm//image",
+    files = [
+        ":db",
+        ":errors",
+        ":flag.txt",
+        ":src",
+    ],
+    symlinks = {
+        "/var/www/html": "/src",
+        "/var/www/errors": "/errors",
+    },
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,1 @@
+flag{he_said_php_was_good}

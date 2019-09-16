@@ -1,0 +1,20 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+
+container_image(
+    name = "image",
+    base = "@nginx-php-fpm-with-imagick//image",
+    env = {
+        "RUN_SCRIPTS": "1",
+    },
+    files = [
+        ":errors",
+        ":php.ini",
+        ":src",
+    ],
+    symlinks = {
+        "/var/www/html": "/src",
+        "/var/www/errors": "/errors",
+        "/usr/local/etc/php/conf.d/docker-vars.ini": "/php.ini",
+    },
+    visibility = ["//visibility:public"],
+)
