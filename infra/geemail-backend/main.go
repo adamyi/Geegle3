@@ -127,7 +127,7 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 
 func initUser(user string) {
 	_db.Exec("insert into scoreboard (user, points) values (?,?)", user, 0)
-	addFlag(user, "FLAG{WELCOME_TO_GEEGLE}", false)
+	addFlag(user, "GEEGLE{WELCOME_TO_GEEGLE}", false)
 }
 
 func addFlag(user string, body string, sendConfirmation bool) {
