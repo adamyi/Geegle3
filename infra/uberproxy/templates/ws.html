@@ -8,6 +8,7 @@
         var output = document.getElementById("output");
         var input = document.getElementById("input");
         var host = document.getElementById("host");
+        var code = document.getElementById("code");
         var ws;
         var print = function(message) {
           output.innerHTML += message;
@@ -18,7 +19,9 @@
         }
         if (urlParams.has('host')) {
           host.value = urlParams.get('host');
+          code.textContent = code.textContent.replace("HOST", urlParams.get('host'));
         }
+
         document.getElementById("open").onclick = function(evt) {
           if (ws) {
             return false;
@@ -60,18 +63,30 @@
   <body>
     <table>
       <tr><td valign="top" width="50%">
-          <p>Updates: there's a new <a href="/cli-relay.py">cli-relay.py</a> available.</p>
           <p><input id="host" type="text" value="quicksort.corp.geegle.org" style="width: 250px;">
           <p>Click "Open" to create a connection to the server,
           "Send" to send a message to the server and "Close" to close the connection.
           You can change the message and send multiple times.
-          <p>
+          </p>
           <form>
             <button id="open">Open</button>
             <button id="close">Close</button>
             <p><input id="input" type="text" value="Hello world!">
             <button id="send">Send</button>
           </form>
+          <p>
+          Alternativity, If you would like to connect via your own scripts, you can download this <a href="/cli-relay">program</a> and use it in the following way.
+
+          <pre id="code">
+            python3 code:
+
+            from pwn import *
+            p = process(["./cli-relay", "UBERPROXY COOKIE", "HOST"])
+
+            p.interactive()
+          </pre>
+          </p>
+
         </td><td valign="top" width="50%">
           <pre id="output"></pre>
         </td></tr></table>
