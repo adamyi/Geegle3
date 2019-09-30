@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     strcpy(qrcode_decoded, decode_qrcode(qrcode));
 
     if (!strcmp(guestname, "root")) {
-        printf("access granted");
+        printf("access granted. Flag is GEEGLE{UAN398DN398DN93D}");
         return 0;
     }
     printf("No access for '%s', you must be '%s'", guestname, "root");

@@ -11,7 +11,7 @@ for i in range(0, 0x10000):
     else:
         p = process(PROGNAME)
         elf = p.elf
-    p.sendlineafter(": ", p64(i)) 
+    p.sendlineafter(": ", p64(i))
 
     p.recvuntil("Key is 0x")
     key = int(p.recvline(), 16)

@@ -10,6 +10,7 @@ container_image(
         ":errors",
         ":php.ini",
         ":src",
+        ":flag",
     ],
     symlinks = {
         "/var/www/html": "/src",

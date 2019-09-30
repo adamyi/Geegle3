@@ -47,6 +47,6 @@ py_image(
 container_image(
     name = "base",
     base = "@python2-base//image",
-    files = [":pasteweb.db"],
+    files = [":pasteweb.db", ":flag"],
     # TODO: add file here for XXE
 )
