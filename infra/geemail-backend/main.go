@@ -153,7 +153,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 			if count == 0 {
 				points += flag.Points
 				flags += flag.Flag + ", "
-				_db.Exec("insert into submission (flag, user, time) values(?, ?)", flag.Flag, user, time.Now().UnixNano()/1000000)
+				_db.Exec("insert into submission (flag, user, time) values(?, ?, ?)", flag.Flag, user, time.Now().UnixNano()/1000000)
 			}
 		}
 	}
