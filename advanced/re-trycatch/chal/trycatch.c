@@ -32,8 +32,8 @@ int main(int argc, char* argv[], char* envp[]) {
     sigemptyset(&sa.sa_mask);
     sigaction(SIGFPE, &sa, NULL);
 
-    printf("Welcome to the employee feedback portal!\nWe value your opinion.\n");
-    printf("What's your name?\n");
+    printf("Welcome to the employee onboarding feedback program!\nWe value your opinion.\n");
+    printf("\nWhat's your name?\n");
     char name[1024];
     fgets(name, sizeof(name) - 1, stdin);
     for (int i = 0; i < strlen(name); i++) {
