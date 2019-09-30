@@ -14,6 +14,7 @@ services:
     image: gcr.io/geegle/infra/uberproxy:latest
     networks:
       beyondcorp_gae:
+      beyondcorp_sffe:
       beyondcorp_filesystem:
       beyondcorp_quicksort:
       beyondcorp_who_is_attacking_me:
@@ -64,6 +65,16 @@ services:
       beyondcorp_gae:
         aliases:
           - apps.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+  sffe:
+    image: gcr.io/geegle/infra/sffe:latest
+    networks:
+      beyondcorp_sffe:
+        aliases:
+          - sffe.corp.geegle.org
     dns_search:
       - corp.geegle.org
       - geegle.org
@@ -398,4 +409,9 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.160/29
+  beyondcorp_sffe:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.168/29
   chal_intranet:
