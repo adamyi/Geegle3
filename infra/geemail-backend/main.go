@@ -99,7 +99,7 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 		Inbox:    []Email{},
 		Sent:     []Email{},
 	}
-	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where (sender=? or receiver=?) and time < ?", user, user, time.Now().UnixNano()/1000)
+	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where (sender=? or receiver=?) and time < ?", user, user, time.Now().UnixNano()/1000000)
 	if err != nil {
 		fmt.Println(err.Error())
 		rsp.WriteHeader(http.StatusInternalServerError)
@@ -136,7 +136,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
 	if err != nil {
 		msg := "Sorry, something went wrong :("
-		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000)
+		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 		return
 	}
 	flags := ""
@@ -147,13 +147,13 @@ func addFlag(user string, body string, sendConfirmation bool) {
 			err = _db.QueryRow("select count(*) from submission where flag = ? and user = ?", flag.Flag, user).Scan(&count)
 			if err != nil {
 				msg := "Sorry, something went wrong :("
-				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000)
+				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 				return
 			}
 			if count == 0 {
 				points += flag.Points
 				flags += flag.Flag + ", "
-				_db.Exec("insert into submission (flag, user, time) values(?, ?)", flag.Flag, user, time.Now().UnixNano()/1000)
+				_db.Exec("insert into submission (flag, user, time) values(?, ?)", flag.Flag, user, time.Now().UnixNano()/1000000)
 			}
 		}
 	}
@@ -162,16 +162,16 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
 		if sendConfirmation {
 			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
-			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000)
+			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000000)
 		}
 		for _, challenge := range _configuration.Challenges {
 			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
-				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000+challenge.Delay)
+				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000000+challenge.Delay)
 			}
 		}
 	} else {
 		msg := "Sorry, we did not recognise that flag :("
-		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000)
+		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 	}
 
 }
@@ -196,7 +196,7 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", user, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000)
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", user, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000000)
 	if err != nil {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
@@ -231,7 +231,7 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000)
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000000)
 	if err != nil {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
