@@ -50,18 +50,4 @@ However you got here - work experience program, grad hire, career step - welcome
 ---
 
 ## Progression
-| Work Experience | New hire |
-|:-----:|:-----:|
-| **Trivia (As a job application)** | **Sign in at the [Guest Kiosk]()** |
-| **Training**   |  **You now have access to XXX's email account. What can you do?** |
-| training-welcome  |   |
-| training-linux  |   |
-| **Scripting**  |   |
-| base8\*8 (to decrypt your username)  |   |
-| caesar (to decrypt your password)  |   | 
-| hashbag (While you're there, I've forgotten my password - help me out?)  |   | 
-| quickSort (I forgot about this deadline, get this done for me!)  |   | 
-| search (The _something_ is in this file somewhere - find it for me?)  |   | 
-| **web**  |   | 
-| SQLI coffeepot  |   | 
-|   |   | 
+https://docs.google.com/spreadsheets/d/15xOhZdRnNxNbSMNUSxPG_8K92lHa4z5SKJWPPTy5tAc/edit
