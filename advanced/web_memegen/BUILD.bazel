@@ -8,6 +8,7 @@ container_image(
     },
     files = [
         ":errors",
+        ":flag",
         ":php.ini",
         ":src",
     ],
