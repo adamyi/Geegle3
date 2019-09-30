@@ -59,8 +59,6 @@ var defaultVisitors = []VisitorData{
 	createVisitor("hacker 121", time.Now().Add(14*time.Hour).Add(52*time.Minute), "guest"),
 }
 
-var flag_web = []VisitorData{createVisitor("flag{user1:pass1}", time.Now(), "adamt")}
-
 func main() {
 	r := mux.NewRouter()
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(os.Args[1]))))
@@ -147,9 +145,7 @@ func main() {
 			Visitors []VisitorData
 		}
 
-		if vars["host"] == "adamt" {
-			data.Visitors = flag_web
-		} else if vars["host"] == "guest" {
+		if vars["host"] == "guest" {
 			data.Visitors = defaultVisitors
 		} else {
 			data.Flash = fmt.Sprintf("User '%s' not found", vars["host"])

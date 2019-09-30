@@ -12,15 +12,15 @@ int main(int argc, char** argv) {
 
     char* qrcode = argv[1];
     setbuf(stdout, NULL);
-    
+
     char guestname[16] = "guest";
     char qrcode_decoded[32] = {0};
 
     strcpy(qrcode_decoded, decode_qrcode(qrcode));
 
-    if (!strcmp(guestname, "adamt")) {
+    if (!strcmp(guestname, "root")) {
         printf("access granted");
         return 0;
     }
-    printf("No access for '%s', you must be '%s'", guestname, "adamt");
+    printf("No access for '%s', you must be '%s'", guestname, "root");
 }
