@@ -285,7 +285,7 @@ services:
     networks:
       beyondcorp_trycatch:
         aliases:
-          - trycatch.corp.geegle.org
+          - onboarding.corp.geegle.org
     read_only: true
     dns_search:
       - corp.geegle.org
