@@ -17,6 +17,7 @@ import (
 type Challenge struct {
 	Flag  string
 	Email string
+	Delay int
 }
 
 type Configuration struct {
@@ -80,7 +81,7 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 		Inbox:    []Email{},
 		Sent:     []Email{},
 	}
-	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where sender=? or receiver=?", user, user)
+	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where (sender=? or receiver=?) and time < ?", user, user, time.Now().UnixNano()/1000)
 	if err != nil {
 		fmt.Println(err.Error())
 		rsp.WriteHeader(http.StatusInternalServerError)
@@ -107,12 +108,12 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 }
 
 func addFlag(user string, body string) {
-	// TODO remove
+	// TODO: move this to a separate flag service
 	any := false
 
 	for _, challenge := range _configuration.Challenges {
 		if strings.Contains(body, challenge.Flag) {
-			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", challenge.Email, time.Now().UnixNano()/1000)
+			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", challenge.Email, time.Now().UnixNano()/1000+challenge.Delay)
 
 			any = true
 		}
@@ -150,10 +151,11 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	//TODO make better
+	// TODO: make better
 	if e.Receiver == "flag@geegle.org" {
 		addFlag(user, string(e.Body))
 	}
+	// TODO: integrate with headless chrome
 }
 
 // to be called by trusted apps, e.g. smtpd
