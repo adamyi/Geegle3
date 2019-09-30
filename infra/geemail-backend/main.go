@@ -15,15 +15,23 @@ import (
 )
 
 type Challenge struct {
-	Flag  string
-	Email string
-	Delay int
+	Sender          string
+	Title           string
+	Body            string
+	DependsOnPoints int
+	Delay           int64
+}
+
+type Flag struct {
+	Flag   string
+	Points int
 }
 
 type Configuration struct {
 	ListenAddress string
 	JwtKey        []byte
 	Challenges    []Challenge
+	Flags         []Flag
 }
 
 type UserInfo struct {
@@ -75,6 +83,16 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusUnauthorized)
 		return
 	}
+	var inited int
+	err = _db.QueryRow("select count(*) from scoreboard where user = ?", user).Scan(&inited)
+	if err != nil {
+		fmt.Printf(err.Error())
+		rsp.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	if inited == 0 {
+		initUser(user)
+	}
 	// user := "adamyi@geegle.org"
 	info := &UserInfo{
 		Username: user,
@@ -107,22 +125,55 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(rsp).Encode(info)
 }
 
-func addFlag(user string, body string) {
+func initUser(user string) {
+	_db.Exec("insert into scoreboard (user, points) values (?,?)", user, 0)
+	addFlag(user, "FLAG{WELCOME_TO_GEEGLE}", false)
+}
+
+func addFlag(user string, body string, sendConfirmation bool) {
 	// TODO: move this to a separate flag service
-	any := false
-
-	for _, challenge := range _configuration.Challenges {
-		if strings.Contains(body, challenge.Flag) {
-			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", challenge.Email, time.Now().UnixNano()/1000+challenge.Delay)
-
-			any = true
+	var oPoints int
+	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
+	if err != nil {
+		msg := "Sorry, something went wrong :("
+		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000)
+		return
+	}
+	flags := ""
+	points := 0
+	for _, flag := range _configuration.Flags {
+		if strings.Contains(body, flag.Flag) {
+			var count int
+			err = _db.QueryRow("select count(*) from submission where flag = ? and user = ?", flag.Flag, user).Scan(&count)
+			if err != nil {
+				msg := "Sorry, something went wrong :("
+				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000)
+				return
+			}
+			if count == 0 {
+				points += flag.Points
+				flags += flag.Flag + ", "
+				_db.Exec("insert into submission (flag, user, time) values(?, ?)", flag.Flag, user, time.Now().UnixNano()/1000)
+			}
 		}
 	}
 
-	if !any {
+	if points > 0 {
+		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
+		if sendConfirmation {
+			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
+			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000)
+		}
+		for _, challenge := range _configuration.Challenges {
+			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
+				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000+challenge.Delay)
+			}
+		}
+	} else {
 		msg := "Sorry, we did not recognise that flag :("
-		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Updates", msg, time.Now().UnixNano()/1000)
+		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000)
 	}
+
 }
 
 // for user to send email
@@ -153,7 +204,7 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 
 	// TODO: make better
 	if e.Receiver == "flag@geegle.org" {
-		addFlag(user, string(e.Body))
+		addFlag(user, string(e.Body), true)
 	}
 	// TODO: integrate with headless chrome
 }
