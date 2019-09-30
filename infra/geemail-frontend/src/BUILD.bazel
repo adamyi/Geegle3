@@ -5,13 +5,14 @@ load("@npm_bazel_karma//:index.bzl", "ts_web_test_suite")
 load("@build_bazel_rules_nodejs//:defs.bzl", "history_server", "rollup_bundle")
 load("@build_bazel_rules_nodejs//internal/web_package:web_package.bzl", "web_package")
 load("@npm_bazel_typescript//:index.bzl", "ts_devserver", "ts_library")
-load("@io_bazel_rules_sass//:defs.bzl", "multi_sass_binary", "sass_binary")
+load("@io_bazel_rules_sass//:defs.bzl", "multi_sass_binary", "sass_binary", "sass_library")
 
 sass_binary(
     name = "global_stylesheet",
     src = glob([
         "styles.css",
         "styles.scss",
+        "indigo_pink.scss",
     ])[0],
     output_name = "global_stylesheet.css",
 )
@@ -20,7 +21,10 @@ multi_sass_binary(
     name = "styles",
     srcs = glob(
         include = ["**/*.scss"],
-        exclude = ["styles.scss"],
+        exclude = [
+            "styles.scss",
+            "indigo_pink.scss",
+        ],
     ),
 )
 
