@@ -71,6 +71,7 @@ web_package(
         "@npm//:node_modules/zone.js/dist/zone.min.js",
         ":bundle.min.js",
         ":global_stylesheet",
+        ":assets",
     ],
     data = [
         "favicon.ico",

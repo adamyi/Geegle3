@@ -117,6 +117,13 @@ container_pull(
 )
 
 container_pull(
+    name = "ubuntu1804-with-32bit-libc",
+    registry = "index.docker.io",
+    repository = "adamyi/ubuntu1804-with-32bit-libc",
+    tag = "latest",
+)
+
+container_pull(
     name = "nginx-php-fpm",
     registry = "index.docker.io",
     repository = "richarvey/nginx-php-fpm",

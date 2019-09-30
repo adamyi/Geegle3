@@ -4,7 +4,7 @@ load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 go_image(
     name = "image",
     args = [
-        "$(location //infra/geemail-frontend/src:prodapp)",
+        "/app/infra/geemail-frontend/image.binary.runfiles/geegle3/infra/geemail-frontend/src/prodapp",  # hack FIXME
     ],
     data = [
         "//infra/geemail-frontend/src:prodapp",
