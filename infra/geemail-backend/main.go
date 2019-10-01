@@ -99,7 +99,7 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 		Inbox:    []Email{},
 		Sent:     []Email{},
 	}
-	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where (sender=? or receiver=?) and time < ?", user, user, time.Now().UnixNano()/1000000)
+	rows, err := _db.Query("select id, sender, receiver, subject, body, time from email where (sender=? or receiver=?) and time < ? order by time desc", user, user, time.Now().UnixNano()/1000000)
 	if err != nil {
 		fmt.Println(err.Error())
 		rsp.WriteHeader(http.StatusInternalServerError)
