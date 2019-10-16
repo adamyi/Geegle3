@@ -6,20 +6,6 @@ workspace(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 http_archive(
-    name = "io_bazel_rules_docker",
-    sha256 = "413bb1ec0895a8d3249a01edf24b82fd06af3c8633c9fb833a0cb1d4b234d46d",
-    strip_prefix = "rules_docker-0.12.0",
-    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.12.0/rules_docker-v0.12.0.tar.gz"],
-)
-
-load(
-    "@io_bazel_rules_docker//repositories:repositories.bzl",
-    container_repositories = "repositories",
-)
-
-container_repositories()
-
-http_archive(
     name = "io_bazel_rules_go",
     sha256 = "078f2a9569fa9ed846e60805fb5fb167d6f6c4ece48e6d409bf5fb2154eaf0d8",
     urls = [
@@ -33,6 +19,24 @@ load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_depe
 go_rules_dependencies()
 
 go_register_toolchains()
+
+# memegen requires https://github.com/bazelbuild/rules_docker/pull/1200
+# which isn't in release yet
+# TODO(adamyi): change to a stable release
+http_archive(
+    name = "io_bazel_rules_docker",
+    sha256 = "5f9b5fc1431f03e5b62541cf691e6b2311dff0e698ab8241a777199351a51ad7",
+    strip_prefix = "rules_docker-e878e185bef129391d7847076bd1d377d5c16b41",
+    urls = ["https://github.com/bazelbuild/rules_docker/archive/e878e185bef129391d7847076bd1d377d5c16b41.tar.gz"],
+    #urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.12.0/rules_docker-v0.12.0.tar.gz"],
+)
+
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
+)
+
+container_repositories()
 
 http_archive(
     name = "bazel_gazelle",
@@ -66,10 +70,11 @@ http_archive(
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-git_repository(
-    name = "io_bazel_rules_python",
-    commit = "fdbb17a4118a1728d19e638a5291b4c4266ea5b8",
-    remote = "https://github.com/bazelbuild/rules_python.git",
+http_archive(
+    name = "rules_python",
+    sha256 = "e220053c4454664c09628ffbb33f245e65f5fe92eb285fbd0bc3a26f173f99d0",
+    strip_prefix = "rules_python-5aa465d5d91f1d9d90cac10624e3d2faf2057bd5",
+    urls = ["https://github.com/bazelbuild/rules_python/archive/5aa465d5d91f1d9d90cac10624e3d2faf2057bd5.tar.gz"],
 )
 
 load("@io_bazel_rules_docker//container:pull.bzl", "container_pull")
@@ -244,9 +249,9 @@ go_repository(
     importpath = "github.com/ziutek/blas",
 )
 
-RULES_NODEJS_VERSION = "0.38.3"
+RULES_NODEJS_VERSION = "0.32.2"
 
-RULES_NODEJS_SHA256 = "ad4be2c6f40f5af70c7edf294955f9d9a0222c8e2756109731b25f79ea2ccea0"
+RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"
 
 http_archive(
     name = "build_bazel_rules_nodejs",
@@ -301,10 +306,6 @@ load("@io_bazel_rules_webtesting//web:repositories.bzl", "web_test_repositories"
 
 web_test_repositories()
 
-load("@npm_bazel_karma//:browser_repositories.bzl", "browser_repositories")
-
-browser_repositories()
-
 load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
 
 ts_setup_workspace()
@@ -313,7 +314,7 @@ load("@io_bazel_rules_sass//sass:sass_repositories.bzl", "sass_repositories")
 
 sass_repositories()
 
-load("@io_bazel_rules_python//python:pip.bzl", "pip_import")
+load("@rules_python//python:pip.bzl", "pip_import")
 
 pip_import(
     name = "gae_pip",
