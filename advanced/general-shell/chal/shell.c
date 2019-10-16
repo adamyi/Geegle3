@@ -81,7 +81,7 @@ int main(int argc, char* argv[], char* envp[]) {
             }
 
             user->name = strdup(arg);
-            printf("Loggeed in as \"%s\"\n", arg);
+            printf("Logged in as \"%s\"\n", arg);
         } else if (!strncmp(buf, "sudo", 4)) {
             if (user == NULL) {
                 puts("Login first.");
