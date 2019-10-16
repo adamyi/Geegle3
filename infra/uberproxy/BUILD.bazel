@@ -30,11 +30,18 @@ go_image(
 go_library(
     name = "go_default_library",
     srcs = [
+        "auth.go",
         "clirelay.go",
+        "config.go",
+        "error.go",
+        "http.go",
         "ip.go",
         "login.go",
         "main.go",
+        "network.go",
+        "proxy.go",
         "ssl.go",
+        "websocket.go",
     ],
     importpath = "geegle.org/infra/uberproxy",
     visibility = ["//visibility:private"],
