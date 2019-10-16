@@ -2,18 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef enum auth {
-    ANON,
-    GUESST,
-    USER,
-    ADMIN,
-    ROOT
-} auth_t;
-
 struct user {
     char *name;
-    auth_t auth;
+    int auth;
 };
+
+struct user *user = NULL;
 
 void get_flag() {
     char flag[48];
@@ -28,27 +22,36 @@ void get_flag() {
     fclose(f);
 }
 
+int logged_in() {
+    if (user == NULL) {
+        puts("Not logged in.");
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+
 void menu() {
     puts("Available commands:");
     puts("\tuser - shows current user info");
     puts("\tlogin <user> - Login to user");
-    puts("\tsudo <level> - Set authorization level (must be < 5)");
-    puts("\tget-flag - Prints flag (requires auth level 5)");
+    puts("\tsudo <level> - Set authorization level (must be < 9)");
+    puts("\tgetflag - Prints flag (requires auth level 9)");
     puts("\tlogout - log out and reset auth");
     puts("\tquit");
 }
 
 int main(int argc, char* argv[], char* envp[]) {
-    char buf[512];
-    char *arg;
-    int level;
-    struct user *user = NULL;
-
     setbuf(stdout,  NULL);
 
     menu();
 
     while(1) {
+        char buf[512];
+        char *arg;
+        int level;
+
         puts("Enter cmd: ");
         putchar('>');
         putchar(' ');
@@ -57,9 +60,7 @@ int main(int argc, char* argv[], char* envp[]) {
             break;
 
         if (!strncmp(buf, "user", 4)) {
-            if (user == NULL) {
-                puts("Not logged in.");
-            } else {
+            if (logged_in()) {
                 printf("Logged in %s [%u]\n", user->name, user->auth);
             }
         } else if(!strncmp(buf, "login", 5)) {
@@ -83,8 +84,7 @@ int main(int argc, char* argv[], char* envp[]) {
             user->name = strdup(arg);
             printf("Logged in as \"%s\"\n", arg);
         } else if (!strncmp(buf, "sudo", 4)) {
-            if (user == NULL) {
-                puts("Login first.");
+            if (!logged_in()) {
                 continue;
             }
 
@@ -96,26 +96,24 @@ int main(int argc, char* argv[], char* envp[]) {
 
             level = atoi(arg);
 
-            if (level >= 5) {
-                puts("Can only set below 5");
+            if (level >= 9) {
+                puts("Can only set below 9");
                 continue;
             }
             user->auth = level;
             printf("Set auth level to %u\n", level);
         } else if (!strncmp(buf, "getflag", 7)) {
-            if (user == NULL) {
-                puts("Login first!");
+            if (!logged_in()) {
                 continue;
             }
 
-            if (user->auth != 5) {
+            if (user->auth != 9) {
                 puts("Unauthorized");
                 continue;
             }
             get_flag();
         } else if(!strncmp(buf, "logout", 6)) {
-            if (user == NULL) {
-                puts("Not logged in!");
+            if (!logged_in()) {
                 continue;
             }
 
@@ -128,22 +126,4 @@ int main(int argc, char* argv[], char* envp[]) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
