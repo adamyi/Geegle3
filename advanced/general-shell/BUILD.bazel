@@ -3,14 +3,6 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 cc_binary(
     name = "shell",
     srcs = ["chal/shell.c"],
-    copts = [
-        "-m32",
-        "-fno-stack-protector",
-        "-mpreferred-stack-boundary=2",
-        "-masm=intel",
-    ],
-    linkopts = [
-    ],
 )
 
 container_image(
