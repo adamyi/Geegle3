@@ -53,6 +53,7 @@ container_bundle(
         "gcr.io/geegle/advanced/web_pasteweb:latest": "//advanced/web_pasteweb:image",
         "gcr.io/geegle/advanced/web_memegen:latest": "//advanced/web_memegen:image",
         "gcr.io/geegle/advanced/web_flatearth:latest": "//advanced/web_flatearth:image",
+        "gcr.io/geegle/advanced/web_employees:latest": "//advanced/web_employees:image",
         "gcr.io/geegle/advanced/pwn-game:latest": "//advanced/pwn-game:image",
         "gcr.io/geegle/advanced/pwn-geelang:latest": "//advanced/pwn-geelang:image",
         "gcr.io/geegle/advanced/pwn-payroll:latest": "//advanced/pwn-payroll:image",
