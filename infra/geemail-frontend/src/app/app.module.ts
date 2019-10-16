@@ -19,6 +19,7 @@ import { HighlightDirective } from './shared/highlight.directive';
 import { HttpClientModule } from '@angular/common/http';
 import { Base64Pipe } from './b64decode.pipe';
 import { ReplaceLineBreaksPipe } from './replaceLineBreaks.pipe';
+import { LinkifyPipe } from './linkify.pipe';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { WithCredentialsInterceptor } from './credentials.interceptor';
 
@@ -35,6 +36,7 @@ import { WithCredentialsInterceptor } from './credentials.interceptor';
     HighlightDirective,
     Base64Pipe,
     ReplaceLineBreaksPipe,
+    LinkifyPipe,
   ],
   imports: [
     BrowserModule,
