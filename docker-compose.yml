@@ -36,6 +36,7 @@ services:
       beyondcorp_memegen:
       beyondcorp_flatearth:
       beyondcorp_employees:
+      beyondcorp_shell:
     ports:
     - "80:80"
     - "443:443"
@@ -239,6 +240,18 @@ services:
       - corp.geegle.org
       - geegle.org
 
+  general-shell:
+    image: gcr.io/geegle/advanced/general-shell:latest
+    networks:
+      beyondcorp_shell:
+        aliases:
+          - shell.corp.geegle.org
+    dns_search:
+      - corp.geegle.org
+      - geegle.org
+
+
+
   web_pasteweb:
     image: gcr.io/geegle/advanced/web_pasteweb:latest
     networks:
@@ -430,4 +443,9 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.176/29
+  beyondcorp_shell:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.88.66.184/29
  chal_intranet:
