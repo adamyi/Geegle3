@@ -1,5 +1,15 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 
+filegroup(
+    name = "sffe",
+    srcs = [
+        ":payroll",
+        ":sffe_payroll.json",
+    ],
+    visibility = ["//infra/sffe:__pkg__"],
+)
+
+
 cc_binary(
     name = "payroll",
     srcs = ["chal/payroll.c"],
