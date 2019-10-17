@@ -10,6 +10,7 @@ pkg_tar(
         "//advanced/pwn-geelang:sffe",
         "//advanced/pwn-payroll:sffe",
         "//advanced/re-trycatch:sffe",
+        "//advanced/general-shell:sffe",
     ],
     mode = "0755",
     package_dir = "/initfiles",
