@@ -1,0 +1,36 @@
+{{ define "title" }}Employee Database{{ end }}
+
+{{ define "content" }}
+<div class="container">
+    <h1>Employee</h1>
+    <br />
+    <p>Welcome to the Employee Database.</p>
+    <p>Search up other employees for their positions using this 'easy to use' platform.</p>
+    <br />
+    <form method="GET" id='form' action="">
+        <label class="control-label" for="word">Search Employees by name</label>
+        <input class="form-control form-control-lg" name="name" id="name" type="text" placeholder="Smith">
+
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Employee Number</th>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{ range . }}
+            <tr>
+                <td scope="row">{{.ID}}</td>
+                <td>{{.Name }}</td>
+                <td>{{.Position}}</td>
+            </tr>
+        {{ end }}
+        </tbody>
+    </table>
+</div>
+{{ end }}
