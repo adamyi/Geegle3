@@ -9,7 +9,6 @@ filegroup(
     visibility = ["//infra/sffe:__pkg__"],
 )
 
-
 cc_binary(
     name = "payroll",
     srcs = ["chal/payroll.c"],
