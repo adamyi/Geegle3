@@ -262,11 +262,16 @@ a:visited {
 
 
 .open-time {
-  padding-left: 70px;
+  padding-left: 60px;
 }
 
 .open-message {
   width: 700px;
+}
+
+.open-message a {
+  color: #15c;
+  text-decoration: underline;
 }
 
 .sender-address {
