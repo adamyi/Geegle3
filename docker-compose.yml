@@ -448,4 +448,4 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.184/29
- chal_intranet:
+  chal_intranet:
