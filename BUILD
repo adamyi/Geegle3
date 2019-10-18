@@ -58,7 +58,7 @@ container_bundle(
         "gcr.io/geegle/advanced/pwn-geelang:latest": "//advanced/pwn-geelang:image",
         "gcr.io/geegle/advanced/general-shell:latest": "//advanced/general-shell:image",
         "gcr.io/geegle/advanced/pwn-payroll:latest": "//advanced/pwn-payroll:image",
-        "gcr.io/geegle/advanced/re-trycatch:latest": "//advanced/re-trycatch:image",
+        "gcr.io/geegle/advanced/re-tellgeegle:latest": "//advanced/re-tellGeegle:image",
     },
 )
 
