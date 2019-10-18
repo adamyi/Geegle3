@@ -26,7 +26,7 @@ go_library(
         "main.go",
         "template.go",
     ],
-    importpath = "geegle.org/advanced/web_seclearn",
+    importpath = "geegle.org/chals/web/seclearn",
     visibility = ["//visibility:private"],
     deps = [
         "@com_github_dgrijalva_jwt_go//:go_default_library",

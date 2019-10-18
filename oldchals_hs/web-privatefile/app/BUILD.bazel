@@ -5,8 +5,10 @@ go_image(
     name = "image",
     args = [
         "$(location :templates)",
+        "$(location :flag)",
     ],
     data = [
+        ":flag",
         ":templates",
     ],
     embed = [":go_default_library"],
@@ -19,7 +21,7 @@ go_library(
         "helper.go",
         "main.go",
     ],
-    importpath = "geegle.org/highschool/web-intern-account-manager/app",
+    importpath = "geegle.org/oldchals_hs/web-privatefile/app",
     visibility = ["//visibility:private"],
     deps = ["@com_github_gorilla_mux//:go_default_library"],
 )
