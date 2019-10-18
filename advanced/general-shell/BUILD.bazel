@@ -3,24 +3,15 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 filegroup(
     name = "sffe",
     srcs = [
-        ":game",
-        ":sffe_game.json",
+        ":sffe_shell.json",
+        ":shell",
     ],
     visibility = ["//infra/sffe:__pkg__"],
 )
 
 cc_binary(
-    name = "game",
-    srcs = ["chal/game.c"],
-    copts = [
-        "-m32",
-        "-fno-stack-protector",
-        "-O0",
-    ],
-    linkopts = [
-        "-m32",
-        "-O0",
-    ],
+    name = "shell",
+    srcs = ["chal/shell.c"],
 )
 
 container_image(
@@ -31,11 +22,11 @@ container_image(
         "--port=80",
         "--staticdir=/static",
         "--binary=true",
-        "/game",
+        "/shell",
     ],
     files = [
         ":flag",
-        ":game",
+        ":shell",
         "//infra/cli-static",
         "@com_github_joewalnes_websocketd//:websocketd",
     ],

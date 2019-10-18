@@ -6,10 +6,10 @@
   <div class="open-sender">
     <p class="sender-address">{{ openMail.sender }} </p>
     <p> <span class="open-address">
-        <{{ openMail.receiver }}>
+        To: {{ openMail.receiver }}
       </span> <span class="open-time">{{ openMail.time | date:'short' }}</span></p>
   </div>
   <div class="open-message">
-    <p>{{ openMail.body | b64decode }}</p>
+    <p style="white-space: pre-wrap;" [innerHTML]="openMail.body | b64decode | linkify"></p>
   </div>
 </div>

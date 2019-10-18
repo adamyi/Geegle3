@@ -2,11 +2,17 @@ package context
 
 import (
 	"bytes"
+	"crypto/md5"
 	"encoding/binary"
+	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
+	"sort"
+	"strings"
 	"sync"
 	"time"
 
@@ -22,6 +28,18 @@ const (
 type File struct {
 	Content []byte    `json:"content"`
 	Time    time.Time `json:"time"`
+}
+
+type Flag struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type StoreRequest struct {
+	FileName string `json:"filename"`
+	Content  []byte `json:"content"`
+	Flags    []Flag `json:"flags"`
+	Service  string `json:"service"`
 }
 
 // Serialize this File into the given Writer.
@@ -138,4 +156,70 @@ func (c *Context) GetAll() (map[string]File, error) {
 	}
 
 	return files, nil
+}
+
+func DoStoreFile(ctx *Context, req *StoreRequest) (string, error) {
+
+	sort.SliceStable(req.Flags, func(i, j int) bool {
+		return req.Flags[i].Name < req.Flags[j].Name
+	})
+
+	var urlb strings.Builder
+	fmt.Fprintf(&urlb, "%x/", md5.Sum([]byte(req.Service)))
+	for _, flag := range req.Flags {
+		fmt.Fprintf(&urlb, "%s=%s/", flag.Name, flag.Value)
+	}
+
+	urlb.WriteString(req.FileName)
+
+	url := urlb.String()
+
+	f := File{
+		Content: req.Content,
+		Time:    time.Now(),
+	}
+
+	log.Println("Storing at: " + url)
+
+	return url, ctx.Put(url, &f)
+}
+
+func InitFiles(ctx *Context, filepath string) {
+	filepath += "/"
+	files, err := ioutil.ReadDir(filepath)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	var sr StoreRequest
+	for _, f := range files {
+		if strings.HasSuffix(f.Name(), ".json") {
+			jsonFile, err := os.Open(filepath + f.Name())
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			jsonContent, err := ioutil.ReadAll(jsonFile)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			err = json.Unmarshal(jsonContent, &sr)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			storedFile, err := os.Open(filepath + sr.FileName)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			sr.Content, err = ioutil.ReadAll(storedFile)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			DoStoreFile(ctx, &sr)
+		}
+	}
 }

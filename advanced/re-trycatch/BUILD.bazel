@@ -1,5 +1,14 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 
+filegroup(
+    name = "sffe",
+    srcs = [
+        ":sffe_trycatch.json",
+        ":trycatch",
+    ],
+    visibility = ["//infra/sffe:__pkg__"],
+)
+
 cc_binary(
     name = "trycatch",
     srcs = ["chal/trycatch.c"],

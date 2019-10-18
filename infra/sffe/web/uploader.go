@@ -1,28 +1,12 @@
 package web
 
 import (
-	"crypto/md5"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
-	"sort"
-	"strings"
-	"time"
 
 	"geegle.org/infra/sffe/context"
 )
-
-type Flag struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
-}
-
-type ApiStoreRequest struct {
-	FileName string `json:"filename"`
-	Content  []byte `json:"content"`
-	Flags    []Flag `json:"flags"`
-}
 
 func StoreFile(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 	tknStr := r.Header.Get("X-Geegle-JWT")
@@ -39,7 +23,7 @@ func StoreFile(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req ApiStoreRequest
+	var req context.StoreRequest
 	err = json.Unmarshal(b, &req)
 
 	if err != nil {
@@ -47,26 +31,9 @@ func StoreFile(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sort.SliceStable(req.Flags, func(i, j int) bool {
-		return req.Flags[i].Name < req.Flags[j].Name
-	})
+	req.Service = service
 
-	var urlb strings.Builder
-	fmt.Fprintf(&urlb, "%x/", md5.Sum([]byte(service)))
-	for _, flag := range req.Flags {
-		fmt.Fprintf(&urlb, "%s=%s/", flag.Name, flag.Value)
-	}
-
-	urlb.WriteString(req.FileName)
-
-	url := urlb.String()
-
-	f := context.File{
-		Content: req.Content,
-		Time:    time.Now(),
-	}
-
-	err = ctx.Put(url, &f)
+	url, err := context.DoStoreFile(ctx, &req)
 
 	if err != nil {
 		writeJSONBackendError(w, err)

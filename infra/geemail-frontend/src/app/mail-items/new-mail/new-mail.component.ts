@@ -27,7 +27,7 @@ export class NewMailComponent implements OnInit {
       if (this.mail.receiver == this.mail.sender) {
         this.mailService.inboxMail.unshift(this.mail);
       }
-      this.mailService.retrieveMails();
+      // this.mailService.retrieveMails();
     });
     this.data.changeButton(false);
     this.dialogRef.close();
