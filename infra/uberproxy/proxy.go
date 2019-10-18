@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -34,11 +35,19 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	servicename := strings.Split(ctx.Value("up_real_addr".(string)), ".")[0]
+
+	if levelShift {
+		servicename = "uberproxy"
+	}
+
+	servicename += "@services.geegle.org"
+
 	ptstr := ""
 	expirationTime := time.Now().Add(5 * time.Minute)
 	pclaims := Claims{
 		Username: username,
-		Service:  "unknown@services.geegle.org", //TODO: associate dns with actual service name
+		Service:  servicename,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

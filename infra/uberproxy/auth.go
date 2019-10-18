@@ -16,7 +16,11 @@ type Claims struct {
 func getUsername(req *http.Request) string {
 	c, err := req.Cookie("uberproxy_auth")
 	if err != nil {
-		return "anonymous@services.geegle.org"
+		sn, err := getServiceNameFromIP(req.RemoteAddr)
+		if err != nil {
+			return "anonymous@services.geegle.org"
+		}
+		return sn
 	}
 	tknStr := c.Value
 	claims := &Claims{}
