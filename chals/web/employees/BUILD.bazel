@@ -23,7 +23,7 @@ go_library(
         "main.go",
         "template.go",
     ],
-    importpath = "geegle.org/advanced/web_employees",
+    importpath = "geegle.org/chals/web/employees",
     visibility = ["//visibility:private"],
     deps = [
         "@com_github_gorilla_mux//:go_default_library",
