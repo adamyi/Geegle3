@@ -329,12 +329,12 @@ pip_import(
 
 pip_import(
     name = "kix_pip",
-    requirements = "//advanced/web_kix:app/requirements.txt",
+    requirements = "//chals/web/kix:app/requirements.txt",
 )
 
 pip_import(
     name = "pasteweb_pip",
-    requirements = "//advanced/web_pasteweb:app/requirements.txt",
+    requirements = "//chals/web/pasteweb:app/requirements.txt",
 )
 
 load(

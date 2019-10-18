@@ -19,9 +19,8 @@ Adam
 
 
 ## Idea
-* Send URL to adamyi by email to trigger Headless Chrome
-* Abuse Chrome's XSS Auditor 
-* Browser Side Channel
+* Easy SQL Injection
+* "You can't get easier" - @adamyi
 
 ## author
-adamyi
+adamt

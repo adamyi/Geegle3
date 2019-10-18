@@ -37,28 +37,26 @@ container_bundle(
         "gcr.io/geegle/infra/geemail-frontend:latest": "//infra/geemail-frontend:image",
         "gcr.io/geegle/infra/uberproxy:latest": "//infra/uberproxy:image",
         "gcr.io/geegle/infra/gae:latest": "//infra/gae:image",
-        # highschool challenges
-        "gcr.io/geegle/highschool/crypto-etcpasswd:latest": "//highschool/crypto-etcpasswd:image",
-        "gcr.io/geegle/highschool/misc-quicksort:latest": "//highschool/misc-quicksort:image",
-        "gcr.io/geegle/highschool/misc-who-is-attacking-me:latest": "//highschool/misc-who-is-attacking-me:image",
-        "gcr.io/geegle/highschool/pwn-intern-project:latest": "//highschool/pwn-intern-project:image",
-        "gcr.io/geegle/highschool/web-filesystem:latest": "//highschool/web-filesystem:image",
-        "gcr.io/geegle/highschool/web-guest-kiosk:latest": "//highschool/web-guest-kiosk/app:image",
-        "gcr.io/geegle/highschool/web-intern-account-manager:latest": "//highschool/web-intern-account-manager/app:image",
-        "gcr.io/geegle/highschool/web-intranet:latest": "//highschool/web-intranet/app:image",
-        "gcr.io/geegle/highschool/web-privatefile:latest": "//highschool/web-privatefile/app:image",
-        # advanced challenges
-        "gcr.io/geegle/advanced/web_kix:latest": "//advanced/web_kix:image",
-        "gcr.io/geegle/advanced/web_seclearn:latest": "//advanced/web_seclearn:image",
-        "gcr.io/geegle/advanced/web_pasteweb:latest": "//advanced/web_pasteweb:image",
-        "gcr.io/geegle/advanced/web_memegen:latest": "//advanced/web_memegen:image",
-        "gcr.io/geegle/advanced/web_flatearth:latest": "//advanced/web_flatearth:image",
-        "gcr.io/geegle/advanced/web_employees:latest": "//advanced/web_employees:image",
-        "gcr.io/geegle/advanced/pwn-game:latest": "//advanced/pwn-game:image",
-        "gcr.io/geegle/advanced/pwn-geelang:latest": "//advanced/pwn-geelang:image",
-        "gcr.io/geegle/advanced/general-shell:latest": "//advanced/general-shell:image",
-        "gcr.io/geegle/advanced/pwn-payroll:latest": "//advanced/pwn-payroll:image",
-        "gcr.io/geegle/advanced/re-trycatch:latest": "//advanced/re-trycatch:image",
+
+        # web challenges
+        "gcr.io/geegle/chals/web/kix:latest": "//chals/web/kix:image",
+        "gcr.io/geegle/chals/web/seclearn:latest": "//chals/web/seclearn:image",
+        "gcr.io/geegle/chals/web/pasteweb:latest": "//chals/web/pasteweb:image",
+        "gcr.io/geegle/chals/web/memegen:latest": "//chals/web/memegen:image",
+        "gcr.io/geegle/chals/web/flatearth:latest": "//chals/web/flatearth:image",
+        "gcr.io/geegle/chals/web/employees:latest": "//chals/web/employees:image",
+
+        # pwn challenges
+        "gcr.io/geegle/chals/pwn/game:latest": "//chals/pwn/game:image",
+        "gcr.io/geegle/chals/pwn/geelang:latest": "//chals/pwn/geelang:image",
+        "gcr.io/geegle/chals/pwn/shell:latest": "//chals/pwn/shell:image",
+        "gcr.io/geegle/chals/pwn/payroll:latest": "//chals/pwn/payroll:image",
+        "gcr.io/geegle/chals/re/tellgeegle:latest": "//chals/re/tellGeegle:image",
+
+        # others challenges
+        "gcr.io/geegle/chals/ir/who-is-attacking-me:latest": "//chals/ir/who-is-attacking-me:image",
+        "gcr.io/geegle/chals/pwn/intern-project:latest": "//chals/pwn/intern-project:image",
+        "gcr.io/geegle/chals/web/guest:latest": "//chals/web/guest/app:image",
     },
 )
 

@@ -3,15 +3,15 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 filegroup(
     name = "sffe",
     srcs = [
-        ":sffe_trycatch.json",
-        ":trycatch",
+        ":sffe_tellGeegle.json",
+        ":tellGeegle",
     ],
     visibility = ["//infra/sffe:__pkg__"],
 )
 
 cc_binary(
-    name = "trycatch",
-    srcs = ["chal/trycatch.c"],
+    name = "tellGeegle",
+    srcs = ["chal/tellGeegle.c"],
     copts = ["-O0"],
     linkopts = ["-O0"],
 )
@@ -24,11 +24,11 @@ container_image(
         "--port=80",
         "--staticdir=/static",
         "--binary=true",
-        "/trycatch",
+        "/tellGeegle",
     ],
     files = [
         ":flag",
-        ":trycatch",
+        ":tellGeegle",
         "//infra/cli-static",
         "@com_github_joewalnes_websocketd//:websocketd",
     ],
