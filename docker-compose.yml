@@ -15,14 +15,8 @@ services:
     networks:
       beyondcorp_gae:
       beyondcorp_sffe:
-      beyondcorp_filesystem:
-      beyondcorp_quicksort:
       beyondcorp_who_is_attacking_me:
-      beyondcorp_etcpasswd:
-      beyondcorp_intranet:
-      beyondcorp_intern_manager:
       beyondcorp_guest_kiosk:
-      beyondcorp_privatefile:
       beyondcorp_intern_project:
       beyondcorp_kix:
       beyondcorp_seclearn:
@@ -112,29 +106,8 @@ services:
 
 
   # High school
-  web-filesystem:
-    image: gcr.io/geegle/highschool/web-filesystem:latest
-    networks:
-      beyondcorp_filesystem:
-        aliases:
-          - webfiles.corp.geegle.org
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
-  misc-quicksort:
-    image: gcr.io/geegle/highschool/misc-quicksort:latest
-    networks:
-      beyondcorp_quicksort:
-        aliases:
-          - quicksort.corp.geegle.org
-    read_only: true
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
   misc-who-is-attacking-me:
-    image: gcr.io/geegle/highschool/misc-who-is-attacking-me:latest
+    image: gcr.io/geegle/chals/ir/who-is-attacking-me:latest
     networks:
       beyondcorp_who_is_attacking_me:
         aliases:
@@ -144,42 +117,8 @@ services:
       - corp.geegle.org
       - geegle.org
 
-  misc-etcpasswd:
-    image: gcr.io/geegle/highschool/crypto-etcpasswd:latest
-    networks:
-      beyondcorp_etcpasswd:
-        aliases:
-          - sysadmin-shell.corp.geegle.org
-    read_only: true
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
-  web-local_intranet:
-    image: gcr.io/geegle/highschool/web-intranet:latest
-    networks:
-      beyondcorp_intranet:
-        aliases:
-          - intranet-browser.corp.geegle.org
-      chal_intranet:
-        aliases:
-          - internal.docs
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
-  web-intern-management:
-    image: gcr.io/geegle/highschool/web-intern-account-manager:latest
-    networks:
-      beyondcorp_intern_manager:
-        aliases:
-          - intern-acc-manager.corp.geegle.org
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
   web-guest-kiosk:
-    image: gcr.io/geegle/highschool/web-guest-kiosk:latest
+    image: gcr.io/geegle/chals/web/guest:latest
     networks:
       beyondcorp_guest_kiosk:
         aliases:
@@ -188,18 +127,8 @@ services:
       - corp.geegle.org
       - geegle.org
 
-  web-privatefile:
-    image: gcr.io/geegle/highschool/web-privatefile:latest
-    networks:
-      beyondcorp_privatefile:
-        aliases:
-          - drive-lite.corp.geegle.org
-    dns_search:
-      - corp.geegle.org
-      - geegle.org
-
   pwn-intern-project:
-    image: gcr.io/geegle/highschool/pwn-intern-project:latest
+    image: gcr.io/geegle/chals/pwn/intern-project:latest
     networks:
       beyondcorp_intern_project:
         aliases:
@@ -211,7 +140,7 @@ services:
 
   # NewHires
   web_kix:
-    image: gcr.io/geegle/advanced/web_kix:latest
+    image: gcr.io/geegle/chals/web/kix:latest
     networks:
       beyondcorp_kix:
         aliases:
@@ -221,7 +150,7 @@ services:
       - geegle.org
 
   web_seclearn:
-    image: gcr.io/geegle/advanced/web_seclearn:latest
+    image: gcr.io/geegle/chals/web/seclearn:latest
     networks:
       beyondcorp_seclearn:
         aliases:
@@ -231,7 +160,7 @@ services:
       - geegle.org
 
   web_employees:
-    image: gcr.io/geegle/advanced/web_employees:latest
+    image: gcr.io/geegle/chals/web/employees:latest
     networks:
       beyondcorp_employees:
         aliases:
@@ -241,7 +170,7 @@ services:
       - geegle.org
 
   general-shell:
-    image: gcr.io/geegle/advanced/general-shell:latest
+    image: gcr.io/geegle/chals/pwn/shell:latest
     networks:
       beyondcorp_shell:
         aliases:
@@ -253,7 +182,7 @@ services:
 
 
   web_pasteweb:
-    image: gcr.io/geegle/advanced/web_pasteweb:latest
+    image: gcr.io/geegle/chals/web/pasteweb:latest
     networks:
       beyondcorp_pasteweb:
         aliases:
@@ -263,7 +192,7 @@ services:
       - geegle.org
 
   web_memegen:
-    image: gcr.io/geegle/advanced/web_memegen:latest
+    image: gcr.io/geegle/chals/web/memegen:latest
     networks:
       beyondcorp_memegen:
         aliases:
@@ -273,7 +202,7 @@ services:
       - geegle.org
 
   web_flatearth:
-    image: gcr.io/geegle/advanced/web_flatearth:latest
+    image: gcr.io/geegle/chals/web/flatearth:latest
     networks:
       beyondcorp_flatearth:
         aliases:
@@ -283,7 +212,7 @@ services:
       - geegle.org
 
   pwn-payroll:
-    image: gcr.io/geegle/advanced/pwn-payroll:latest
+    image: gcr.io/geegle/chals/pwn/payroll:latest
     networks:
       beyondcorp_payroll:
         aliases:
@@ -294,7 +223,7 @@ services:
       - geegle.org
 
   pwn-game:
-    image: gcr.io/geegle/advanced/pwn-game:latest
+    image: gcr.io/geegle/chals/pwn/game:latest
     networks:
       beyondcorp_game:
         aliases:
@@ -305,7 +234,7 @@ services:
       - geegle.org
 
   pwn-geelang:
-    image: gcr.io/geegle/advanced/pwn-geelang:latest
+    image: gcr.io/geegle/chals/pwn/geelang:latest
     networks:
       beyondcorp_geelang:
         aliases:
@@ -316,7 +245,7 @@ services:
       - geegle.org
 
   re-trycatch:
-    image: gcr.io/geegle/advanced/re-trycatch:latest
+    image: gcr.io/geegle/chals/re/trycatch:latest
     networks:
       beyondcorp_trycatch:
         aliases:
@@ -333,46 +262,16 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.0/29
-  beyondcorp_filesystem:
-    ipam:
-      driver: default
-      config:
-        - subnet: 100.88.66.8/29
-  beyondcorp_quicksort:
-    ipam:
-      driver: default
-      config:
-        - subnet: 100.88.66.16/29
   beyondcorp_who_is_attacking_me:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.24/29
-  beyondcorp_etcpasswd:
-    ipam:
-      driver: default
-      config:
-        - subnet: 100.88.66.32/29
-  beyondcorp_intranet:
-    ipam:
-      driver: default
-      config:
-        - subnet: 100.88.66.40/29
-  beyondcorp_intern_manager:
-    ipam:
-      driver: default
-      config:
-        - subnet: 100.88.66.48/29
   beyondcorp_guest_kiosk:
     ipam:
       driver: default
       config:
         - subnet: 100.88.66.56/29
-  beyondcorp_privatefile:
-    ipam:
-      driver: default
-      config:
-        - subnet: 100.88.66.64/29
   beyondcorp_intern_project:
     ipam:
       driver: default

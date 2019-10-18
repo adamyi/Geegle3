@@ -6,10 +6,10 @@ load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 pkg_tar(
     name = "initfiles",
     srcs = [
-        "//chals/pwn/shell:sffe",
         "//chals/pwn/game:sffe",
         "//chals/pwn/geelang:sffe",
         "//chals/pwn/payroll:sffe",
+        "//chals/pwn/shell:sffe",
         "//chals/re/trycatch:sffe",
     ],
     mode = "0755",
