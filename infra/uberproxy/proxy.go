@@ -35,7 +35,7 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	servicename := strings.Split(ctx.Value("up_real_addr".(string)), ".")[0]
+	servicename := strings.Split(ctx.Value("up_real_addr").(string), ".")[0]
 
 	if levelShift {
 		servicename = "uberproxy"
