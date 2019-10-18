@@ -6,11 +6,11 @@ load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 pkg_tar(
     name = "initfiles",
     srcs = [
-        "//advanced/general-shell:sffe",
-        "//advanced/pwn-game:sffe",
-        "//advanced/pwn-geelang:sffe",
-        "//advanced/pwn-payroll:sffe",
-        "//advanced/re-trycatch:sffe",
+        "//chals/pwn/shell:sffe",
+        "//chals/pwn/game:sffe",
+        "//chals/pwn/geelang:sffe",
+        "//chals/pwn/payroll:sffe",
+        "//chals/re/trycatch:sffe",
     ],
     mode = "0755",
     package_dir = "/initfiles",
