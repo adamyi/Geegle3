@@ -14,7 +14,7 @@ container_image(
         ":chal",
         ":flag",
         "//infra/cli-static",
-        "@websocketd",
+        "@com_github_joewalnes_websocketd//:websocketd",
     ],
     visibility = ["//visibility:public"],
 )
