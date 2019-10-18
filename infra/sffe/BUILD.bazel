@@ -10,7 +10,7 @@ pkg_tar(
         "//chals/pwn/geelang:sffe",
         "//chals/pwn/payroll:sffe",
         "//chals/pwn/shell:sffe",
-        "//chals/re/trycatch:sffe",
+        "//chals/re/tellGeegle:sffe",
     ],
     mode = "0755",
     package_dir = "/initfiles",

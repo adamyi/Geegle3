@@ -168,7 +168,7 @@ func ad(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 	rsp.Header().Set("Content-Type", "application/javascript")
-	fmt.Fprintln(rsp, "document.getElementById('ad').innerHTML = 'We are now fooddogging our internal meme generating service! Give it a go at <a href=\"https://memegen.corp.geegle.org\">docs</a>!'")
+	fmt.Fprintln(rsp, "document.getElementById('ad').innerHTML = 'We are now fooddogging our internal meme generating service! Give it a go at <a href=\"https://memegen.corp.geegle.org\">memegen</a>!'")
 }
 
 func main() {

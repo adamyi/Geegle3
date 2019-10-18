@@ -24,7 +24,7 @@ services:
       beyondcorp_payroll:
       beyondcorp_game:
       beyondcorp_geelang:
-      beyondcorp_trycatch:
+      beyondcorp_tellgeegle:
       beyondcorp_geemail_frontend:
       beyondcorp_geemail_backend:
       beyondcorp_memegen:
@@ -244,10 +244,10 @@ services:
       - corp.geegle.org
       - geegle.org
 
-  re-trycatch:
-    image: gcr.io/geegle/chals/re/trycatch:latest
+  re-tellgeegle:
+    image: gcr.io/geegle/chals/re/tellgeegle:latest
     networks:
-      beyondcorp_trycatch:
+      beyondcorp_tellgeegle:
         aliases:
           - onboarding.corp.geegle.org
     read_only: true
@@ -307,7 +307,7 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.120/29
-  beyondcorp_trycatch:
+  beyondcorp_tellgeegle:
     ipam:
       driver: default
       config:

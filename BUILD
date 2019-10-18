@@ -51,7 +51,7 @@ container_bundle(
         "gcr.io/geegle/chals/pwn/geelang:latest": "//chals/pwn/geelang:image",
         "gcr.io/geegle/chals/pwn/shell:latest": "//chals/pwn/shell:image",
         "gcr.io/geegle/chals/pwn/payroll:latest": "//chals/pwn/payroll:image",
-        "gcr.io/geegle/chals/re/trycatch:latest": "//chals/re/trycatch:image",
+        "gcr.io/geegle/chals/re/tellgeegle:latest": "//chals/re/tellGeegle:image",
 
         # others challenges
         "gcr.io/geegle/chals/ir/who-is-attacking-me:latest": "//chals/ir/who-is-attacking-me:image",
