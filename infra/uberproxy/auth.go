@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -16,7 +17,7 @@ type Claims struct {
 func getUsername(req *http.Request) string {
 	c, err := req.Cookie("uberproxy_auth")
 	if err != nil {
-		sn, err := getServiceNameFromIP(req.RemoteAddr)
+		sn, err := getServiceNameFromIP(strings.Split(req.RemoteAddr, ":")[0])
 		if err != nil {
 			return "anonymous@services.geegle.org"
 		}
