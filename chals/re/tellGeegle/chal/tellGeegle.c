@@ -25,8 +25,9 @@ void keyGen(char *cyphertext);
 void createData(struct totalDataStore *block);
 
 int main(int argc, char* argv[], char* envp[]) {
+    setbuf(stdout, NULL);
 
-	// Set up exception handler for divby0
+    // Set up exception handler for divby0
     struct sigaction sa;
     sa.sa_handler = handler;
     sigemptyset(&sa.sa_mask);
@@ -47,7 +48,7 @@ int main(int argc, char* argv[], char* envp[]) {
 }
 
 void getFeedback(char *name) {
-label2:	setbuf(stdout, NULL);
+label2:	// setbuf(stdout, NULL);
 
 label3:
 

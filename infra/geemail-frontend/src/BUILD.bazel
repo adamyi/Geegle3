@@ -1,7 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
 load("@npm_angular_bazel//:index.bzl", "ng_module")
-load("@npm_bazel_karma//:index.bzl", "ts_web_test_suite")
 load("@build_bazel_rules_nodejs//:defs.bzl", "history_server", "rollup_bundle")
 load("@build_bazel_rules_nodejs//internal/web_package:web_package.bzl", "web_package")
 load("@npm_bazel_typescript//:index.bzl", "ts_devserver", "ts_library")
@@ -119,18 +118,6 @@ ts_devserver(
 )
 
 ts_library(
-    name = "test_lib",
-    testonly = 1,
-    srcs = glob(["**/*.spec.ts"]),
-    deps = [
-        ":src",
-        "@npm//@angular/core",
-        "@npm//@angular/router",
-        "@npm//@types",
-    ],
-)
-
-ts_library(
     name = "initialize_testbed",
     testonly = 1,
     srcs = [
@@ -140,28 +127,5 @@ ts_library(
         "@npm//@angular/core",
         "@npm//@angular/platform-browser-dynamic",
         "@npm//@types",
-    ],
-)
-
-ts_web_test_suite(
-    name = "test",
-    srcs = [
-        "@npm//:node_modules/tslib/tslib.js",
-    ],
-    # do not sort
-    bootstrap = [
-        "@npm//:node_modules/zone.js/dist/zone-testing-bundle.js",
-        "@npm//:node_modules/reflect-metadata/Reflect.js",
-    ],
-    browsers = [
-        "@io_bazel_rules_webtesting//browsers:chromium-local",
-    ],
-    runtime_deps = [
-        ":initialize_testbed",
-    ],
-    deps = [
-        ":rxjs_umd_modules",
-        ":test_lib",
-        "@npm//karma-jasmine",
     ],
 )

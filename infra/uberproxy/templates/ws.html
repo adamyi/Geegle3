@@ -1,7 +1,7 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script>
       window.addEventListener("load", function(evt) {
         var urlParams = new URLSearchParams(window.location.search);
@@ -61,35 +61,74 @@
     </script>
   </head>
   <body>
-    <table>
-      <tr><td valign="top" width="50%">
-          <p><input id="host" type="text" value="quicksort.corp.geegle.org" style="width: 250px;">
-          <p>Click "Open" to create a connection to the server,
-          "Send" to send a message to the server and "Close" to close the connection.
-          You can change the message and send multiple times.
-          </p>
-          <form>
-            <button id="open">Open</button>
-            <button id="close">Close</button>
-            <p><input id="input" type="text" value="Hello world!">
-            <button id="send">Send</button>
-          </form>
-          <p>
-          Alternativity, If you would like to connect via your own scripts, you can download this <a href="/cli-relay">program</a> and use it in the following way.
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Geegle Corp CLI App</span>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" style="position:relative; max-width: 860px; margin-top: 40px;">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+              <div class="mdl-card__supporting-text">
+                <h4>Connection</h4>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input class="mdl-textfield__input" type="text" id="host" value="quicksort.corp.geegle.org">
+                  <label class="mdl-textfield__label" for="host">Host</label>
+                </div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="open">Connect</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="close">Disconnect</button>
+              </div>
+            </div>
+          </section>
+          <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" style="position:relative; max-width: 860px; margin-top: 40px;">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+              <div class="mdl-card__supporting-text">
+                <h4>Message</h4>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input class="mdl-textfield__input" type="text" id="input" value="Hello World!">
+                  <label class="mdl-textfield__label" for="message">Message</label>
+                </div>
+                <p>
+                You can change the message and send multiple times.
+                Press "Send" to send the message to server.
+                </p>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="send">Send</button>
+              </div>
+            </div>
+          </section>
+          <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" style="position:relative; max-width: 860px; margin-top: 40px;">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+              <div class="mdl-card__supporting-text">
+                <h4>Console</h4>
+                <pre id="output" style="background-color: #222; color: white; min-height: 200px; max-height: 600px; overflow: auto;"></pre>
+              </div>
+            </div>
+          </section>
+          <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" style="position:relative; max-width: 860px; margin-top: 40px;">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+              <div class="mdl-card__supporting-text">
+                <h4>Local Client</h4>
+                <p>
+                Alternativity, If you would like to connect via your own scripts, you can download this <a href="/cli-relay">program</a> and use it in the following way.
 
-          <pre id="code">
-            python3 code:
+                <pre id="code">
+            python code:
 
             from pwn import *
             p = process(["./cli-relay", "UBERPROXY COOKIE", "HOST"])
 
             p.interactive()
-          </pre>
-          </p>
-
-        </td><td valign="top" width="50%">
-          <pre id="output"></pre>
-        </td></tr></table>
+                </pre>
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
   </body>
 </html>
 

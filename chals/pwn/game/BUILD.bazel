@@ -1,13 +1,7 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//tools:sffe.bzl", "sffe_files")
 
-filegroup(
-    name = "sffe",
-    srcs = [
-        ":game",
-        ":sffe_game.json",
-    ],
-    visibility = ["//infra/sffe:__pkg__"],
-)
+sffe_files([":game"])
 
 cc_binary(
     name = "game",
@@ -37,7 +31,7 @@ container_image(
         ":flag",
         ":game",
         "//infra/cli-static",
-        "@websocketd",
+        "@com_github_joewalnes_websocketd//:websocketd",
     ],
     visibility = ["//visibility:public"],
 )
