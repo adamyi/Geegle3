@@ -1,4 +1,4 @@
-# kix (Geegle Docs)
+# docs (Geegle Docs)
 
 Markdown to LaTeX to PDF
 
@@ -10,7 +10,7 @@ LaTeX injection
 2. Read key
 3. Sign shell-escape parameter
 4. RCE
-5. Read all files created by kix
+5. Read all files created by docs
 6. Leak internal info
 
 ## author

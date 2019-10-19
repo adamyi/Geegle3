@@ -18,7 +18,7 @@ services:
       beyondcorp_who_is_attacking_me:
       beyondcorp_guest_kiosk:
       beyondcorp_intern_project:
-      beyondcorp_kix:
+      beyondcorp_docs:
       beyondcorp_seclearn:
       beyondcorp_pasteweb:
       beyondcorp_payroll:
@@ -139,10 +139,10 @@ services:
       - geegle.org
 
   # NewHires
-  web_kix:
-    image: gcr.io/geegle/chals/web/kix:latest
+  web_docs:
+    image: gcr.io/geegle/chals/web/docs:latest
     networks:
-      beyondcorp_kix:
+      beyondcorp_docs:
         aliases:
           - docs.corp.geegle.org
     dns_search:
@@ -277,7 +277,7 @@ networks:
       driver: default
       config:
         - subnet: 100.88.66.72/29
-  beyondcorp_kix:
+  beyondcorp_docs:
     ipam:
       driver: default
       config:

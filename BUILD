@@ -39,7 +39,7 @@ container_bundle(
         "gcr.io/geegle/infra/gae:latest": "//infra/gae:image",
 
         # web challenges
-        "gcr.io/geegle/chals/web/kix:latest": "//chals/web/kix:image",
+        "gcr.io/geegle/chals/web/docs:latest": "//chals/web/docs:image",
         "gcr.io/geegle/chals/web/seclearn:latest": "//chals/web/seclearn:image",
         "gcr.io/geegle/chals/web/pasteweb:latest": "//chals/web/pasteweb:image",
         "gcr.io/geegle/chals/web/memegen:latest": "//chals/web/memegen:image",

@@ -14,7 +14,7 @@ challenges_list(
         "//chals/web/employees:challenge",
         "//chals/web/flatearth:challenge",
         "//chals/web/guest:challenge",
-        "//chals/web/kix:challenge",
+        "//chals/web/docs:challenge",
         "//chals/web/memegen:challenge",
         "//chals/web/pasteweb:challenge",
         "//chals/web/seclearn:challenge",
