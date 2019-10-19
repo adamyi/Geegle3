@@ -7,7 +7,6 @@ load("//tools:challenge.bzl", "ctf_challenge")
 
 ctf_challenge()
 
-
 go_image(
     name = "image",
     args = [
@@ -24,7 +23,10 @@ go_image(
 
 go_library(
     name = "go_default_library",
-    srcs = ["auth.go", "main.go"],
+    srcs = [
+        "auth.go",
+        "main.go",
+    ],
     importpath = "geegle.org/infra/scoreboard",
     visibility = ["//visibility:private"],
     deps = [
