@@ -32,7 +32,7 @@
       "Title": "You have been selected…",
       "Body": |||
         Hello and congratulations
-
+        
         You have been randomly selected as part of our intern improvement scheme to review the code of an intern's summer project.
         Please find the code here: https://
       |||, // TODO:  Update URL

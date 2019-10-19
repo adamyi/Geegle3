@@ -20,7 +20,7 @@
 
         We have received a report of an attacker from an unknown origin. Please identify the origin and the nature of the attack.
         Details: https://attack-check.corp.geegle.org
-
+        
         Please do not reply to this email.
       |||,
       "DependsOnPoints": 600,
