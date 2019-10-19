@@ -31,8 +31,8 @@
       "Sender": "codereview@geegle.org",
       "Title": "You have been selected…",
       "Body": |||
-          Hello and congratulations\n\nYou have been randomly selected as part of our intern improvement scheme to review the code of an intern's summer project.\nPlease find the code here: https://intern-project.corp.geegle.org
-      |||,
+          Hello and congratulations\n\nYou have been randomly selected as part of our intern improvement scheme to review the code of an intern's summer project.\nPlease find the code here: https://
+      |||, TODO Update URL
       "DependsOnPoints": 1100,
       "Delay": 900000
     },
