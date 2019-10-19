@@ -1,15 +1,25 @@
 local challenges = import 'chals/challenges.libsonnet';
+local infras = import 'infra/challenges.libsonnet';
 local utils = import 'infra/jsonnet/utils.libsonnet';
 
-local services = std.flattenArrays([utils.extractServices(chal) for chal in challenges]);
+local combined = challenges + infras;
+
+local image(service) = if "image" in service then
+  service.image
+  else if service.category == "infra" then
+    "gcr.io/geegle/infra/%s:latest" % service.name
+  else
+    "gcr.io/geegle/chals/%s/%s:latest" % [service.category, service.name];
+
+local services = std.flattenArrays([utils.extractServices(chal) for chal in combined]);
 
 local tservices = {
   [service.name]: {
-    image: "gcr.io/geegle/chals/%s/%s:latest" % [service.category, service.name],
+    image: image(service),
     networks: {
       ["beyondcorp_" + service.name]: {
         aliases: [
-          service.name + ".corp.geegle.org"
+          service.name + if "domain" in service then service.domain else ".corp.geegle.org"
         ]
       }
     },
@@ -42,7 +52,15 @@ local networks = {
       networks: {
         ["beyondcorp_" + service.name]: {}
         for service in services
-      }
+      },
+      ports: [
+        "80:80",
+        "443:443",
+      ],
+      dns_search: [
+        "corp.geegle.org",
+        "geegle.org",
+      ],
     },
   } + tservices,
   networks: networks,

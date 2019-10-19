@@ -34,10 +34,10 @@ container_bundle(
         "gcr.io/geegle/infra/mss:latest": "//infra/mss:image",
         "gcr.io/geegle/infra/sffe:latest": "//infra/sffe:image",
         "gcr.io/geegle/infra/geemail-backend:latest": "//infra/geemail-backend:image",
-        "gcr.io/geegle/infra/geemail-frontend:latest": "//infra/geemail-frontend:image",
         "gcr.io/geegle/infra/scoreboard:latest": "//infra/scoreboard:image",
+        "gcr.io/geegle/infra/mail:latest": "//infra/geemail-frontend:image",
         "gcr.io/geegle/infra/uberproxy:latest": "//infra/uberproxy:image",
-        "gcr.io/geegle/infra/gae:latest": "//infra/gae:image",
+        "gcr.io/geegle/infra/apps:latest": "//infra/gae:image",
 
         # web challenges
         "gcr.io/geegle/chals/web/docs:latest": "//chals/web/docs:image",
@@ -52,7 +52,7 @@ container_bundle(
         "gcr.io/geegle/chals/pwn/geelang:latest": "//chals/pwn/geelang:image",
         "gcr.io/geegle/chals/pwn/shell:latest": "//chals/pwn/shell:image",
         "gcr.io/geegle/chals/pwn/payroll:latest": "//chals/pwn/payroll:image",
-        "gcr.io/geegle/chals/re/tellgeegle:latest": "//chals/re/tellGeegle:image",
+        "gcr.io/geegle/chals/re/onboarding:latest": "//chals/re/tellGeegle:image",
 
         # others challenges
         "gcr.io/geegle/chals/ir/who-is-attacking-me:latest": "//chals/ir/who-is-attacking-me:image",
