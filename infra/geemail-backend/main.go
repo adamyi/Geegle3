@@ -60,7 +60,7 @@ func addFlag(username string, body string, confirmation bool) error {
 		return err
 	}
 
-	resp, err := http.Post("scoreboard.corp.geegle.org", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Post("scoreboard.corp.geegle.org/submit", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
 		return err
@@ -136,7 +136,7 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 
 func initUser(user string) {
 	_db.Exec("insert into scoreboard (user, points) values (?,?)", user, 0)
-	addFlag(user, "GEEGLE{WELCOME_TO_GEEGLE}", false)
+	fmt.Println(addFlag(user, "GEEGLE{WELCOME_TO_GEEGLE}", false))
 }
 
 // for user to send email
@@ -167,7 +167,7 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 
 	// TODO: make better
 	if e.Receiver == "flag@geegle.org" {
-		addFlag(user, string(e.Body), true)
+		fmt.Println(addFlag(user, string(e.Body), true))
 	}
 	// TODO: integrate with headless chrome
 }
