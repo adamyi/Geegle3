@@ -12,7 +12,7 @@ go_image(
     name = "image",
     args = [
         "infra/scoreboard/scoreboardconfig.json",  # TODO(adamyi): figure out how to not hard-code this
-        "$(location :geemail.db)",
+        "$(location :flags.db)",
     ],
     data = [
         ":all-config",
