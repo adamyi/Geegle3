@@ -24,9 +24,13 @@ go_image(
 
 go_library(
     name = "go_default_library",
-    srcs = ["main.go", "auth.go"],
+    srcs = ["auth.go", "main.go"],
     importpath = "geegle.org/infra/scoreboard",
     visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_dgrijalva_jwt_go//:go_default_library",
+        "@com_github_mattn_go_sqlite3//:go_default_library",
+    ],
 )
 
 go_binary(
