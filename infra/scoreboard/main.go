@@ -10,6 +10,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
+
 )
 
 var _db *sql.DB
@@ -167,12 +170,11 @@ func readConfig() {
 
 func main() {
 	readConfig()
-	addr := os.Args[2]
-	_db, err := sql.Open("sqlite3", os.Args[3])
+	_db, err := sql.Open("sqlite3", os.Args[2])
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer _db.Close()
 
-	log.Panic(listenAndServe(addr))
+	log.Panic(listenAndServe(_configuration.ListenAddress))
 }
