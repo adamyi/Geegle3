@@ -24,7 +24,7 @@ go_image(
 
 go_library(
     name = "go_default_library",
-    srcs = ["main.go"],
+    srcs = ["main.go", "auth.go"],
     importpath = "geegle.org/infra/scoreboard",
     visibility = ["//visibility:private"],
 )
