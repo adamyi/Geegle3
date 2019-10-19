@@ -1,3 +1,5 @@
+# THIS FILE IS NOW DEPRECATED
+#
 # how zero-trust network works:
 # create separate networks for each service containing only that service and uberproxy
 # this way all communication goes through uberproxy, even including inter-service ones

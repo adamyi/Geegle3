@@ -1,8 +1,8 @@
 {
   services: [
     {
-      name: "employees",
-      category: "guest",
+      name: "guest",
+      category: "web",
     },
   ],
   flags: [
