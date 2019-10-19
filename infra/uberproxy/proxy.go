@@ -30,7 +30,7 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	full_url := req.Host + req.RequestURI
 
 	// TODO: allow anonymous access to some services
-	if username == "anonymous@services.geegle.org" && req.Method != "INFO" {
+	if username == "anonymous@services.geegle.org" && req.Method != "OPTIONS" {
 		http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 		return
 	}
