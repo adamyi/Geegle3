@@ -1,4 +1,10 @@
 {
+  services: [
+    {
+      name: "docs",
+      category: "web",
+    },
+  ],
   flags: [
     {
       Flag: "GEEGLE{FVHSIVKNM734O02NFI9HN}",

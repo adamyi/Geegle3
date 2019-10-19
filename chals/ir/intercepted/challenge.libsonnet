@@ -1,4 +1,10 @@
 {
+  services: [
+    {
+      name: "intercepted",
+      category: "ir",
+    },
+  ],
   flags: [
     {
       Flag: "GEEGLE{12UINQ298N0D00FM}",
