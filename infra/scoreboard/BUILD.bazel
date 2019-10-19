@@ -21,3 +21,37 @@ go_binary(
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
 )
+
+jsonnet_library(
+    name = "emails-config",
+    srcs = ["emails.libsonnet"],
+    deps = [
+        "//chals:challenges_jsonnet",
+        "//infra/jsonnet:utils",
+    ],
+)
+
+jsonnet_library(
+    name = "flags-config",
+    srcs = ["flags.libsonnet"],
+    deps = [
+        "//chals:challenges_jsonnet",
+        "//infra/jsonnet:utils",
+    ],
+)
+
+jsonnet_library(
+    name = "config",
+    srcs = ["config.json"],
+)
+
+jsonnet_to_json(
+    name = "all-config",
+    src = "config.jsonnet",
+    outs = ["scoreboardconfig.json"],
+    deps = [
+        ":config",
+        ":emails-config",
+        ":flags-config",
+    ],
+)

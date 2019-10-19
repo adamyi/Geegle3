@@ -45,6 +45,7 @@ func initScoreboardRsp(w http.ResponseWriter) {
 	w.Header().Add("Server", "")
 }
 
+// TODO: Use geemail service
 func addFlag(user string, body string, sendConfirmation bool) {
 	var oPoints int
 	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
