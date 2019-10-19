@@ -9,7 +9,7 @@ ctf_challenge()
 
 
 go_image(
-    name = "image_without_initfiles",
+    name = "image",
     args = [
         "infra/scoreboard/scoreboardconfig.json",  # TODO(adamyi): figure out how to not hard-code this
         "$(location :geemail.db)",
