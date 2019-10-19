@@ -10,6 +10,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
+
 )
 
 var _db *sql.DB
@@ -40,24 +43,19 @@ type Email struct {
 	Receiver string `json:"receiver"`
 	Subject  string `json:"subject"`
 	Body     []byte `json:"body"`
-	Time     int    `json:"time"`
+	Time     int64    `json:"time"`
 }
 
 var _configuration = Configuration{}
 
-type submitData struct {
-	Username         string `json:"username"`
-	Body             string `json:"flag"`
-	SendConfirmation bool   `json:"confirm"`
-}
 
 func initScoreboardRsp(w http.ResponseWriter) {
 	w.Header().Add("Server", "")
 }
 
-func sendEmail(sender string, receiver string, subject string, body string, time int) {
+func sendEmail(sender string, receiver string, subject string, body string, time int64) {
 	email := Email{0, sender, receiver, subject, []byte(body), time}
-	reqBody, err := json.Marshal(submitData)
+	reqBody, err := json.Marshal(email)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -131,20 +129,25 @@ func listenAndServe(addr string) error {
 		initScoreboardRsp(w)
 
 		tknStr := r.Header.Get("X-Geegle-JWT")
-		err := confirmFromGeemail(tknStr)
+		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
 			return
 		}
 
-		var data submitData
+		data := struct {
+	Username         string `json:"username"`
+	Body             string `json:"flag"`
+	SendConfirmation bool   `json:"confirm"`
+                }{}
+
 		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
 			http.Error(w, "Malformed Data", http.StatusBadRequest)
 			return
 		}
 
-		addFlag(submitData.Username, submitData.Body, submitData.SendConfirmation)
+		addFlag(data.Username, data.Body, data.SendConfirmation)
 	})
 
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
@@ -167,12 +170,11 @@ func readConfig() {
 
 func main() {
 	readConfig()
-	addr := os.Args[2]
-	_db, err := sql.Open("sqlite3", os.Args[3])
+	_db, err := sql.Open("sqlite3", os.Args[2])
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer _db.Close()
 
-	log.Panic(listenAndServe(addr))
+	log.Panic(listenAndServe(_configuration.ListenAddress))
 }
