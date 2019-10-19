@@ -10,6 +10,7 @@ challenges_list(
         "//infra/mss:challenge",
         "//infra/redis:challenge",
         "//infra/scoreboard:challenge",
+        "//infra/requestz:challenge",
         "//infra/sffe:challenge",
     ],
 )

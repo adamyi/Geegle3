@@ -14,21 +14,24 @@ local image(service) = if "image" in service then
 local services = std.flattenArrays([utils.extractServices(chal) for chal in combined]);
 
 local tservices = {
-  [service.name]: {
+  [services[i].name]: {
+    local service = services[i],
     image: image(service),
     networks: {
       ["beyondcorp_" + service.name]: {
         aliases: [
           service.name + if "domain" in service then service.domain else ".corp.geegle.org"
-        ]
+        ],
+        ipv4_address: "100.88.66.%d" % [i * 8 + 3],
       }
     },
+    dns: "100.88.66.%d" % [i * 8 + 4],
     dns_search: [
       "corp.geegle.org",
       "geegle.org",
     ]
   }
-  for service in services
+  for i in std.range(0, std.length(services) - 1)
 };
 
 local networks = {
@@ -47,11 +50,25 @@ local networks = {
 {
   version: "2",
   services: {
+    dns: {
+      image: "gcr.io/geegle/infra/dns:latest",
+      networks: {
+        ["beyondcorp_" + services[i].name]: {
+          ipv4_address: "100.88.66.%d" % [i * 8 + 4],
+        }
+        for i in std.range(0, std.length(services) - 1)
+      },
+      ports: [
+        "53:53",
+      ],
+    },
     uberproxy: {
       image: "gcr.io/geegle/infra/uberproxy:latest",
       networks: {
-        ["beyondcorp_" + service.name]: {}
-        for service in services
+        ["beyondcorp_" + services[i].name]: {
+          ipv4_address: "100.88.66.%d" % [i * 8 + 2],
+        }
+        for i in std.range(0, std.length(services) - 1)
       },
       ports: [
         "80:80",
