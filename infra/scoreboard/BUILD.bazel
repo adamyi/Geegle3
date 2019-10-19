@@ -10,6 +10,14 @@ ctf_challenge()
 
 go_image(
     name = "image_without_initfiles",
+    args = [
+        "infra/scoreboard/scoreboardconfig.json",  # TODO(adamyi): figure out how to not hard-code this
+        "$(location :geemail.db)",
+    ],
+    data = [
+        ":all-config",
+        ":flags.db",
+    ],
     embed = [":go_default_library"],
 )
 

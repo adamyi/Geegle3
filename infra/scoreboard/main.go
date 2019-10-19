@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -33,6 +34,15 @@ type Configuration struct {
 	Flags         []Flag
 }
 
+type Email struct {
+	ID       int    `json:"id"`
+	Sender   string `json:"sender"`
+	Receiver string `json:"receiver"`
+	Subject  string `json:"subject"`
+	Body     []byte `json:"body"`
+	Time     int    `json:"time"`
+}
+
 var _configuration = Configuration{}
 
 type submitData struct {
@@ -45,13 +55,32 @@ func initScoreboardRsp(w http.ResponseWriter) {
 	w.Header().Add("Server", "")
 }
 
+func sendEmail(sender string, receiver string, subject string, body string, time int) {
+	email := Email{0, sender, receiver, subject, []byte(body), time}
+	reqBody, err := json.Marshal(submitData)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	resp, err := http.Post("scoreboard.corp.geegle.org", "application/json", bytes.NewBuffer(reqBody))
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("%+v", resp)
+
+}
+
 // TODO: Use geemail service
 func addFlag(user string, body string, sendConfirmation bool) {
 	var oPoints int
 	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
 	if err != nil {
 		msg := "Sorry, something went wrong :("
-		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
+		sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 		return
 	}
 	flags := ""
@@ -62,7 +91,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 			err = _db.QueryRow("select count(*) from submission where flag = ? and user = ?", flag.Flag, user).Scan(&count)
 			if err != nil {
 				msg := "Sorry, something went wrong :("
-				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
+				sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 				return
 			}
 			if count == 0 {
@@ -77,7 +106,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
 		if sendConfirmation {
 			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
-			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000000)
+			sendEmail("noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000000)
 		}
 		for _, challenge := range _configuration.Challenges {
 			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
@@ -86,7 +115,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		}
 	} else {
 		msg := "Sorry, we did not recognise that flag :("
-		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
+		sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 	}
 
 }
