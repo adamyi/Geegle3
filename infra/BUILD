@@ -9,6 +9,7 @@ challenges_list(
         "//infra/geemail-frontend:challenge",
         "//infra/mss:challenge",
         "//infra/redis:challenge",
+        "//infra/requestz:challenge",
         "//infra/sffe:challenge",
     ],
 )

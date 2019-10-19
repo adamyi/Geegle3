@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
+
+go_image(
+    name = "image",
+    args = ["$(location :config.json)"],
+    data = [":config.json"],
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "geegle.org/infra/requestz",
+    visibility = ["//visibility:private"],
+    deps = ["@com_github_dgrijalva_jwt_go//:go_default_library"],
+)
+
+go_binary(
+    name = "requestz",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

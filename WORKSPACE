@@ -274,6 +274,48 @@ go_repository(
     tag = "v0.3.1",
 )
 
+go_repository(
+    name = "com_github_miekg_dns",
+    importpath = "github.com/miekg/dns",
+    tag = "v1.1.22",
+)
+
+go_repository(
+    name = "org_golang_x_crypto",
+    commit = "9ee001bba392",
+    importpath = "golang.org/x/crypto",
+)
+
+go_repository(
+    name = "org_golang_x_net",
+    commit = "aa69164e4478",
+    importpath = "golang.org/x/net",
+)
+
+go_repository(
+    name = "org_golang_x_sync",
+    commit = "112230192c58",
+    importpath = "golang.org/x/sync",
+)
+
+go_repository(
+    name = "org_golang_x_sys",
+    commit = "2837fb4f24fe",
+    importpath = "golang.org/x/sys",
+)
+
+go_repository(
+    name = "org_golang_x_text",
+    importpath = "golang.org/x/text",
+    tag = "v0.3.2",
+)
+
+go_repository(
+    name = "org_golang_x_tools",
+    commit = "2ca718005c18",
+    importpath = "golang.org/x/tools",
+)
+
 RULES_NODEJS_VERSION = "0.32.2"
 
 RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"

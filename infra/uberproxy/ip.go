@@ -36,6 +36,7 @@ func isDockerIP(ip net.IP) bool {
 // hacky string breakdown for ptr record to look for docker network name
 // TODO: there's probably a more elegant way way to do this but ceebs
 func getServiceNameFromIP(ip string) (string, error) {
+	// fmt.Println(ip)
 	pip := net.ParseIP(ip)
 	if pip == nil || !isDockerIP(pip) {
 		return "", errors.New("not geegle service")
@@ -48,7 +49,7 @@ func getServiceNameFromIP(ip string) (string, error) {
 		return "", errors.New("no ptr record")
 	}
 	parts := strings.Split(rdns[0], ".")
-	dockernet := parts[len(parts)-1]
+	dockernet := parts[len(parts)-2]
 	bcp := strings.Split(dockernet, "beyondcorp_")
 	if len(bcp) != 2 {
 		return "", errors.New("not beyondcorp service")
