@@ -1,13 +1,7 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//tools:sffe.bzl", "sffe_files")
 
-filegroup(
-    name = "sffe",
-    srcs = [
-        ":payroll",
-        ":sffe_payroll.json",
-    ],
-    visibility = ["//infra/sffe:__pkg__"],
-)
+sffe_files([":payroll"])
 
 cc_binary(
     name = "payroll",

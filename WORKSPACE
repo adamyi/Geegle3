@@ -89,6 +89,25 @@ _go_image_repos()
 _py_image_repos()
 
 http_archive(
+    name = "io_bazel_rules_jsonnet",
+    sha256 = "68b5bcb0779599065da1056fc8df60d970cffe8e6832caf13819bb4d6e832459",
+    strip_prefix = "rules_jsonnet-0.2.0",
+    urls = ["https://github.com/bazelbuild/rules_jsonnet/archive/0.2.0.tar.gz"],
+)
+
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_repositories")
+
+jsonnet_repositories()
+
+load("@jsonnet_go//bazel:repositories.bzl", "jsonnet_go_repositories")
+
+jsonnet_go_repositories()
+
+load("@jsonnet_go//bazel:deps.bzl", "jsonnet_go_dependencies")
+
+jsonnet_go_dependencies()
+
+http_archive(
     name = "base_images_docker",
     sha256 = "ce6043d38aa7fad421910311aecec865beb060eb56d8c3eb5af62b2805e9379c",
     strip_prefix = "base-images-docker-7657d04ad9e30b9b8d981b96ae57634cd45ba18a",

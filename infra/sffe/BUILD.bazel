@@ -1,11 +1,23 @@
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_to_json")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 
+jsonnet_to_json(
+    name = "staticfiles-config",
+    src = "sffe.jsonnet",
+    outs = ["staticfiles.json"],
+    deps = [
+        "//chals:challenges_jsonnet",
+        "//infra/jsonnet:utils",
+    ],
+)
+
 pkg_tar(
     name = "initfiles",
     srcs = [
+        ":staticfiles-config",
         "//chals/pwn/game:sffe",
         "//chals/pwn/geelang:sffe",
         "//chals/pwn/payroll:sffe",

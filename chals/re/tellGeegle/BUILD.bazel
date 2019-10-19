@@ -3,7 +3,6 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 filegroup(
     name = "sffe",
     srcs = [
-        ":sffe_tellGeegle.json",
         ":tellGeegle",
     ],
     visibility = ["//infra/sffe:__pkg__"],

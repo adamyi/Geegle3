@@ -1,13 +1,11 @@
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_library")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//tools:sffe.bzl", "sffe_files")
+load("//tools:challenge.bzl", "ctf_challenge")
 
-filegroup(
-    name = "sffe",
-    srcs = [
-        ":geelang-compiler",
-        ":sffe_geelang.json",
-    ],
-    visibility = ["//infra/sffe:__pkg__"],
-)
+ctf_challenge()
+
+sffe_files([":geelang-compiler"])
 
 cc_binary(
     name = "geelang-compiler",
@@ -36,4 +34,12 @@ container_image(
         "@com_github_joewalnes_websocketd//:websocketd",
     ],
     visibility = ["//visibility:public"],
+)
+
+jsonnet_library(
+    name = "jsonnet",
+    srcs = [
+        "challenge.libsonnet",
+    ],
+    visibility = ["//chals:__pkg__"],
 )
