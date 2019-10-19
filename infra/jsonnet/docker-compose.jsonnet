@@ -39,6 +39,10 @@ local networks = {
   services: {
     uberproxy: {
       image: "gcr.io/geegle/infra/uberproxy:latest",
+      networks: {
+        ["beyondcorp_" + service.name]: {}
+        for service in services
+      }
     },
   } + tservices,
   networks: networks,

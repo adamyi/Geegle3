@@ -56,7 +56,7 @@ container_bundle(
         # others challenges
         "gcr.io/geegle/chals/ir/who-is-attacking-me:latest": "//chals/ir/who-is-attacking-me:image",
         "gcr.io/geegle/chals/pwn/intern-project:latest": "//chals/pwn/intern-project:image",
-        "gcr.io/geegle/chals/web/guest:latest": "//chals/web/guest/app:image",
+        "gcr.io/geegle/chals/web/guest:latest": "//chals/web/guest:image",
     },
 )
 

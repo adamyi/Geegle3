@@ -1,5 +1,8 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 load("//tools:sffe.bzl", "sffe_files")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
 
 sffe_files([":intern-project"])
 
