@@ -1,5 +1,8 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
 
 proto_library(
     name = "main_proto",

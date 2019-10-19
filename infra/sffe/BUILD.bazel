@@ -20,6 +20,7 @@ pkg_tar(
         ":staticfiles-config",
         "//chals/pwn/game:sffe",
         "//chals/pwn/geelang:sffe",
+        "//chals/pwn/intern-project:sffe",
         "//chals/pwn/payroll:sffe",
         "//chals/pwn/shell:sffe",
         "//chals/re/tellGeegle:sffe",

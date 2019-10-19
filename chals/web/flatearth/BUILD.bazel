@@ -1,4 +1,7 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
 
 container_image(
     name = "image",

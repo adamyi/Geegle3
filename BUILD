@@ -39,7 +39,7 @@ container_bundle(
         "gcr.io/geegle/infra/gae:latest": "//infra/gae:image",
 
         # web challenges
-        "gcr.io/geegle/chals/web/kix:latest": "//chals/web/kix:image",
+        "gcr.io/geegle/chals/web/docs:latest": "//chals/web/docs:image",
         "gcr.io/geegle/chals/web/seclearn:latest": "//chals/web/seclearn:image",
         "gcr.io/geegle/chals/web/pasteweb:latest": "//chals/web/pasteweb:image",
         "gcr.io/geegle/chals/web/memegen:latest": "//chals/web/memegen:image",
@@ -56,7 +56,7 @@ container_bundle(
         # others challenges
         "gcr.io/geegle/chals/ir/who-is-attacking-me:latest": "//chals/ir/who-is-attacking-me:image",
         "gcr.io/geegle/chals/pwn/intern-project:latest": "//chals/pwn/intern-project:image",
-        "gcr.io/geegle/chals/web/guest:latest": "//chals/web/guest/app:image",
+        "gcr.io/geegle/chals/web/guest:latest": "//chals/web/guest:image",
     },
 )
 

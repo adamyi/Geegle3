@@ -1,5 +1,8 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
 
 cc_binary(
     name = "vuln",
@@ -29,7 +32,7 @@ go_library(
         "helper.go",
         "main.go",
     ],
-    importpath = "geegle.org/chals/web/guest/app",
+    importpath = "geegle.org/chals/web/guest",
     visibility = ["//visibility:private"],
     deps = [
         "@com_github_gorilla_mux//:go_default_library",

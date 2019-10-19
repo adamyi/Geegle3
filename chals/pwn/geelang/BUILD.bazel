@@ -35,11 +35,3 @@ container_image(
     ],
     visibility = ["//visibility:public"],
 )
-
-jsonnet_library(
-    name = "jsonnet",
-    srcs = [
-        "challenge.libsonnet",
-    ],
-    visibility = ["//chals:__pkg__"],
-)

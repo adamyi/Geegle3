@@ -1,12 +1,10 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//tools:sffe.bzl", "sffe_files")
+load("//tools:challenge.bzl", "ctf_challenge")
 
-filegroup(
-    name = "sffe",
-    srcs = [
-        ":tellGeegle",
-    ],
-    visibility = ["//infra/sffe:__pkg__"],
-)
+ctf_challenge()
+
+sffe_files([":tellGeegle"])
 
 cc_binary(
     name = "tellGeegle",

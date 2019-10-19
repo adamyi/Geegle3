@@ -347,8 +347,8 @@ pip_import(
 )
 
 pip_import(
-    name = "kix_pip",
-    requirements = "//chals/web/kix:app/requirements.txt",
+    name = "docs_pip",
+    requirements = "//chals/web/docs:app/requirements.txt",
 )
 
 pip_import(
@@ -364,11 +364,11 @@ load(
 _gae_install()
 
 load(
-    "@kix_pip//:requirements.bzl",
-    _kix_install = "pip_install",
+    "@docs_pip//:requirements.bzl",
+    _docs_install = "pip_install",
 )
 
-_kix_install()
+_docs_install()
 
 load(
     "@pasteweb_pip//:requirements.bzl",
