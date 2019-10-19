@@ -19,6 +19,7 @@ go_image(
         ":flags.db",
     ],
     embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
 )
 
 go_library(
