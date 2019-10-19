@@ -37,6 +37,7 @@ container_bundle(
         "gcr.io/geegle/infra/geemail-frontend:latest": "//infra/geemail-frontend:image",
         "gcr.io/geegle/infra/uberproxy:latest": "//infra/uberproxy:image",
         "gcr.io/geegle/infra/gae:latest": "//infra/gae:image",
+        "gcr.io/geegle/infra/dns:latest": "//infra/dns:image",
 
         # web challenges
         "gcr.io/geegle/chals/web/docs:latest": "//chals/web/docs:image",
