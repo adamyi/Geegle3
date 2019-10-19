@@ -4,39 +4,6 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 
-jsonnet_to_json(
-    name = "staticfiles-config",
-    src = "sffe.jsonnet",
-    outs = ["staticfiles.json"],
-    deps = [
-        "//chals:challenges_jsonnet",
-        "//infra/jsonnet:utils",
-    ],
-)
-
-pkg_tar(
-    name = "initfiles",
-    srcs = [
-        ":staticfiles-config",
-        "//chals/pwn/game:sffe",
-        "//chals/pwn/geelang:sffe",
-        "//chals/pwn/payroll:sffe",
-        "//chals/pwn/shell:sffe",
-        "//chals/re/tellGeegle:sffe",
-    ],
-    mode = "0755",
-    package_dir = "/initfiles",
-)
-
-container_image(
-    name = "image",
-    base = ":image_without_initfiles",
-    tars = [
-        ":initfiles",
-    ],
-    visibility = ["//visibility:public"],
-)
-
 go_image(
     name = "image_without_initfiles",
     embed = [":go_default_library"],
@@ -45,16 +12,12 @@ go_image(
 go_library(
     name = "go_default_library",
     srcs = ["main.go"],
-    importpath = "geegle.org/infra/sffe",
+    importpath = "geegle.org/infra/scoreboard",
     visibility = ["//visibility:private"],
-    deps = [
-        "//infra/sffe/context:go_default_library",
-        "//infra/sffe/web:go_default_library",
-    ],
 )
 
 go_binary(
-    name = "sffe",
+    name = "scoreboard,
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
 )
