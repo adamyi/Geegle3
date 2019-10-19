@@ -70,7 +70,6 @@ func sendEmail(sender string, receiver string, subject string, body string, time
 
 }
 
-// TODO: Use geemail service
 func addFlag(user string, body string, sendConfirmation bool) {
 	var oPoints int
 	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
@@ -131,6 +130,7 @@ func listenAndServe(addr string) error {
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
+                        fmt.Println(err)
 			return
 		}
 
@@ -142,6 +142,7 @@ func listenAndServe(addr string) error {
 
 		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
 			http.Error(w, "Malformed Data", http.StatusBadRequest)
+                        fmt.Println(err)
 			return
 		}
 

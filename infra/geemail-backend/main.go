@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+        "io/ioutil"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -59,7 +60,7 @@ func addFlag(username string, body string, confirmation bool) error {
 	if err != nil {
 		return err
 	}
-
+        fmt.Println(string(reqBody))
 	resp, err := http.Post("https://scoreboard.corp.geegle.org/submit", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
@@ -67,6 +68,8 @@ func addFlag(username string, body string, confirmation bool) error {
 	}
 
 	fmt.Printf("%+v", resp)
+        responseData,_ := ioutil.ReadAll(resp.Body)
+        fmt.Println(string(responseData))
 	return nil
 }
 

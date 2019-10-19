@@ -28,7 +28,8 @@ func confirmFromGeemail(tknStr string, JwtKey []byte) error{
 		return fmt.Errorf("JWT Invalid")
 	}
 
-	if claims.Service != "geemail-backend@services.geegle.org" {
+// TODO: Why is this scoreboard
+	if claims.Service != "scoreboard@services.geegle.org" {
 		return fmt.Errorf("JWT not for geemail")
 	}
 
