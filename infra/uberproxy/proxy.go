@@ -83,8 +83,25 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	for name, value := range req.Header {
-		//TODO: remove uberproxy auth cookie from forwarded request
-		preq.Header.Set(name, value[0])
+		val := value[0]
+		if strings.ToLower(name) == "cookie" {
+			cookies := strings.Split(val, ";")
+			l := len(cookies)
+			for i, cookie := range cookies {
+				if strings.HasPrefix(strings.TrimLeft(strings.ToLower(cookie), " "), "uberproxy_auth") {
+					cookies[i] = cookies[l-1]
+					l -= 1
+				}
+			}
+			if l > 0 {
+				val = strings.TrimLeft(strings.Join(cookies[:l], ";"), " ")
+			} else {
+				val = ""
+			}
+		}
+		if val != "" {
+			preq.Header.Set(name, val)
+		}
 	}
 
 	preq.Header.Set("X-Geegle-JWT", ptstr)
