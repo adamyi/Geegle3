@@ -1,0 +1,3 @@
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()

@@ -15,5 +15,6 @@ jsonnet_to_json(
     deps = [
         ":utils",
         "//chals:challenges_jsonnet",
+        "//infra:infra_jsonnet",
     ],
 )
