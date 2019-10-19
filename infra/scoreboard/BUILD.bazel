@@ -17,7 +17,7 @@ go_library(
 )
 
 go_binary(
-    name = "scoreboard,
+    name = "scoreboard",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
 )
