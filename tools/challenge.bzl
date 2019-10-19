@@ -8,5 +8,5 @@ def ctf_challenge():
         srcs = [
             "challenge.libsonnet",
         ],
-        visibility = ["//chals:__pkg__"],
+        visibility = ["//chals:__pkg__", "//infra:__pkg__"],
     )
