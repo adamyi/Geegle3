@@ -60,7 +60,7 @@ func addFlag(username string, body string, confirmation bool) error {
 		return err
 	}
 
-	resp, err := http.Post("scoreboard.corp.geegle.org/submit", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Post("https://scoreboard.corp.geegle.org/submit", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
 		return err

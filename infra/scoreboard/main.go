@@ -12,7 +12,6 @@ import (
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
-
 )
 
 var _db *sql.DB
@@ -43,11 +42,10 @@ type Email struct {
 	Receiver string `json:"receiver"`
 	Subject  string `json:"subject"`
 	Body     []byte `json:"body"`
-	Time     int64    `json:"time"`
+	Time     int64  `json:"time"`
 }
 
 var _configuration = Configuration{}
-
 
 func initScoreboardRsp(w http.ResponseWriter) {
 	w.Header().Add("Server", "")
@@ -61,7 +59,7 @@ func sendEmail(sender string, receiver string, subject string, body string, time
 		return
 	}
 
-	resp, err := http.Post("scoreboard.corp.geegle.org", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Post("https://mail.corp.geegle.org/addMail", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
 		fmt.Println(err)
@@ -137,10 +135,10 @@ func listenAndServe(addr string) error {
 		}
 
 		data := struct {
-	Username         string `json:"username"`
-	Body             string `json:"flag"`
-	SendConfirmation bool   `json:"confirm"`
-                }{}
+			Username         string `json:"username"`
+			Body             string `json:"flag"`
+			SendConfirmation bool   `json:"confirm"`
+		}{}
 
 		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
 			http.Error(w, "Malformed Data", http.StatusBadRequest)
