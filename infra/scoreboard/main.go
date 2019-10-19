@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -130,7 +131,7 @@ func listenAndServe(addr string) error {
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
-                        fmt.Println(err)
+			fmt.Println(err)
 			return
 		}
 
@@ -139,10 +140,11 @@ func listenAndServe(addr string) error {
 			Body             string `json:"flag"`
 			SendConfirmation bool   `json:"confirm"`
 		}{}
-
+		body, _ := ioutil.ReadAll(r.Body)
+		fmt.Println(body)
 		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
 			http.Error(w, "Malformed Data", http.StatusBadRequest)
-                        fmt.Println(err)
+			fmt.Println(err)
 			return
 		}
 
