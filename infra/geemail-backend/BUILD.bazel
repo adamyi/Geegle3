@@ -1,14 +1,15 @@
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_library", "jsonnet_to_json")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 
 go_image(
     name = "image",
     args = [
-        "$(location :config.json)",
+        "$(location :all-config)",
         "$(location :geemail.db)",
     ],
     data = [
-        ":config.json",
+        ":all-config",
         ":geemail.db",
     ],
     embed = [":go_default_library"],
@@ -33,4 +34,38 @@ go_binary(
     name = "geemail-backend",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
+)
+
+jsonnet_library(
+    name = "emails-config",
+    srcs = ["emails.libsonnet"],
+    deps = [
+        "//chals:challenges_jsonnet",
+        "//infra/jsonnet:utils",
+    ],
+)
+
+jsonnet_library(
+    name = "flags-config",
+    srcs = ["flags.libsonnet"],
+    deps = [
+        "//chals:challenges_jsonnet",
+        "//infra/jsonnet:utils",
+    ],
+)
+
+jsonnet_library(
+    name = "config",
+    srcs = ["config.json"],
+)
+
+jsonnet_to_json(
+    name = "all-config",
+    src = "config.jsonnet",
+    outs = ["geemailconfig.json"],
+    deps = [
+        ":config",
+        ":emails-config",
+        ":flags-config",
+    ],
 )

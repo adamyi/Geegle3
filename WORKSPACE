@@ -6,10 +6,29 @@ workspace(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "842ec0e6b4fbfdd3de6150b61af92901eeb73681fd4d185746644c338f51d4c0",
+    urls = [
+        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/v0.20.1/rules_go-v0.20.1.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.20.1/rules_go-v0.20.1.tar.gz",
+    ],
+)
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains()
+
+# memegen requires https://github.com/bazelbuild/rules_docker/pull/1200
+# which isn't in release yet
+# TODO(adamyi): change to a stable release
+http_archive(
     name = "io_bazel_rules_docker",
-    sha256 = "e513c0ac6534810eb7a14bf025a0f159726753f97f74ab7863c650d26e01d677",
-    strip_prefix = "rules_docker-0.9.0",
-    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.9.0.tar.gz"],
+    sha256 = "5f9b5fc1431f03e5b62541cf691e6b2311dff0e698ab8241a777199351a51ad7",
+    strip_prefix = "rules_docker-e878e185bef129391d7847076bd1d377d5c16b41",
+    urls = ["https://github.com/bazelbuild/rules_docker/archive/e878e185bef129391d7847076bd1d377d5c16b41.tar.gz"],
+    #urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.12.0/rules_docker-v0.12.0.tar.gz"],
 )
 
 load(
@@ -20,24 +39,12 @@ load(
 container_repositories()
 
 http_archive(
-    name = "io_bazel_rules_go",
-    sha256 = "8df59f11fb697743cbb3f26cfb8750395f30471e9eabde0d174c3aebc7a1cd39",
-    urls = [
-        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/0.19.1/rules_go-0.19.1.tar.gz",
-        "https://github.com/bazelbuild/rules_go/releases/download/0.19.1/rules_go-0.19.1.tar.gz",
-    ],
-)
-
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-
-go_rules_dependencies()
-
-go_register_toolchains()
-
-http_archive(
     name = "bazel_gazelle",
-    sha256 = "3c681998538231a2d24d0c07ed5a7658cb72bfb5fd4bf9911157c0e9ac6a2687",
-    urls = ["https://github.com/bazelbuild/bazel-gazelle/releases/download/0.17.0/bazel-gazelle-0.17.0.tar.gz"],
+    sha256 = "41bff2a0b32b02f20c227d234aa25ef3783998e5453f7eade929704dcff7cd4b",
+    urls = [
+        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/bazel-gazelle/releases/download/v0.19.0/bazel-gazelle-v0.19.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.19.0/bazel-gazelle-v0.19.0.tar.gz",
+    ],
 )
 
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
@@ -46,9 +53,9 @@ gazelle_dependencies()
 
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "3040a5b946d9df7aa89c0bf6981330bf92b7844fd90e71b61da0c721e421a421",
-    strip_prefix = "protobuf-3.9.1",
-    urls = ["https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-all-3.9.1.tar.gz"],
+    sha256 = "e11f901c62f6a35e295b7e9c49123a96ef7a47503afd40ed174860ad4c3f294f",
+    strip_prefix = "protobuf-3.10.0",
+    urls = ["https://github.com/protocolbuffers/protobuf/releases/download/v3.10.0/protobuf-all-3.10.0.tar.gz"],
 )
 
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
@@ -63,13 +70,13 @@ http_archive(
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-git_repository(
-    name = "io_bazel_rules_python",
-    commit = "fdbb17a4118a1728d19e638a5291b4c4266ea5b8",
-    remote = "https://github.com/bazelbuild/rules_python.git",
+http_archive(
+    name = "rules_python",
+    sha256 = "e220053c4454664c09628ffbb33f245e65f5fe92eb285fbd0bc3a26f173f99d0",
+    strip_prefix = "rules_python-5aa465d5d91f1d9d90cac10624e3d2faf2057bd5",
+    urls = ["https://github.com/bazelbuild/rules_python/archive/5aa465d5d91f1d9d90cac10624e3d2faf2057bd5.tar.gz"],
 )
 
-load("@io_bazel_rules_docker//container:new_pull.bzl", "new_container_pull")
 load("@io_bazel_rules_docker//container:pull.bzl", "container_pull")
 load("@io_bazel_rules_docker//java:image.bzl", _java_image_repos = "repositories")
 load("@io_bazel_rules_docker//go:image.bzl", _go_image_repos = "repositories")
@@ -82,13 +89,32 @@ _go_image_repos()
 _py_image_repos()
 
 http_archive(
+    name = "io_bazel_rules_jsonnet",
+    sha256 = "68b5bcb0779599065da1056fc8df60d970cffe8e6832caf13819bb4d6e832459",
+    strip_prefix = "rules_jsonnet-0.2.0",
+    urls = ["https://github.com/bazelbuild/rules_jsonnet/archive/0.2.0.tar.gz"],
+)
+
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_repositories")
+
+jsonnet_repositories()
+
+load("@jsonnet_go//bazel:repositories.bzl", "jsonnet_go_repositories")
+
+jsonnet_go_repositories()
+
+load("@jsonnet_go//bazel:deps.bzl", "jsonnet_go_dependencies")
+
+jsonnet_go_dependencies()
+
+http_archive(
     name = "base_images_docker",
     sha256 = "ce6043d38aa7fad421910311aecec865beb060eb56d8c3eb5af62b2805e9379c",
     strip_prefix = "base-images-docker-7657d04ad9e30b9b8d981b96ae57634cd45ba18a",
     urls = ["https://github.com/GoogleCloudPlatform/base-images-docker/archive/7657d04ad9e30b9b8d981b96ae57634cd45ba18a.tar.gz"],
 )
 
-new_container_pull(
+container_pull(
     name = "tomcat9",
     registry = "index.docker.io",
     repository = "tomcat",
@@ -130,28 +156,28 @@ container_pull(
     tag = "1.7.4",
 )
 
-new_container_pull(
+container_pull(
     name = "alpine_linux_amd64",
     registry = "index.docker.io",
     repository = "library/alpine",
     tag = "3.8",
 )
 
-new_container_pull(
+container_pull(
     name = "ubuntu1804",
     registry = "gcr.io",
     repository = "cloud-marketplace/google/ubuntu1804",
     tag = "latest",
 )
 
-new_container_pull(
+container_pull(
     name = "python2-base",
     registry = "index.docker.io",
     repository = "python",
     tag = "2.7",
 )
 
-new_container_pull(
+container_pull(
     name = "python3-base",
     registry = "index.docker.io",
     repository = "python",
@@ -242,6 +268,12 @@ go_repository(
     importpath = "github.com/ziutek/blas",
 )
 
+go_repository(
+    name = "com_github_joewalnes_websocketd",
+    importpath = "github.com/joewalnes/websocketd",
+    tag = "v0.3.1",
+)
+
 RULES_NODEJS_VERSION = "0.32.2"
 
 RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"
@@ -299,10 +331,6 @@ load("@io_bazel_rules_webtesting//web:repositories.bzl", "web_test_repositories"
 
 web_test_repositories()
 
-load("@npm_bazel_karma//:browser_repositories.bzl", "browser_repositories")
-
-browser_repositories()
-
 load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
 
 ts_setup_workspace()
@@ -311,7 +339,7 @@ load("@io_bazel_rules_sass//sass:sass_repositories.bzl", "sass_repositories")
 
 sass_repositories()
 
-load("@io_bazel_rules_python//python:pip.bzl", "pip_import")
+load("@rules_python//python:pip.bzl", "pip_import")
 
 pip_import(
     name = "gae_pip",
@@ -348,10 +376,3 @@ load(
 )
 
 _pasteweb_install()
-
-http_archive(
-    name = "websocketd",
-    build_file = "//third_party:BUILD.websocketd",
-    sha256 = "fdadea9886e942c1d766aaa4303c3b8fe746caa66e7d012f726bbdb71e2cef3a",
-    url = "https://github.com/joewalnes/websocketd/releases/download/v0.3.0/websocketd-0.3.0-linux_amd64.zip",
-)

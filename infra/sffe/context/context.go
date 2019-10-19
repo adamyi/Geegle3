@@ -191,7 +191,7 @@ func InitFiles(ctx *Context, filepath string) {
 		log.Println(err)
 		return
 	}
-	var sr StoreRequest
+	var sr []StoreRequest
 	for _, f := range files {
 		if strings.HasSuffix(f.Name(), ".json") {
 			jsonFile, err := os.Open(filepath + f.Name())
@@ -209,17 +209,19 @@ func InitFiles(ctx *Context, filepath string) {
 				log.Println(err)
 				continue
 			}
-			storedFile, err := os.Open(filepath + sr.FileName)
-			if err != nil {
-				log.Println(err)
-				continue
+			for _, r := range sr {
+				storedFile, err := os.Open(filepath + r.FileName)
+				if err != nil {
+					log.Println(err)
+					continue
+				}
+				r.Content, err = ioutil.ReadAll(storedFile)
+				if err != nil {
+					log.Println(err)
+					continue
+				}
+				DoStoreFile(ctx, &r)
 			}
-			sr.Content, err = ioutil.ReadAll(storedFile)
-			if err != nil {
-				log.Println(err)
-				continue
-			}
-			DoStoreFile(ctx, &sr)
 		}
 	}
 }

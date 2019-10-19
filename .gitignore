@@ -6,3 +6,9 @@ core
 bazel-*
 node_modules
 dist
+yarn-error.log
+
+# NOTES(adamyi): those keep appearing in my environment and are annoying
+# i think it won't cause any problems
+/go.mod
+/go.sum
