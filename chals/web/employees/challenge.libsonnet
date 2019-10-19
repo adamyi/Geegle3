@@ -22,7 +22,7 @@
         Running next-gen anti-analysis blockchain algorithms to store data like never before. Feel free to use this to find other employees to communicate with :).
 
         https://employees.corp.geegle.org
-
+        
         Thanks,
         Adam
       |||,
