@@ -174,7 +174,6 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 
 // to be called by trusted apps, e.g. smtpd
 func addMail(rsp http.ResponseWriter, req *http.Request) {
-	fmt.Println("test")
 	initGmRsp(rsp)
 	if req.Method == "OPTIONS" {
 		return
@@ -192,7 +191,6 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 	decoder := json.NewDecoder(req.Body)
 	var e Email
 	err = decoder.Decode(&e)
-	fmt.Printf("email is %+v", e)
 	if err != nil {
 		fmt.Println(err)
 		rsp.WriteHeader(http.StatusInternalServerError)

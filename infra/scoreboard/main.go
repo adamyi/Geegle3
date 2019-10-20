@@ -10,6 +10,7 @@ import (
 	"os"
 	"strings"
 	"time"
+        "net/http/httputil"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -54,6 +55,7 @@ func initScoreboardRsp(w http.ResponseWriter) {
 }
 
 func sendEmail(sender string, receiver string, subject string, body string, time int64) {
+        fmt.Println("Sending an emiaal")
 	email := Email{0, sender, receiver, subject, []byte(body), time}
 	reqBody, err := json.Marshal(email)
 	if err != nil {
@@ -61,7 +63,7 @@ func sendEmail(sender string, receiver string, subject string, body string, time
 		return
 	}
 
-	resp, err := http.Post("https://mail.corp.geegle.org/api/addmail", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Post("https://geemail-backend.corp.geegle.org/api/addmail", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
 		fmt.Println(err)
@@ -69,6 +71,10 @@ func sendEmail(sender string, receiver string, subject string, body string, time
 	}
 
 	fmt.Printf("mail resp %+v", resp)
+
+	rs, _ := httputil.DumpResponse(resp, true)
+
+	fmt.Println(string(rs))
 
 }
 
@@ -101,20 +107,20 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		}
 	}
 
-	fmt.Println(flags, points)
 	if points > 0 {
-		fmt.Println("im here now")
 		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
 		if sendConfirmation {
 			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
 			sendEmail("noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000000)
 		}
+                fmt.Println(oPoints+points)
 		for _, challenge := range _configuration.Challenges {
 			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
 				sendEmail(challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000000+challenge.Delay)
 			}
 		}
 	} else {
+                fmt.Println(flags, points)
 		msg := "Sorry, we did not recognise that flag :("
 		sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 	}
