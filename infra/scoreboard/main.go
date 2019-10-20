@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/http/httputil"
 	"os"
 	"strings"
 	"time"
@@ -60,14 +59,14 @@ func sendEmail(sender string, receiver string, subject string, body string, time
 		return
 	}
 
-	resp, err := http.Post("https://mail.corp.geegle.org/addMail", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Post("https://mail.corp.geegle.org/api/addmail", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Printf("%+v", resp)
+	fmt.Printf("mail resp %+v", resp)
 
 }
 
@@ -75,6 +74,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 	var oPoints int
 	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
 	if err != nil {
+                fmt.Println(err)
 		msg := "Sorry, something went wrong :("
 		sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 		return
@@ -86,6 +86,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 			var count int
 			err = _db.QueryRow("select count(*) from submission where flag = ? and user = ?", flag.Flag, user).Scan(&count)
 			if err != nil {
+                                fmt.Println(err)
 				msg := "Sorry, something went wrong :("
 				sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 				return
@@ -98,7 +99,9 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		}
 	}
 
+        fmt.Println(flags, points)
 	if points > 0 {
+                fmt.Println("im here now")
 		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
 		if sendConfirmation {
 			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
@@ -126,10 +129,6 @@ func listenAndServe(addr string) error {
 	mux.HandleFunc("/submit/", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
-		rs, _ := httputil.DumpRequest(r, true)
-
-		fmt.Println(string(rs))
-
 		tknStr := r.Header.Get("X-Geegle-JWT")
 		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
 		if err != nil {
@@ -150,7 +149,7 @@ func listenAndServe(addr string) error {
 			fmt.Println(err)
 			return
 		}
-		fmt.Printf("%+v", data)
+
 		addFlag(data.Username, data.Body, data.SendConfirmation)
 	})
 
