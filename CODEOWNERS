@@ -1,0 +1,49 @@
+# auto invite people for code review
+# see https://help.github.com/en/articles/about-code-owners
+
+# storyline
+challenge.libsonnet @LachJones
+
+# challenges
+/chals/emails/ @LachJones
+/chals/ir/intercepted/ @adamtanana
+/chals/ir/who-is-attacking-me/ @adamtanana
+/chals/pwn/game/ @adamtanana
+/chals/pwn/geelang/ @adamtanna
+/chals/pwn/intern-project/ @adamtanana
+/chals/pwn/payroll/ @adamtanana
+/chals/pwn/shell/ @adamtanana
+/chals/re/tellGeegle/ @LachJones
+/chals/web/docs/ @adamyi
+/chals/web/drive/ @adamyi
+/chals/web/employees/ @adamtanana
+/chals/web/flatearth/ @adamyi
+/chals/web/guest/ @adamtanana
+/chals/web/memegen/ @adamyi
+/chals/web/pasteweb/ @adamyi
+/chals/web/seclearn/ @adamyi
+
+# infrastructure
+/infra/cli-static/ @adamyi
+/infra/dns/ @adamyi
+/infra/gae/ @adamyi
+/infra/geemail-backend/ @adamyi
+/infra/geemail-frontend/ @adamyi
+/infra/gsmtpd/ @adamtanana
+/infra/jsonnet/ @adamyi
+/infra/mss/ @adamyi
+/infra/redis/ @adamyi
+/infra/requestz/ @adamyi
+/infra/sffe/ @adamyi
+/infra/uberproxy/ @adamyi
+/infra/scoreboard/ @adamtanana
+
+# bazel
+BUILD @adamyi
+BUILD.bazel @adamyi
+WORKSPACE @adamyi
+/tools/ @adamyi
+/.buildkite/ @adamyi
+/.circleci/ @adamyi
+*.libsonnet @adamyi
+*.jsonnet @adamyi
