@@ -3,6 +3,17 @@
     {
       name: "onboarding",
       category: "re",
+      staticfiles: [
+        {
+          filename: "tellGeegle",
+          flags:[
+            {
+              name: "importance",
+              value: "definitelysuperduperhigh",
+            },
+          ],
+        }
+      ],
     },
   ],
   flags: [
