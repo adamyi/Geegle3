@@ -11,11 +11,9 @@ go_image(
     name = "image",
     args = [
         "infra/scoreboard/scoreboardconfig.json",  # TODO(adamyi): figure out how to not hard-code this
-        "$(location :flags.db)",
     ],
     data = [
         ":all-config",
-        ":flags.db",
     ],
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
@@ -31,7 +29,7 @@ go_library(
     visibility = ["//visibility:private"],
     deps = [
         "@com_github_dgrijalva_jwt_go//:go_default_library",
-        "@com_github_mattn_go_sqlite3//:go_default_library",
+        "@com_github_go_sql_driver_mysql//:go_default_library",
     ],
 )
 
