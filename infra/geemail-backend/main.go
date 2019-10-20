@@ -81,15 +81,15 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 	tknStr := req.Header.Get("X-Geegle-JWT")
 	user, err := getJwtUserName(tknStr, _configuration.JwtKey)
 	if err != nil {
-		fmt.Printf(err.Error())
+		fmt.Println(err.Error())
 		rsp.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 	var inited int
 	err = _db.QueryRow("select count(*) from scoreboard where user = ?", user).Scan(&inited)
 	if err != nil {
-		fmt.Printf(err.Error())
-		rsp.WriteHeader(http.StatusUnauthorized)
+		fmt.Println(err.Error())
+		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	if inited == 0 {
