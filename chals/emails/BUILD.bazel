@@ -1,1 +1,5 @@
 load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_library", "jsonnet_to_json")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
