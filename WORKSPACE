@@ -251,6 +251,12 @@ go_repository(
 )
 
 go_repository(
+    name = "com_github_go_sql_driver_mysql",
+    importpath = "github.com/go-sql-driver/mysql",
+    tag = "v1.4.1",
+)
+
+go_repository(
     name = "com_github_golang_snappy",
     importpath = "github.com/golang/snappy",
     tag = "v0.0.1",
