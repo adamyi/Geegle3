@@ -4,6 +4,7 @@ challenges_list(
     name = "challenges_jsonnet",
     visibility = ["//visibility:public"],
     deps = [
+        "//chals/emails/intro:challenge",
         "//chals/ir/intercepted:challenge",
         "//chals/ir/who-is-attacking-me:challenge",
         "//chals/pwn/game:challenge",
