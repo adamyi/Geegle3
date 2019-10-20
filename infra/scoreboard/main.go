@@ -174,7 +174,8 @@ func readConfig() {
 
 func main() {
 	readConfig()
-	_db, err := sql.Open("sqlite3", os.Args[2])
+	var err error
+	_db, err = sql.Open("sqlite3", os.Args[2])
 	if err != nil {
 		panic(err)
 	}
