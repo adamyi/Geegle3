@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Challenge struct {
@@ -29,6 +29,8 @@ type Flag struct {
 
 type Configuration struct {
 	ListenAddress string
+	DbType        string
+	DbAddress     string
 	JwtKey        []byte
 	Challenges    []Challenge
 	Flags         []Flag
@@ -242,7 +244,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	readConfig()
 	var err error
-	_db, err = sql.Open("sqlite3", os.Args[2])
+	_db, err = sql.Open(_configuration.DbType, _configuration.DbAddress)
 	if err != nil {
 		log.Fatal(err)
 	}
