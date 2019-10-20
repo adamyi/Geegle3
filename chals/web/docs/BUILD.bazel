@@ -45,5 +45,11 @@ py_image(
 container_image(
     name = "base",
     base = "@python-with-latex//image",
-    files = [":key"],
+    files = [
+        ":HOWDOIDELETETHIS.pdf",
+        ":key",
+    ],
+    symlinks = {
+        "/tmp/HOWDOIDELETETHIS.pdf": "/HOWDOIDELETETHIS.pdf",
+    },
 )
