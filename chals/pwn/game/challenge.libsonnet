@@ -28,9 +28,11 @@
       "Title": "Shall we play a game?",
       "Body": |||
         We know that being a Geegler is hard.
-        As part of our continued commitment to employee satisfaction, we regularly release games for our employees to play.
+        As part of our continued commitment to employee satisfaction, we regularly release games for our employees to play. You can download a local version, or play the main version on our server!
+        
         Good luck have fun!
-        Play it here: https://ssfe.corp.geegle.org/s/270e32d2aa9faa1785ff58ad3a078966/funlevel=100/game.
+        Download it here: https://ssfe.corp.geegle.org/s/270e32d2aa9faa1785ff58ad3a078966/funlevel=100/game.
+        Server version: https://game.corp.geegle.org
       |||,
       "DependsOnPoints": 200,
       "Delay": 10000
