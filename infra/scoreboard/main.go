@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"os"
 	"strings"
 	"time"
@@ -126,6 +126,10 @@ func listenAndServe(addr string) error {
 	mux.HandleFunc("/submit/", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
+		rs, _ := httputil.DumpRequest(r, true)
+
+		fmt.Println(string(rs))
+
 		tknStr := r.Header.Get("X-Geegle-JWT")
 		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
 		if err != nil {
@@ -140,8 +144,7 @@ func listenAndServe(addr string) error {
 			Body             string `json:"flag"`
 			SendConfirmation bool   `json:"confirm"`
 		}{}
-		body, _ := ioutil.ReadAll(r.Body)
-		fmt.Println(body)
+
 		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
 			http.Error(w, "Malformed Data", http.StatusBadRequest)
 			fmt.Println(err)
