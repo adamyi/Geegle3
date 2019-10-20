@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var _db *sql.DB
@@ -34,6 +34,8 @@ type Configuration struct {
 	DbType        string
 	DbAddress     string
 	JwtKey        []byte
+	Challenges    []Challenge
+	Flags         []Flag
 }
 
 type Email struct {
