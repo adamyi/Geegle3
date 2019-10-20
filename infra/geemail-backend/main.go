@@ -2,11 +2,13 @@ package main
 
 import (
 	"database/sql"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
+	"net/smtp"
 	"os"
 	"strings"
 	"time"
@@ -29,6 +31,7 @@ type Flag struct {
 
 type Configuration struct {
 	ListenAddress string
+	SmtpAddress   string
 	DbType        string
 	DbAddress     string
 	JwtKey        []byte
@@ -198,6 +201,9 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	// TODO: check validity of receiver email and subject format
+
 	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", user, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000000)
 	if err != nil {
 		rsp.WriteHeader(http.StatusInternalServerError)
@@ -209,6 +215,49 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		addFlag(user, string(e.Body), true)
 	}
 	// TODO: integrate with headless chrome
+
+	if !strings.HasSuffix(e.Receiver, "@geegle.org") {
+		err = sendOutboundMail(e.Receiver, user, e.Subject, e.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+}
+
+func sendOutboundMail(to, from, subject string, body []byte) error {
+	c, err := smtp.Dial(_configuration.SmtpAddress)
+	if err != nil {
+		return err
+	}
+	defer c.Close()
+	if err = c.Mail(from); err != nil {
+		return err
+	}
+	if err = c.Rcpt(to); err != nil {
+		return err
+	}
+
+	w, err := c.Data()
+	if err != nil {
+		return err
+	}
+
+	msg := "To: " + to + "\r\n" +
+		"From: " + from + "\r\n" +
+		"Subject: " + subject + "\r\n" +
+		"Content-Type: text/html; charset=\"UTF-8\"\r\n" +
+		"Content-Transfer-Encoding: base64\r\n" +
+		"\r\n" + base64.StdEncoding.EncodeToString(body)
+
+	_, err = w.Write([]byte(msg))
+	if err != nil {
+		return err
+	}
+	err = w.Close()
+	if err != nil {
+		return err
+	}
+	return c.Quit()
 }
 
 // to be called by trusted apps, e.g. smtpd
