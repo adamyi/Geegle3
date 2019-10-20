@@ -106,7 +106,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		}
 		for _, challenge := range _configuration.Challenges {
 			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
-				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000000+challenge.Delay)
+				sendEmail(challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000000+challenge.Delay)
 			}
 		}
 	} else {
@@ -150,7 +150,7 @@ func listenAndServe(addr string) error {
 			fmt.Println(err)
 			return
 		}
-
+		fmt.Printf("%+v", data)
 		addFlag(data.Username, data.Body, data.SendConfirmation)
 	})
 
@@ -176,7 +176,7 @@ func main() {
 	readConfig()
 	_db, err := sql.Open("sqlite3", os.Args[2])
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer _db.Close()
 
