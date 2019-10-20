@@ -31,9 +31,9 @@ type Flag struct {
 
 type Configuration struct {
 	ListenAddress string
+	DbType        string
+	DbAddress     string
 	JwtKey        []byte
-	Challenges    []Challenge
-	Flags         []Flag
 }
 
 type Email struct {
@@ -74,7 +74,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 	var oPoints int
 	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
 	if err != nil {
-                fmt.Println(err)
+		fmt.Println(err)
 		msg := "Sorry, something went wrong :("
 		sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 		return
@@ -86,7 +86,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 			var count int
 			err = _db.QueryRow("select count(*) from submission where flag = ? and user = ?", flag.Flag, user).Scan(&count)
 			if err != nil {
-                                fmt.Println(err)
+				fmt.Println(err)
 				msg := "Sorry, something went wrong :("
 				sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 				return
@@ -99,9 +99,9 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		}
 	}
 
-        fmt.Println(flags, points)
+	fmt.Println(flags, points)
 	if points > 0 {
-                fmt.Println("im here now")
+		fmt.Println("im here now")
 		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
 		if sendConfirmation {
 			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
@@ -174,7 +174,7 @@ func readConfig() {
 func main() {
 	readConfig()
 	var err error
-	_db, err = sql.Open("sqlite3", os.Args[2])
+	_db, err = sql.Open(_configuration.DbType, _configuration.DbAddress)
 	if err != nil {
 		panic(err)
 	}

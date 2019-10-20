@@ -174,7 +174,7 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 
 // to be called by trusted apps, e.g. smtpd
 func addMail(rsp http.ResponseWriter, req *http.Request) {
-        fmt.Println("test")
+	fmt.Println("test")
 	initGmRsp(rsp)
 	if req.Method == "OPTIONS" {
 		return
@@ -184,7 +184,7 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 	_, err := getJwtUserName(tknStr, _configuration.JwtKey)
 	if err != nil {
 		rsp.WriteHeader(http.StatusUnauthorized)
-                fmt.Println(err)
+		fmt.Println(err)
 		return
 	}
 	// TODO: whitelist services to call this function
@@ -192,15 +192,15 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 	decoder := json.NewDecoder(req.Body)
 	var e Email
 	err = decoder.Decode(&e)
-        fmt.Println("email is %+v", e)
+	fmt.Printf("email is %+v", e)
 	if err != nil {
-                fmt.Println(err)
+		fmt.Println(err)
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000000)
 	if err != nil {
-                fmt.Println(err)
+		fmt.Println(err)
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
