@@ -485,6 +485,13 @@
     semver "6.2.0"
     semver-intersect "1.4.0"
 
+"@tinymce/tinymce-angular@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-angular/-/tinymce-angular-3.3.1.tgz#bc0260c72cc6a58ab117c79dbc909bc2c0ba20ad"
+  integrity sha512-a7WyOAQso7RVCllklicE1M9wvNAXrnB+SC4/JTlZvXEy57fH/t3XHT9c4fd0BqlAUsBxDobUmERcWLjc/qhCnA==
+  dependencies:
+    tslib "^1.9.0"
+
 "@types/argparse@1.0.33":
   version "1.0.33"
   resolved "https://registry.yarnpkg.com/@types/argparse/-/argparse-1.0.33.tgz#2728669427cdd74a99e53c9f457ca2866a37c52d"

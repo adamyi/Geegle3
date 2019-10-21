@@ -10,7 +10,7 @@
         <input class="new-info" type="text" placeholder="Subject" required [(ngModel)]="mail.subject" name="subject">
       </div>
       <div>
-        <textarea id="text" rows="23" [(ngModel)]="mail.body" name="message"></textarea>
+        <editor [(ngModel)]="mail.body"></editor>
       </div>
       <div id="new-footer">
         <button [disabled]="!mailForm.form.valid" type="submit" class="button" id="send">Send</button>

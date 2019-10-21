@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 import { AppComponent } from './app.component';
 import { MailItemsComponent } from './mail-items/mail-items.component';
@@ -47,6 +48,7 @@ import { WithCredentialsInterceptor } from './credentials.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    EditorModule,
   ],
   providers: [MailService, DataService,
     {

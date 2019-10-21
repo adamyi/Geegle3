@@ -87,7 +87,8 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		fmt.Println(oPoints + points)
 		for _, challenge := range _configuration.Challenges {
 			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
-				geemail.SendEmailWithDelay(challenge.Sender, user, challenge.Title, []byte(challenge.Body), challenge.Delay)
+				body := strings.Replace(challenge.Body, "\n", "<br>", -1)
+				geemail.SendEmailWithDelay(challenge.Sender, user, challenge.Title, []byte(body), challenge.Delay)
 			}
 		}
 	} else {
