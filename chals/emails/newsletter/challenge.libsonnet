@@ -66,7 +66,6 @@
       "Delay": 2400000
     },
     {
-    {
       "Sender": "Geegle-Newsletter@geegle.org",
       "Title": "Geegle News 0x03",
       "Body": |||
