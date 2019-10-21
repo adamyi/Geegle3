@@ -81,8 +81,7 @@
         <b>Method calls on another object fall into one of two categories:</b>
         <ul>
         <li>
-        State-changing: methods that have side effects and change the world outside the code under test,
-e.g., sendEmail(), saveRecord(), logAccess().
+        State-changing: methods that have side effects and change the world outside the code under test, e.g., sendEmail(), saveRecord(), logAccess().
         </li>
         <li>
         Non-state-changing: methods that return information about the world outside the code under test and don't modify anything, e.g., getUser(), findResults(), readFile().
@@ -124,7 +123,6 @@ e.g., sendEmail(), saveRecord(), logAccess().
       |||,
       "DependsOnPoints": 1,
       "Delay": 4800000
-    
     },
     {
       "Sender": "Geegle-Newsletter@geegle.org",
