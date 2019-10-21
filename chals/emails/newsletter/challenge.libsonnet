@@ -35,5 +35,35 @@
       "DependsOnPoints": 1,
       "Delay": 600000
     },
+    {
+      "Sender": "Geegle-Newsletter@geegle.org",
+      "Title": "Geegle News 0x02",
+      "Body": |||
+        Welcome to Geegle Newsletter!
+        
+        Welcome to the CTF edition of the newsletter! We wanted to share some things we always notice in CTF's so you watch out for them whenever you play!
+        
+        There's always one of these...
+        <img src="https://www.brawl.com/attachments/37697/">
+        So you better be ready for it!
+        
+        
+        There's hidden flags:
+        <img src="http://i.imgur.com/8NWXTbA.png">
+        
+        
+        And...
+        Someone tries to be funny and attack the CTF infrastructure
+        <img src="https://media.makeameme.org/created/why-the-fuck-f47ctf.jpg">
+        
+        
+        So yeah, I bet you can't wait to see all of that sometime soon!
+        
+        Thats a wrap,
+        Geegle Newsletter
+      |||,
+      "DependsOnPoints": 1,
+      "Delay": 2400000
+    }
   ],
 }
