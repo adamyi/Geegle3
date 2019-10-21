@@ -1,31 +1,43 @@
 {{ define "title" }}Scoreboard{{ end }}
 
 {{ define "content" }}
-<div id="card-container">
-    <div id="card">
-        <div class="card-content">
-            <div class="center">
-                <span class="brand">Scoreboard</span>
-            </div>
-            <div class="center">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{ range . }}
-                        <tr>
-                            <td scope="row">{{.Name}}</td>
-                            <td>{{.Points }}</td>
-                        </tr>
-                        {{ end }}
-                    </tbody>
-                </table>
-            </div>
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Scoreboard</span>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-navigation__link" href="">Link</a>
+                <a class="mdl-navigation__link" href="">Link</a>
+                <a class="mdl-navigation__link" href="">Link</a>
+                <a class="mdl-navigation__link" href="">Link</a>
+            </nav>
         </div>
-    </div>
+    </header>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Name</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range . }}
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">{{.Name}}</td>
+                        <td scope="row">{{.Name}}</td>
+                        <td>{{.Points }}</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+
+        </div>
+    </main>
 </div>
+
 {{ end }}
