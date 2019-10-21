@@ -204,7 +204,7 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000000)
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, e.Time)
 	if err != nil {
 		fmt.Println(err)
 		rsp.WriteHeader(http.StatusInternalServerError)
