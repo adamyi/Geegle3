@@ -138,7 +138,7 @@ func listenAndServe(addr string) error {
 	mux.HandleFunc("/view", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
-		var data []Player = make([]Player, 0, 30)
+		data := make([]Player, 0, 30)
 		rows, err := _db.Query("select user, points from scoreboard ORDER BY points DESC LIMIT 30")
 		if err != nil {
 			http.Error(w, "I don't know what happened", http.StatusInternalServerError)
