@@ -11,9 +11,11 @@ go_image(
     name = "image",
     args = [
         "infra/scoreboard/scoreboardconfig.json",  # TODO(adamyi): figure out how to not hard-code this
+        "$(location :templates)",
     ],
     data = [
         ":all-config",
+        ":templates",
     ],
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
