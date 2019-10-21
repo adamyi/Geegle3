@@ -334,6 +334,42 @@ go_repository(
     importpath = "github.com/emersion/go-sasl",
 )
 
+go_repository(
+    name = "com_github_jhillyerd_enmime",
+    importpath = "github.com/jhillyerd/enmime",
+    tag = "v0.6.0",
+)
+
+go_repository(
+    name = "com_github_gogs_chardet",
+    commit = "2404f7772561",
+    importpath = "github.com/gogs/chardet",
+)
+
+go_repository(
+    name = "com_github_jaytaylor_html2text",
+    commit = "57d518f124b0",
+    importpath = "github.com/jaytaylor/html2text",
+)
+
+go_repository(
+    name = "com_github_ssor_bom",
+    commit = "6386211fdfcf",
+    importpath = "github.com/ssor/bom",
+)
+
+go_repository(
+    name = "com_github_olekukonko_tablewriter",
+    commit = "be2c049b30cc",
+    importpath = "github.com/olekukonko/tablewriter",
+)
+
+go_repository(
+    name = "com_github_mattn_go_runewidth",
+    importpath = "github.com/mattn/go-runewidth",
+    tag = "v0.0.3",
+)
+
 RULES_NODEJS_VERSION = "0.32.2"
 
 RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"

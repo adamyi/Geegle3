@@ -3,9 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/mail"
 	"regexp"
 	"strings"
 	"time"
@@ -14,6 +12,7 @@ import (
 
 	geemail "geegle.org/infra/geemail-client"
 	"github.com/emersion/go-smtp"
+	"github.com/jhillyerd/enmime"
 )
 
 var emailRe = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
@@ -61,18 +60,18 @@ func (s *Session) Rcpt(to string) error {
 }
 
 func (s *Session) Data(r io.Reader) error {
-	m, err := mail.ReadMessage(r)
+	env, err := enmime.ReadEnvelope(r)
 	if err != nil {
 		return err
-	} else {
-		body, err := ioutil.ReadAll(m.Body)
-		if err != nil {
-			return err
-		}
-		// NOTE: all smtp header is discarded here except Subject
-		// NOTE: spf, dkim, dmarc are NOT checked here
-		go sendMail(s.From, s.To, m.Header.Get("Subject"), body)
 	}
+	body := env.HTML
+	if body == "" {
+		body = env.Text
+	}
+	// NOTE: all other headers are discarded
+	// NOTE: attachments are discarded
+	// NOTE: spf, dkim, dmarc are not checked
+	go sendMail(s.From, s.To, env.GetHeader("Subject"), []byte(body))
 	return nil
 }
 

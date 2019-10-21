@@ -18,6 +18,7 @@ go_library(
     deps = [
         "//infra/geemail-client:go_default_library",
         "@com_github_emersion_go_smtp//:go_default_library",
+        "@com_github_jhillyerd_enmime//:go_default_library",
     ],
 )
 
