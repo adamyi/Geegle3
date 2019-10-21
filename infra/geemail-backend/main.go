@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/base64"
 	"encoding/json"
@@ -17,27 +18,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Challenge struct {
-	Sender          string
-	Title           string
-	Body            string
-	DependsOnPoints int
-	Delay           int64
-}
-
-type Flag struct {
-	Flag   string
-	Points int
-}
-
 type Configuration struct {
 	ListenAddress string
 	SmtpAddress   string
 	DbType        string
 	DbAddress     string
 	JwtKey        []byte
-	Challenges    []Challenge
-	Flags         []Flag
 }
 
 type UserInfo struct {
@@ -68,6 +54,24 @@ func readConfig() {
 	}
 }
 
+func addFlag(username string, body string, confirmation bool) error {
+	submitData := struct {
+		Username         string `json:"username"`
+		Body             string `json:"flag"`
+		SendConfirmation bool   `json:"confirm"`
+	}{
+		username, body, confirmation,
+	}
+
+	reqBody, err := json.Marshal(submitData)
+	if err != nil {
+		return err
+	}
+	_, err = http.Post("https://scoreboard.corp.geegle.org/api/submit", "application/json", bytes.NewBuffer(reqBody))
+
+	return err
+}
+
 func initGmRsp(rsp http.ResponseWriter) {
 	rsp.Header().Add("Server", "geemail")
 	rsp.Header().Add("Access-Control-Allow-Origin", "https://mail.corp.geegle.org")
@@ -90,16 +94,9 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	var inited int
-	err = _db.QueryRow("select count(*) from scoreboard where user = ?", user).Scan(&inited)
-	if err != nil {
-		fmt.Println(err.Error())
-		rsp.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	if inited == 0 {
-		initUser(user)
-	}
+
+	// TODO Maybe dont init user every single time
+	initUser(user)
 	// user := "adamyi@geegle.org"
 	info := &UserInfo{
 		Username: user,
@@ -133,54 +130,22 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 }
 
 func initUser(user string) {
-	_db.Exec("insert into scoreboard (user, points) values (?,?)", user, 0)
-	addFlag(user, "GEEGLE{WELCOME_TO_GEEGLE}", false)
-}
+	submitData := struct {
+		Username string `json:"username"`
+	}{
+		user,
+	}
 
-func addFlag(user string, body string, sendConfirmation bool) {
-	// TODO: move this to a separate flag service
-	var oPoints int
-	err := _db.QueryRow("select points from scoreboard where user = ?", user).Scan(&oPoints)
+	reqBody, err := json.Marshal(submitData)
 	if err != nil {
-		msg := "Sorry, something went wrong :("
-		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
+		fmt.Println(err)
 		return
 	}
-	flags := ""
-	points := 0
-	for _, flag := range _configuration.Flags {
-		if strings.Contains(body, flag.Flag) {
-			var count int
-			err = _db.QueryRow("select count(*) from submission where flag = ? and user = ?", flag.Flag, user).Scan(&count)
-			if err != nil {
-				msg := "Sorry, something went wrong :("
-				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
-				return
-			}
-			if count == 0 {
-				points += flag.Points
-				flags += flag.Flag + ", "
-				_db.Exec("insert into submission (flag, user, time) values(?, ?, ?)", flag.Flag, user, time.Now().UnixNano()/1000000)
-			}
-		}
-	}
+	_, err = http.Post("https://scoreboard.corp.geegle.org/api/init_user", "application/json", bytes.NewBuffer(reqBody))
 
-	if points > 0 {
-		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
-		if sendConfirmation {
-			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
-			_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000000)
-		}
-		for _, challenge := range _configuration.Challenges {
-			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
-				_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000000+challenge.Delay)
-			}
-		}
-	} else {
-		msg := "Sorry, we did not recognise that flag :("
-		_db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", "noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
+	if err != nil {
+		fmt.Println(err)
 	}
-
 }
 
 // for user to send email
@@ -226,9 +191,8 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// TODO: make better
 	if e.Receiver == "flag@geegle.org" {
-		addFlag(user, string(e.Body), true)
+		fmt.Println(addFlag(user, string(e.Body), true))
 	}
 	// TODO: integrate with headless chrome
 
@@ -287,6 +251,7 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 	_, err := getJwtUserName(tknStr, _configuration.JwtKey)
 	if err != nil {
 		rsp.WriteHeader(http.StatusUnauthorized)
+		fmt.Println(err)
 		return
 	}
 	// TODO: whitelist services to call this function
@@ -295,11 +260,13 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 	var e Email
 	err = decoder.Decode(&e)
 	if err != nil {
+		fmt.Println(err)
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000000)
+	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", e.Sender, e.Receiver, e.Subject, e.Body, e.Time)
 	if err != nil {
+		fmt.Println(err)
 		rsp.WriteHeader(http.StatusInternalServerError)
 		return
 	}

@@ -1,0 +1,38 @@
+{{ define "title" }}Scoreboard{{ end }}
+
+{{ define "content" }}
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Scoreboard</span>
+            <div class="mdl-layout-spacer"></div>
+        </div>
+    </header>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <center>
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin-top: 25px">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Name</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range . }}
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">{{.Name}}</td>
+                        <td>{{.Points }}</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+            </center>
+
+        </div>
+    </main>
+</div>
+
+{{ end }}
