@@ -25,12 +25,13 @@ go_library(
     name = "go_default_library",
     srcs = [
         "auth.go",
-        "template.go",
         "main.go",
+        "template.go",
     ],
     importpath = "geegle.org/infra/scoreboard",
     visibility = ["//visibility:private"],
     deps = [
+        "//infra/geemail-client:go_default_library",
         "@com_github_dgrijalva_jwt_go//:go_default_library",
         "@com_github_go_sql_driver_mysql//:go_default_library",
     ],

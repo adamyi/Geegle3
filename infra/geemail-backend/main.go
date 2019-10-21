@@ -63,11 +63,7 @@ func addFlag(username string, body string, confirmation bool) error {
 	}
 	_, err = http.Post("https://scoreboard.corp.geegle.org/api/submit", "application/json", bytes.NewBuffer(reqBody))
 
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func initGmRsp(rsp http.ResponseWriter) {
@@ -143,7 +139,6 @@ func initUser(user string) {
 
 	if err != nil {
 		fmt.Println(err)
-		return
 	}
 }
 
@@ -173,7 +168,6 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// TODO: make better
 	if e.Receiver == "flag@geegle.org" {
 		fmt.Println(addFlag(user, string(e.Body), true))
 	}

@@ -12,13 +12,12 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func confirmFromGeemail(tknStr string, JwtKey []byte) error{
+func confirmFromGeemail(tknStr string, JwtKey []byte) error {
 	claims := &Claims{}
 
 	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
 		return JwtKey, nil
 	})
-
 
 	if err != nil {
 		return err
@@ -28,8 +27,7 @@ func confirmFromGeemail(tknStr string, JwtKey []byte) error{
 		return fmt.Errorf("JWT Invalid")
 	}
 
-// TODO: Why is this scoreboard
-	if claims.Service != "scoreboard@services.geegle.org" {
+	if claims.Username != "geemail-backend@services.geegle.org" || claims.Service != "scoreboard@services.geegle.org" {
 		return fmt.Errorf("JWT not for geemail")
 	}
 
