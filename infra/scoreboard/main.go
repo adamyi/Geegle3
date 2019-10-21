@@ -203,8 +203,22 @@ func listenAndServe(addr string) error {
 			return
 		}
 
+		var inited int
+		err = _db.QueryRow("select count(*) from scoreboard where user = ?", data.Username).Scan(&inited)
+		if err != nil {
+			fmt.Println(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		if inited > 0 {
+			w.WriteHeader(200)
+			return
+		}
+
 		_db.Exec("insert into scoreboard (user, points) values (?,?)", data.Username, 0)
 		addFlag(data.Username, "GEEGLE{WELCOME_TO_GEEGLE}", false)
+		w.WriteHeader(200)
 	})
 
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {

@@ -92,16 +92,9 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 		rsp.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	var inited int
-	err = _db.QueryRow("select count(*) from scoreboard where user = ?", user).Scan(&inited)
-	if err != nil {
-		fmt.Println(err.Error())
-		rsp.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	if inited == 0 {
-		initUser(user)
-	}
+
+	// TODO Maybe dont init user every single time
+	initUser(user)
 	// user := "adamyi@geegle.org"
 	info := &UserInfo{
 		Username: user,
