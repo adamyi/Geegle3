@@ -125,6 +125,24 @@ e.g., sendEmail(), saveRecord(), logAccess().
       "DependsOnPoints": 1,
       "Delay": 4800000
     
-    }
+    },
+    {
+      "Sender": "Geegle-Newsletter@geegle.org",
+      "Title": "Geegle News 0x04",
+      "Body": |||
+        Welcome to Geegle Newsletter!
+        
+        How about a nice game of chess?
+        
+        ...
+        
+        Thank you for a very enjoyable game.
+        
+        Thats a wrap,
+        Geegle Newsletter
+      |||,
+      "DependsOnPoints": 1,
+      "Delay": 9600000
+    },
   ],
 }
