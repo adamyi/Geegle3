@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/smtp"
 	"os"
+	"regexp"
 	"strings"
 	"time"
 
@@ -55,6 +56,7 @@ type Email struct {
 
 var _configuration = Configuration{}
 var _db *sql.DB
+var emailRe = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
 func readConfig() {
 	file, _ := os.Open(os.Args[1])
@@ -202,7 +204,21 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// TODO: check validity of receiver email and subject format
+	if !emailRe.MatchString(e.Receiver) {
+		rsp.WriteHeader(http.StatusBadRequest)
+		rsp.Write([]byte("Invalid receiver address"))
+		return
+	}
+	if len(e.Subject) > 78 {
+		rsp.WriteHeader(http.StatusBadRequest)
+		rsp.Write([]byte("Email subject too long"))
+		return
+	}
+	if strings.Contains(e.Subject, "\n") || strings.Contains(e.Subject, "\r") {
+		rsp.WriteHeader(http.StatusBadRequest)
+		rsp.Write([]byte("No new line in subject"))
+		return
+	}
 
 	_, err = _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", user, e.Receiver, e.Subject, e.Body, time.Now().UnixNano()/1000000)
 	if err != nil {
