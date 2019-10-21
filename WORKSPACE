@@ -322,6 +322,18 @@ go_repository(
     importpath = "golang.org/x/tools",
 )
 
+go_repository(
+    name = "com_github_emersion_go_smtp",
+    importpath = "github.com/emersion/go-smtp",
+    tag = "v0.11.2",
+)
+
+go_repository(
+    name = "com_github_emersion_go_sasl",
+    commit = "36b50694675c",
+    importpath = "github.com/emersion/go-sasl",
+)
+
 RULES_NODEJS_VERSION = "0.32.2"
 
 RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"

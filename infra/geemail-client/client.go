@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 type Email struct {
@@ -15,7 +16,7 @@ type Email struct {
 	Time     int64  `json:"time"`
 }
 
-func SendEmail(sender string, receiver string, subject string, body []byte, time int64) error {
+func SendEmail(sender, receiver, subject string, body []byte, time int64) error {
 	email := Email{0, sender, receiver, subject, body, time}
 	reqBody, err := json.Marshal(email)
 	if err != nil {
@@ -25,4 +26,12 @@ func SendEmail(sender string, receiver string, subject string, body []byte, time
 	_, err = http.Post("https://geemail-backend.corp.geegle.org/api/addmail", "application/json", bytes.NewBuffer(reqBody))
 	return err
 
+}
+
+func SendEmailWithDelay(sender, receiver, subject string, body []byte, delay int64) error {
+	return SendEmail(sender, receiver, subject, body, time.Now().UnixNano()/1000000+delay)
+}
+
+func SendEmailNow(sender, receiver, subject string, body []byte) error {
+	return SendEmailWithDelay(sender, receiver, subject, body, 0)
 }
