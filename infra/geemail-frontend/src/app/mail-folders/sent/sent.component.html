@@ -1,7 +1,7 @@
 <div class="mail-items" *ngIf="sentMails.length > 0">
   <div class="list" *ngFor="let mail of sentMails; let i = index" appHighlight>
     <a [routerLink]="[i]"><span class="sender">{{ mail.receiver }}</span> <span class="subject">{{ mail.subject }}</span>
-      <span class="message">{{ mail.body | b64decode }}</span> <span class="date">{{ mail.time | date: 'short' }}</span></a>
+      <span class="message">{{ mail.body | b64decode | htmlToPlain }}</span> <span class="date">{{ mail.time | date: 'short' }}</span></a>
   </div>
 </div>
 

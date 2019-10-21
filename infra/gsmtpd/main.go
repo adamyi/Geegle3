@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"log"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"io"
+	"io/ioutil"
 
 	geemail "geegle.org/infra/geemail-client"
 	"github.com/emersion/go-smtp"
@@ -60,7 +62,12 @@ func (s *Session) Rcpt(to string) error {
 }
 
 func (s *Session) Data(r io.Reader) error {
-	env, err := enmime.ReadEnvelope(r)
+	// NOTE: for some reason, if we directly pass r to enmime, result is not correct
+	data, err := ioutil.ReadAll(r)
+	if err != nil {
+		return err
+	}
+	env, err := enmime.ReadEnvelope(bytes.NewReader(data))
 	if err != nil {
 		return err
 	}
