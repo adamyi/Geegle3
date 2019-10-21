@@ -1,0 +1,25 @@
+{{ define "title" }}Scoreboard{{ end }}
+
+{{ define "content" }}
+<div class="container">
+    <h1>Scoreboard</h1>
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Points</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{ range . }}
+            <tr>
+                <td scope="row">{{.Name}}</td>
+                <td>{{.Points }}</td>
+            </tr>
+        {{ end }}
+        </tbody>
+    </table>
+</div>
+{{ end }}

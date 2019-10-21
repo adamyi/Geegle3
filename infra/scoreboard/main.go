@@ -7,15 +7,20 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"os"
 	"strings"
 	"time"
-        "net/http/httputil"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var _db *sql.DB
+
+type Player struct {
+	Name   string
+	Points int
+}
 
 type Challenge struct {
 	Sender          string
@@ -55,7 +60,7 @@ func initScoreboardRsp(w http.ResponseWriter) {
 }
 
 func sendEmail(sender string, receiver string, subject string, body string, time int64) {
-        fmt.Println("Sending an emiaal")
+	fmt.Println("Sending an emiaal")
 	email := Email{0, sender, receiver, subject, []byte(body), time}
 	reqBody, err := json.Marshal(email)
 	if err != nil {
@@ -113,14 +118,14 @@ func addFlag(user string, body string, sendConfirmation bool) {
 			msg := fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points)
 			sendEmail("noreply@geegle.org", user, "Congrats", msg, time.Now().UnixNano()/1000000)
 		}
-                fmt.Println(oPoints+points)
+		fmt.Println(oPoints + points)
 		for _, challenge := range _configuration.Challenges {
 			if challenge.DependsOnPoints <= (oPoints+points) && challenge.DependsOnPoints > oPoints {
 				sendEmail(challenge.Sender, user, challenge.Title, challenge.Body, time.Now().UnixNano()/1000000+challenge.Delay)
 			}
 		}
 	} else {
-                fmt.Println(flags, points)
+		fmt.Println(flags, points)
 		msg := "Sorry, we did not recognise that flag :("
 		sendEmail("noreply@geegle.org", user, "Error", msg, time.Now().UnixNano()/1000000)
 	}
@@ -130,8 +135,23 @@ func addFlag(user string, body string, sendConfirmation bool) {
 func listenAndServe(addr string) error {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/view/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/view", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
+
+		var data []Player = make([]Player, 0, 30)
+		rows, err := _db.Query("select user, points from scoreboard ORDER BY points DESC LIMIT 30")
+		if err != nil {
+			http.Error(w, "I don't know what happened", http.StatusInternalServerError)
+			return
+		}
+
+		for rows.Next() {
+			player := Player{}
+			rows.Scan(&player.Name, &player.Points)
+			data = append(data, player)
+		}
+
+		RenderTemplate(w, "index.html", data)
 	})
 
 	mux.HandleFunc("/submit/", func(w http.ResponseWriter, r *http.Request) {

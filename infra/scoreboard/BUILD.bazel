@@ -23,6 +23,7 @@ go_library(
     name = "go_default_library",
     srcs = [
         "auth.go",
+        "template.go",
         "main.go",
     ],
     importpath = "geegle.org/infra/scoreboard",
