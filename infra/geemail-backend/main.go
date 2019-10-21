@@ -61,7 +61,7 @@ func addFlag(username string, body string, confirmation bool) error {
 	if err != nil {
 		return err
 	}
-	_, err = http.Post("https://scoreboard.corp.geegle.org/submit/", "application/json", bytes.NewBuffer(reqBody))
+	_, err = http.Post("https://scoreboard.corp.geegle.org/api/submit", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
 		return err
@@ -139,7 +139,7 @@ func initUser(user string) {
 		fmt.Println(err)
 		return
 	}
-	_, err = http.Post("https://scoreboard.corp.geegle.org/init_user", "application/json", bytes.NewBuffer(reqBody))
+	_, err = http.Post("https://scoreboard.corp.geegle.org/api/init_user", "application/json", bytes.NewBuffer(reqBody))
 
 	if err != nil {
 		fmt.Println(err)

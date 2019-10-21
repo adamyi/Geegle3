@@ -135,7 +135,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 func listenAndServe(addr string) error {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/view", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
 		data := make([]Player, 0, 30)
@@ -154,7 +154,7 @@ func listenAndServe(addr string) error {
 		RenderTemplate(w, "index.html", data)
 	})
 
-	mux.HandleFunc("/submit/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/submit", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
 		tknStr := r.Header.Get("X-Geegle-JWT")
@@ -181,7 +181,7 @@ func listenAndServe(addr string) error {
 		addFlag(data.Username, data.Body, data.SendConfirmation)
 	})
 
-	mux.HandleFunc("/init_user", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/init_user", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
 		tknStr := r.Header.Get("X-Geegle-JWT")
