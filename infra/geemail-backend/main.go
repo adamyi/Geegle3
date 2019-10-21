@@ -135,8 +135,23 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 }
 
 func initUser(user string) {
-	_db.Exec("insert into scoreboard (user, points) values (?,?)", user, 0)
-	fmt.Println(addFlag(user, "GEEGLE{WELCOME_TO_GEEGLE}", false))
+	submitData := struct {
+		Username string `json:"username"`
+	}{
+		user,
+	}
+
+	reqBody, err := json.Marshal(submitData)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	_, err = http.Post("https://scoreboard.corp.geegle.org/init_user", "application/json", bytes.NewBuffer(reqBody))
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
 
 // for user to send email

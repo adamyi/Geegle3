@@ -181,6 +181,32 @@ func listenAndServe(addr string) error {
 		addFlag(data.Username, data.Body, data.SendConfirmation)
 	})
 
+	mux.HandleFunc("/init_user", func(w http.ResponseWriter, r *http.Request) {
+		initScoreboardRsp(w)
+
+		tknStr := r.Header.Get("X-Geegle-JWT")
+		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
+		if err != nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
+			fmt.Println(err)
+			return
+		}
+
+		data := struct {
+			Username string `json:"username"`
+		}{}
+
+		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+			http.Error(w, "Malformed Data", http.StatusBadRequest)
+			fmt.Println(err)
+			return
+		}
+
+		_db.Exec("insert into scoreboard (user, points) values (?,?)", data.Username, 0)
+		addFlag(data.Username, "GEEGLE{WELCOME_TO_GEEGLE}", false)
+	})
+
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 		fmt.Fprintln(w, "👍")
