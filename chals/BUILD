@@ -5,6 +5,7 @@ challenges_list(
     visibility = ["//visibility:public"],
     deps = [
         "//chals/emails/intro:challenge",
+        "//chals/emails/newsletter:challenge"
         "//chals/ir/intercepted:challenge",
         "//chals/ir/who-is-attacking-me:challenge",
         "//chals/pwn/game:challenge",
