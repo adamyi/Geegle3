@@ -2,8 +2,9 @@ package web
 
 import (
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
 	"strings"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 type Claims struct {
@@ -26,9 +27,29 @@ func getJwtServiceName(tknStr string, JwtKey []byte) (string, error) {
 		return "", fmt.Errorf("JWT Invalid")
 	}
 
-	if !strings.HasSuffix(claims.Username, "@services.geegle.org") {
+	return claims.Username, nil
+}
+
+func getJwtServiceName(tknStr string, JwtKey []byte) (string, error) {
+	username, err := getJwtUsername(tknStr, JwtKey)
+	if err != nil {
+		return "", err
+	}
+	if !strings.HasSuffix(username, "@services.geegle.org") {
 		return "", fmt.Errorf("Not a service account")
 	}
 
-	return claims.Username[:len(claims.Username)-20], nil
+	return username[:len(claims.Username)-20], nil
+}
+
+func getJwtLDAPName(tknStr string, JwtKey []byte) (string, error) {
+	username, err := getJwtUsername(tknStr, JwtKey)
+	if err != nil {
+		return "", err
+	}
+	if !strings.HasSuffix(username, "@geegle.org") {
+		return "", fmt.Errorf("Not a corp account")
+	}
+
+	return username[:len(claims.Username)-11], nil
 }
