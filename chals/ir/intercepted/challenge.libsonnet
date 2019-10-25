@@ -1,7 +1,7 @@
 {
   flags: [
     {
-      Flag: "GEEGLE{12UINQ298N0D00FM}",
+      Flag: "GEEGLE{MADM3A98DJ90m3}",
       Points: 100,
     },
   ],
