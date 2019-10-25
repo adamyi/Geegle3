@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
+
+go_image(
+    name = "image",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "geegle.org/infra/gsmtpd",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//infra/geemail-client:go_default_library",
+        "@com_github_emersion_go_smtp//:go_default_library",
+        "@com_github_jhillyerd_enmime//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "gsmtpd",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

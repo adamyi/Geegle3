@@ -1,6 +1,7 @@
 import { MailFoldersComponent } from "./mail-folders/mail-folders.component";
 import { Routes, RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 import { InboxComponent } from "./mail-folders/inbox/inbox.component";
 import { SentComponent } from "./mail-folders/sent/sent.component";
@@ -17,7 +18,7 @@ const appRoutes: Routes = [
 ];
 
   @NgModule({
-    imports: [RouterModule.forRoot(appRoutes)],
+    imports: [RouterModule.forRoot(appRoutes), EditorModule],
     exports: [RouterModule]
   })
 

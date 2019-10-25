@@ -29,7 +29,8 @@ local tservices = {
     dns_search: [
       "corp.geegle.org",
       "geegle.org",
-    ]
+    ],
+    ports: if "ports" in service then service.ports else [],
   }
   for i in std.range(0, std.length(services) - 1)
 };
