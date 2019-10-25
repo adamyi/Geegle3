@@ -6,7 +6,10 @@
     },
   ],
   flags: [
-    // TODO: add a flag
+    {
+      Flag: "GEEGLE{MNA9MDW9MAD92D}",
+      Points: "500",
+    },
   ],
   emails: [
     {
