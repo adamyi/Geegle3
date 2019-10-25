@@ -3,23 +3,23 @@
     {
       name: "onboarding",
       category: "re",
-      staticfiles: [
-        {
-          filename: "tellGeegle",
-          flags:[
-            {
-              name: "importance",
-              value: "definitelysuperduperhigh",
-            },
-          ],
-        }
-      ],
     },
   ],
   flags: [
     {
       Flag: "GEEGLE{ISND3N98DN19D1NDND339D}",
       Points: 100,
+    },
+  ],
+  clistaticfiles: [
+    {
+      filename: "tellGeegle",
+      flags: [
+        {
+          name: "importance",
+          value: "definitelysuperduperhigh",
+        }
+      ],
     },
   ],
   emails: [
