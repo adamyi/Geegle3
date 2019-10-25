@@ -3,23 +3,23 @@
     {
       name: "shell",
       category: "pwn",
-      staticfiles: [
-        {
-          filename: "shell",
-          flags:[
-            {
-              name: "rollyourown",
-              value: "always",
-            },
-          ],
-        },
-      ],
     },
   ],
   flags: [
     {
       Flag: "GEEGLE{0J398MD93AMD9AID}",
       Points: 100,
+    },
+  ],
+  clistaticfiles: [
+    {
+      filename: "shell",
+      flags: [
+        {
+          name: "rollyourown",
+          value: "always",
+        },
+      ],
     },
   ],
   emails: [

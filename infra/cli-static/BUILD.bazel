@@ -1,5 +1,41 @@
-filegroup(
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+
+pkg_tar(
     name = "cli-static",
-    srcs = ["static"],
     visibility = ["//visibility:public"],
+    deps = [
+        ":cgi",
+        ":static",
+    ],
+)
+
+pkg_tar(
+    name = "static",
+    srcs = glob(["static/*"]),
+    mode = "0755",
+    strip_prefix = ".",
+)
+
+pkg_tar(
+    name = "cgi",
+    deps = [
+        ":healthz",
+        ":sffelinks",
+    ],
+)
+
+pkg_tar(
+    name = "sffelinks",
+    srcs = ["//infra/cli-static/sffelinks"],
+    mode = "0755",
+    package_dir = "/cgi",
+    strip_prefix = "/infra/cli-static/sffelinks/linux_amd64_stripped/",  # TODO(adamyi@): probably better way
+)
+
+pkg_tar(
+    name = "healthz",
+    srcs = ["//infra/cli-static/healthz"],
+    mode = "0755",
+    package_dir = "/cgi",
+    strip_prefix = "/infra/cli-static/healthz/linux_amd64_stripped/",  # TODO(adamyi@): probably better way
 )

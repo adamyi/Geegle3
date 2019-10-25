@@ -1,6 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 
 container_image(
     name = "image",
@@ -9,7 +10,17 @@ container_image(
         "80",
         "443",
     ],
+    tars = [
+        ":templates",
+    ],
     visibility = ["//visibility:public"],
+)
+
+pkg_tar(
+    name = "templates",
+    srcs = glob(["templates/*"]),
+    mode = "0755",
+    strip_prefix = ".",
 )
 
 go_image(
@@ -17,12 +28,11 @@ go_image(
     args = [
         "$(location :config.json)",
         "$(location :certs)",
-        "$(location :templates)",
+        "/templates",
     ],
     data = [
         ":certs",
         ":config.json",
-        ":templates",
     ],
     embed = [":go_default_library"],
 )

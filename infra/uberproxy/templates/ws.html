@@ -26,20 +26,44 @@
           if (ws) {
             return false;
           }
-          ws = new WebSocket("wss://" + host.value + "/ws");
-          ws.onopen = function(evt) {
-            print("Connecting to " + host.value + "...\n");
+          var hcreq = new XMLHttpRequest();
+          hcreq.open("GET", "https://" + host.value + "/healthz", true);
+          hcreq.withCredentials = true;
+          hcreq.onload = function() {
+            if (this.status == 200 && this.responseText == "OK") {
+              var sffereq = new XMLHttpRequest();
+              sffereq.open("GET", "https://" + host.value + "/sffelinks", true);
+              sffereq.withCredentials = true;
+              sffereq.onload = function() {
+                var data = JSON.parse(this.response);
+                if (data != null && data.length > 0) {
+                  print("You are a Geegler! This means you have access to code\n");
+                  print("Here are links to some files you have permission to get from Geegle3:\n");
+                  data.forEach(link => {
+                    print(link + "\n");
+                  });
+                }
+                ws = new WebSocket("wss://" + host.value + "/ws");
+                ws.onopen = function(evt) {
+                  print("Connecting to " + host.value + "...\n");
+                }
+                ws.onclose = function(evt) {
+                  print("Closing connection...\n");
+                  ws = null;
+                }
+                ws.onmessage = function(evt) {
+                  printblob(evt.data);
+                }
+                ws.onerror = function(evt) {
+                  print("ERROR: " + evt.data + "\n");
+                }
+              }
+              sffereq.send();
+            } else {
+                print(host.value + ": health check failed.\n");
+            }
           }
-          ws.onclose = function(evt) {
-            print("Closing connection...\n");
-            ws = null;
-          }
-          ws.onmessage = function(evt) {
-            printblob(evt.data);
-          }
-          ws.onerror = function(evt) {
-            print("ERROR: " + evt.data + "\n");
-          }
+          hcreq.send();
           return false;
         };
         document.getElementById("send").onclick = function(evt) {
