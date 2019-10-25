@@ -118,7 +118,7 @@ func main() {
 		wd, _ := os.Getwd()
 		cmd, _ := exec.Command("runuser", "-l", "nobody", "-c", wd+os.Args[3]+" "+results.Content).Output()
 		if "access granted" == string(cmd) {
-			cookie := http.Cookie{Name: "flash", Value: "Nice. Flag{username:password}", Expires: time.Now().Add(30 * time.Second)}
+			cookie := http.Cookie{Name: "flash", Value: "Nice. GEEGLE{A93D9QD39D}", Expires: time.Now().Add(30 * time.Second)}
 			http.SetCookie(w, &cookie)
 			http.Redirect(w, r, "/", 302)
 		} else {

@@ -42,6 +42,77 @@ void menu() {
     puts("\tquit");
 }
 
+void user_info() {
+    if (logged_in()) {
+        printf("Logged in %s [%u]\n", user->name, user->auth);
+    }
+}
+
+void login(char* buf) {
+    if (user != NULL) {
+        puts("Already logged in. logout first");
+        return;
+    }
+
+    char* arg = strtok(&buf[6], "\n");
+    if (arg == NULL) {
+        puts("Invalid command");
+        return;
+    }
+
+    user = (struct user*) malloc(sizeof(struct user));
+    if (user == NULL) {
+        puts("Malloc failed");
+        exit(-1);
+    }
+
+    user->name = strdup(arg);
+    printf("Logged in as \"%s\"\n", arg);
+}
+
+void sudo(char* buf) {
+    if (!logged_in()) {
+       return;
+    }
+
+    char* arg = strtok(&buf[5], "\n");
+    if (arg == NULL) {
+        puts("Invalid command");
+        return;
+    }
+
+    int level = atoi(arg);
+
+    if (level >= 9) {
+        puts("Can only set below 9");
+        return;
+    }
+    user->auth = level;
+    printf("Set auth level to %u\n", level);
+}
+
+void print_flag() {
+    if (!logged_in()) {
+        return;
+    }
+
+    if (user->auth != 9) {
+        puts("Unauthorized");
+        return;
+    }
+    get_flag();
+}
+
+void logout() {
+    if (!logged_in()) {
+        return;
+    }
+
+    free(user->name);
+    user = NULL;
+    puts("Logged out");
+}
+
 int main(int argc, char* argv[], char* envp[]) {
     setbuf(stdout,  NULL);
 
@@ -49,8 +120,6 @@ int main(int argc, char* argv[], char* envp[]) {
 
     while(1) {
         char buf[512];
-        char *arg;
-        int level;
 
         puts("Enter cmd: ");
         putchar('>');
@@ -60,66 +129,15 @@ int main(int argc, char* argv[], char* envp[]) {
             break;
 
         if (!strncmp(buf, "user", 4)) {
-            if (logged_in()) {
-                printf("Logged in %s [%u]\n", user->name, user->auth);
-            }
+            user_info();
         } else if(!strncmp(buf, "login", 5)) {
-            if (user != NULL) {
-                puts("Already logged in. logout first");
-                continue;
-            }
-
-            arg = strtok(&buf[6], "\n");
-            if (arg == NULL) {
-                puts("Invalid command");
-                continue;
-            }
-
-            user = (struct user*) malloc(sizeof(struct user));
-            if (user == NULL) {
-                puts("Malloc failed");
-                exit(-1);
-            }
-
-            user->name = strdup(arg);
-            printf("Logged in as \"%s\"\n", arg);
+            login(buf);
         } else if (!strncmp(buf, "sudo", 4)) {
-            if (!logged_in()) {
-                continue;
-            }
-
-            arg = strtok(&buf[5], "\n");
-            if (arg == NULL) {
-                puts("Invalid command");
-                continue;
-            }
-
-            level = atoi(arg);
-
-            if (level >= 9) {
-                puts("Can only set below 9");
-                continue;
-            }
-            user->auth = level;
-            printf("Set auth level to %u\n", level);
+            sudo(buf);
         } else if (!strncmp(buf, "getflag", 7)) {
-            if (!logged_in()) {
-                continue;
-            }
-
-            if (user->auth != 9) {
-                puts("Unauthorized");
-                continue;
-            }
-            get_flag();
+            print_flag();
         } else if(!strncmp(buf, "logout", 6)) {
-            if (!logged_in()) {
-                continue;
-            }
-
-            free(user->name);
-            user = NULL;
-            puts("Logged out");
+            logout();
         } else {
             puts("What?");
             return 0;
