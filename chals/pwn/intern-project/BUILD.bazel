@@ -23,7 +23,7 @@ container_image(
         "/intern-project",
     ],
     files = [
-        ":clissfe",
+        ":clisffe",
         ":flag",
         ":intern-project",
         "//infra/cli-static",
