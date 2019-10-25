@@ -52,6 +52,7 @@ ng_module(
         "@npm//@angular/platform-browser",
         "@npm//@angular/router",
         "@npm//@types",
+        "@npm//@tinymce/tinymce-angular",
         "@npm//rxjs",
     ],
 )
@@ -63,6 +64,7 @@ rollup_bundle(
         "//infra/geemail-frontend/src",
         "@npm//@angular/material",
         "@npm//@angular/router",
+        "@npm//@tinymce/tinymce-angular",
         "@npm//rxjs",
     ],
 )

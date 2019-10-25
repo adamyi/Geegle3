@@ -170,7 +170,7 @@ func DoStoreFile(ctx *Context, req *StoreRequest) (string, error) {
 		fmt.Fprintf(&urlb, "%s=%s/", flag.Name, flag.Value)
 	}
 
-	urlb.WriteString(req.FileName)
+	urlb.WriteString(strings.TrimLeft(req.FileName, "/"))
 
 	url := urlb.String()
 

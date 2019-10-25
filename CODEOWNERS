@@ -29,7 +29,9 @@ challenge.libsonnet @LachJones
 /infra/gae/ @adamyi
 /infra/geemail-backend/ @adamyi
 /infra/geemail-frontend/ @adamyi
-/infra/gsmtpd/ @adamtanana
+/infra/geemail-client/ @adamyi
+/infra/vuln-gsmtpd/ @adamtanana
+/infra/gsmtpd/ @adamyi
 /infra/jsonnet/ @adamyi
 /infra/mss/ @adamyi
 /infra/redis/ @adamyi

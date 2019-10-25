@@ -4,7 +4,7 @@ load("//tools:challenge.bzl", "ctf_challenge")
 
 ctf_challenge()
 
-sffe_files([":payroll"])
+# sffe_files([":payroll"])
 
 cc_binary(
     name = "payroll",
@@ -27,15 +27,20 @@ container_image(
     cmd = [
         "/websocketd",
         "--port=80",
+        "--cgidir=/cgi",
         "--staticdir=/static",
         "--binary=true",
         "/payroll",
     ],
     files = [
+        ":clisffe",
         ":flag",
         ":payroll",
         "//infra/cli-static",
         "@com_github_joewalnes_websocketd//:websocketd",
+    ],
+    tars = [
+        "//infra/cli-static",
     ],
     visibility = ["//visibility:public"],
 )

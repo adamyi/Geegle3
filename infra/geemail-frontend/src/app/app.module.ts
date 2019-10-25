@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 import { AppComponent } from './app.component';
 import { MailItemsComponent } from './mail-items/mail-items.component';
@@ -19,6 +20,7 @@ import { HighlightDirective } from './shared/highlight.directive';
 import { HttpClientModule } from '@angular/common/http';
 import { Base64Pipe } from './b64decode.pipe';
 import { ReplaceLineBreaksPipe } from './replaceLineBreaks.pipe';
+import { HtmlToPlainPipe } from './htmlToPlain.pipe';
 import { LinkifyPipe } from './linkify.pipe';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { WithCredentialsInterceptor } from './credentials.interceptor';
@@ -36,6 +38,7 @@ import { WithCredentialsInterceptor } from './credentials.interceptor';
     HighlightDirective,
     Base64Pipe,
     ReplaceLineBreaksPipe,
+    HtmlToPlainPipe,
     LinkifyPipe,
   ],
   imports: [
@@ -45,6 +48,7 @@ import { WithCredentialsInterceptor } from './credentials.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    EditorModule,
   ],
   providers: [MailService, DataService,
     {
