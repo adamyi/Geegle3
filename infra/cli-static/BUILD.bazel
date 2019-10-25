@@ -6,6 +6,7 @@ pkg_tar(
         ":cli",
         ":static",
     ],
+    visibility = ["//visibility:public"],
 )
 
 pkg_tar(
