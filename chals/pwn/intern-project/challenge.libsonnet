@@ -3,27 +3,27 @@
     {
       name: "intern-project",
       category: "pwn",
-      staticfiles: [
-        {
-          filename: "intern-project",
-          flags:[
-            {
-              name: "codereview",
-              value: "alwaysfun",
-            },
-            {
-              name: "sarcasm",
-              value: "maybe",
-            },
-          ],
-        },
-      ],
     },
   ],
   flags: [
     {
       Flag: "GEEGLE{DM98DAMW98AMD98WAMD98M}",
       Points: 100,
+    },
+  ],
+  clistaticfiles: [
+    {
+      filename: "intern-project",
+      flags:[
+        {
+          name: "codereview",
+          value: "alwaysfun",
+        },
+        {
+          name: "sarcasm",
+          value: "maybe",
+        },
+      ],
     },
   ],
   emails: [
