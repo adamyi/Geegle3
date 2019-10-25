@@ -32,7 +32,7 @@ container_image(
         "/game",
     ],
     files = [
-        ":clisffe","
+        ":clisffe",
         ":flag",
         ":game",
         "@com_github_joewalnes_websocketd//:websocketd",
