@@ -19,15 +19,20 @@ container_image(
     cmd = [
         "/websocketd",
         "--port=80",
+        "--gcidir=/cli",
         "--staticdir=/static",
         "--binary=true",
         "/tellGeegle",
     ],
     files = [
+        ":clisffe",
         ":flag",
         ":tellGeegle",
         "//infra/cli-static",
         "@com_github_joewalnes_websocketd//:websocketd",
+    ],
+    tars = [
+        "//infra/cli-static",
     ],
     visibility = ["//visibility:public"],
 )

@@ -18,7 +18,7 @@
         {
           name: "rollyourown",
           value: "always",
-        }.
+        },
       ],
     },
   ],
