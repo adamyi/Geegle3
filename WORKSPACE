@@ -77,16 +77,29 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_python/archive/5aa465d5d91f1d9d90cac10624e3d2faf2057bd5.tar.gz"],
 )
 
+RULES_NODEJS_VERSION = "0.32.2"
+
+RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"
+
+http_archive(
+    name = "build_bazel_rules_nodejs",
+    sha256 = RULES_NODEJS_SHA256,
+    url = "https://github.com/bazelbuild/rules_nodejs/releases/download/%s/rules_nodejs-%s.tar.gz" % (RULES_NODEJS_VERSION, RULES_NODEJS_VERSION),
+)
+
 load("@io_bazel_rules_docker//container:pull.bzl", "container_pull")
 load("@io_bazel_rules_docker//java:image.bzl", _java_image_repos = "repositories")
 load("@io_bazel_rules_docker//go:image.bzl", _go_image_repos = "repositories")
 load("@io_bazel_rules_docker//python:image.bzl", _py_image_repos = "repositories")
+load("@io_bazel_rules_docker//nodejs:image.bzl", _nodejs_image_repos = "repositories")
 
 _java_image_repos()
 
 _go_image_repos()
 
 _py_image_repos()
+
+_nodejs_image_repos()
 
 http_archive(
     name = "io_bazel_rules_jsonnet",
@@ -370,16 +383,6 @@ go_repository(
     tag = "v0.0.3",
 )
 
-RULES_NODEJS_VERSION = "0.32.2"
-
-RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"
-
-http_archive(
-    name = "build_bazel_rules_nodejs",
-    sha256 = RULES_NODEJS_SHA256,
-    url = "https://github.com/bazelbuild/rules_nodejs/releases/download/%s/rules_nodejs-%s.tar.gz" % (RULES_NODEJS_VERSION, RULES_NODEJS_VERSION),
-)
-
 # Rules for compiling sass
 RULES_SASS_VERSION = "86ca977cf2a8ed481859f83a286e164d07335116"
 
@@ -472,3 +475,10 @@ load(
 )
 
 _pasteweb_install()
+
+http_archive(
+    name = "chromium",
+    build_file = "@//third_party:chromium.BUILD",
+    sha256 = "2f0c6b091d626310cf5bef7c2a897f53aee40d01d341b4ad2cfbabe83711d85f",
+    url = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F681090%2Fchrome-linux.zip?generation=1564102126574765&alt=media",
+)
