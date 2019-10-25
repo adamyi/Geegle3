@@ -33,7 +33,7 @@ container_image(
         "/payroll",
     ],
     files = [
-        ":clissfe",
+        ":clisffe",
         ":flag",
         ":payroll",
         "//infra/cli-static",

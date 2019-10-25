@@ -23,7 +23,7 @@ container_image(
         "/shell",
     ],
     files = [
-        ":clissfe",
+        ":clisffe",
         ":flag",
         ":shell",
         "//infra/cli-static",
