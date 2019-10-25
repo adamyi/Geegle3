@@ -15,8 +15,10 @@
     {
       filename: "tellGeegle",
       flags: [
-        name: "importance",
-        value: "definitelysuperduperhigh",
+        {
+          name: "importance",
+          value: "definitelysuperduperhigh",
+        }
       ],
     },
   ],
