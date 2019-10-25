@@ -3,23 +3,23 @@ services: [
    {
      name: "payroll",
      category: "pwn",
-     staticfiles: [
-       {
-         filename: "payroll",
-         flags:[
-           {
-             name: "salary",
-             value: "underpaid",
-           },
-         ],
-       },
-     ],
    },
  ],
  flags: [
     {
       Flag: "GEEGLE{IUDSNAIUDWAND9MADA0D9M}",
       Points: 150,
+    },
+  ],
+  clistaticfiles: [
+    {
+      filename: "payroll",
+      flags: [
+        {
+          name: "salary",
+          value: "underpaid",
+        },
+      ],
     },
   ],
   emails: [
