@@ -4,7 +4,7 @@ load("//tools:challenge.bzl", "ctf_challenge")
 
 ctf_challenge()
 
-sffe_files([":game"])
+# sffe_files([":game"])
 
 cc_binary(
     name = "game",
@@ -26,15 +26,19 @@ container_image(
     cmd = [
         "/websocketd",
         "--port=80",
+        "--cgidir=/cgi",
         "--staticdir=/static",
         "--binary=true",
         "/game",
     ],
     files = [
+        ":clisffe",
         ":flag",
         ":game",
-        "//infra/cli-static",
         "@com_github_joewalnes_websocketd//:websocketd",
+    ],
+    tars = [
+        "//infra/cli-static",
     ],
     visibility = ["//visibility:public"],
 )

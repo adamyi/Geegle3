@@ -3,27 +3,30 @@
     {
       name: "geelang",
       category: "pwn",
-      staticfiles: [
-        {
-          filename: "geelang-compiler",
-          flags:[
-            {
-              name: "type",
-              value: "totallynotassembly",
-            },
-            {
-              name: "assembly",
-              value: "stopsayingthat",
-            },
-          ],
-        },
-      ],
     },
   ],
   flags: [
     {
       Flag: "GEEGLE{03MDD98M3Q09MDAMD093WD}",
       Points: 500,
+    },
+  ],
+  clistaticfiles: [
+    {
+      filename: "geelang-compiler",
+      flags:[
+        {
+          name: "type",
+          value: "totallynotassembly",
+        },
+        {
+          name: "assembly",
+          value: "stopsayingthat",
+        },
+      ],
+    },
+    {
+      filename: "/lib/x86_64-linux-gnu/libc.so.6",
     },
   ],
   emails: [

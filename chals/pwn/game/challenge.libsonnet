@@ -3,23 +3,23 @@
       {
         name: "game",
         category: "pwn",
-        staticfiles: [
-          {
-            filename: "game",
-            flags:[
-              {
-                name: "funlevel",
-                value: "100",
-              },
-            ],
-          },
-        ],
       },
     ],
     flags: [
     {
       Flag: "GEEGLE{YAAFN4EM3209Q3MD09M}",
       Points: 100,
+    },
+  ],
+  clistaticfiles: [
+    {
+      filename: "game",
+      flags:[
+        {
+          name: "funlevel",
+          value: "100",
+        },
+      ],
     },
   ],
   emails: [

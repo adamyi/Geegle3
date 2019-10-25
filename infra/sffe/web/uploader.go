@@ -40,5 +40,5 @@ func StoreFile(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSONUrl(w, url)
+	writeJSONUrl(w, "https://sffe.corp.geegle.org/s/"+url)
 }

@@ -33,10 +33,18 @@ func ServeFile(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 					return
 				}
 			}
-			// add more option requirements here
+			if parts[i][:j] == "ldap" {
+				tknStr := r.Header.Get("X-Geegle-JWT")
+				ldap, err := getJwtLDAPName(tknStr, []byte("superSecretJWTKEY"))
+				if err != nil || parts[i][j+1:] != ldap {
+					writeJSONError(w, "Invalid JWT", http.StatusUnauthorized)
+					return
+				}
+			}
 			if parts[i][:j] == "s" && parts[i][j+1:] == "1" { // signature required
 				// TODO (adamyi@): implement this
 			}
+			// add more option requirements here
 		}
 	}
 
