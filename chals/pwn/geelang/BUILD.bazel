@@ -22,7 +22,7 @@ container_image(
     cmd = [
         "/websocketd",
         "--port=80",
-        "--clidir=/cli",
+        "--cgidir=/cgi",
         "--staticdir=/static",
         "--binary=true",
         "/geelang-compiler",

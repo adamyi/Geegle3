@@ -34,7 +34,7 @@ func DoStoreFile(req *StoreRequest) (string, error) {
 		return "", err
 	}
 
-	resp, err := http.Post("https://sffe.corp.geegle.org/api/store", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Post("https://sffe.corp.geegle.org/api/store/", "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
 		return "", err
 	}
@@ -95,6 +95,11 @@ func GetFileLinks(username string, filepath string) []string {
 }
 
 func CGIHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Server", "sffelinks")
+	w.Header().Add("Access-Control-Allow-Origin", "https://cli-relay.corp.geegle.org")
+	w.Header().Add("Access-Control-Allow-Methods", "GET")
+	w.Header().Add("Access-Control-Allow-Credentials", "true")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 	tknStr := r.Header.Get("X-Geegle-JWT")
 	user, err := getJwtLDAPName(tknStr, []byte("superSecretJWTKEY"))
 	check(err, "authentication error")
