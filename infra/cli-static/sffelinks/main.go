@@ -96,7 +96,7 @@ func GetFileLinks(username string, filepath string) []string {
 
 func CGIHandler(w http.ResponseWriter, r *http.Request) {
 	tknStr := r.Header.Get("X-Geegle-JWT")
-	user, err := getUsername(tknStr, []byte("superSecretJWTKEY"))
+	user, err := getJwtLDAPName(tknStr, []byte("superSecretJWTKEY"))
 	check(err, "authentication error")
 	urls := GetFileLinks(user, "/clisffe.json")
 	w.Header().Set("Content-Type", "application/json;charset=utf-8")
