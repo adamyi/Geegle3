@@ -5,7 +5,7 @@
 <div class="row">
   <iframe id="ps" class="col-lg-12 col-md-12 col-sm-12" style="height: 80vh;" sandbox="allow-same-origin"></iframe>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.11/purify.min.js" integrity="sha384-ELH09WGRUcBpRT6iHTekFB2YBCT9kFMsKG4Y9LUAevHjihu8Otri8Sm01QgXOTht" crossorigin="anonymous"></script>
+<script src="/static/purify.min.js" nonce="{{ csp_nonce() }}"></script>
 <script nonce="{{ csp_nonce() }}">
   var content = atob("{{ content }}");
   try {

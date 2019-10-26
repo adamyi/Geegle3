@@ -13,5 +13,6 @@ challenges_list(
         "//infra/requestz:challenge",
         "//infra/scoreboard:challenge",
         "//infra/sffe:challenge",
+        "//infra/xssbot:challenge",
     ],
 )

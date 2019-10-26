@@ -19,6 +19,7 @@ from flask import (
 )
 from flask_talisman import Talisman
 from lxml import etree
+import jwt
 
 app = Flask(__name__)
 app.secret_key = "haha"
@@ -29,8 +30,9 @@ csp = {
     'script-src': [
       '\'unsafe-eval\'',
       '\'strict-dynamic\'',
-      '\'sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh\'', # jquery
-      '\'sha384-ELH09WGRUcBpRT6iHTekFB2YBCT9kFMsKG4Y9LUAevHjihu8Otri8Sm01QgXOTht\'', # dompurify
+      # NOTE(adamyi@): idk why but firefox doesn't like this... switch to nonce for them as well... (chrome works fine)
+      #'\'sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh\'', # jquery
+      #'\'sha384-ELH09WGRUcBpRT6iHTekFB2YBCT9kFMsKG4Y9LUAevHjihu8Otri8Sm01QgXOTht\'', # dompurify
     ],
 }
 
@@ -107,7 +109,11 @@ def viewpaste(paste_id):
     return render_template("home.html"), 404
 
   rsp = make_response(render_template("paste.html", title=(paste[0]), content=base64.b64encode(paste[1])))
-  rsp.set_cookie('pasteweb_debug', 'viewable by pasteweb developer only')
+  print(jwt.decode(request.headers.get('X-Geegle-JWT'), 'superSecretJWTKEY')['username'])
+  if jwt.decode(request.headers.get('X-Geegle-JWT'), 'superSecretJWTKEY')['username'] == 'xssbot+pasteweb@services.geegle.org':
+    rsp.set_cookie('pasteweb_debug', 'GEEGLE{JAO34OADS81HI}')
+  else:
+    rsp.set_cookie('pasteweb_debug', 'viewable by pasteweb developer only')
   return rsp
 
 @app.route("/api/bugreport/<bugtype>", methods=["POST"])

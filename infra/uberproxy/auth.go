@@ -15,6 +15,16 @@ type Claims struct {
 }
 
 func getUsername(req *http.Request) string {
+	username := getMainUsername(req)
+	subacc := req.Header.Get("X-Geegle-SubAcc")
+	if subacc != "" {
+		s := strings.Split(username, "@")
+		username = s[0] + "+" + subacc + "@" + s[1]
+	}
+	return username
+}
+
+func getMainUsername(req *http.Request) string {
 	c, err := req.Cookie("uberproxy_auth")
 	if err != nil {
 		sn, err := getServiceNameFromIP(strings.Split(req.RemoteAddr, ":")[0])
