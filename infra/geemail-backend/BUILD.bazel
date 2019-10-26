@@ -26,6 +26,7 @@ go_library(
     importpath = "geegle.org/infra/geemail-backend",
     visibility = ["//visibility:private"],
     deps = [
+        "@cc_mvdan_xurls_v2//:go_default_library",
         "@com_github_dgrijalva_jwt_go//:go_default_library",
         "@com_github_go_sql_driver_mysql//:go_default_library",
     ],

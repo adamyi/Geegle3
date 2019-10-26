@@ -39,6 +39,7 @@ challenge.libsonnet @LachJones
 /infra/sffe/ @adamyi
 /infra/uberproxy/ @adamyi
 /infra/scoreboard/ @adamtanana
+/infra/xssbot/ @adamyi
 
 # bazel
 BUILD @adamyi

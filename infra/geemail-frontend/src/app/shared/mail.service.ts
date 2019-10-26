@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Mail } from "./mail.model";
 import { BehaviorSubject, Observable, interval, pipe } from "rxjs";
-import { switchMap, startWith } from 'rxjs/operators';
+import { switchMap, startWith, catchError } from 'rxjs/operators';
 
 const API_URL = environment.apiUrl;
 
@@ -43,14 +43,20 @@ export class MailService {
   retrieveMails() {
     interval(5000).pipe(
       startWith(0),
-      switchMap(() => this.http.get(API_URL + '/api/userinfo'))
+      switchMap(() => this.http.get(API_URL + '/api/userinfo').pipe(
+        catchError((error) => {
+	  return "error";
+	})
+      ))
     ).subscribe(
       response => {
-        this.inboxMail = response['inbox'];
-        this.sentMail = response['sent'];
-        this.username = response['username'];
-        this.inboxMails.next(this.inboxMail);
-        this.sentMails.next(this.sentMail);
+	if (response != "error") {
+          this.inboxMail = response['inbox'];
+          this.sentMail = response['sent'];
+          this.username = response['username'];
+          this.inboxMails.next(this.inboxMail);
+          this.sentMails.next(this.sentMail);
+	}
       }
     );
   }

@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-        "path"
-        "strings"
+	"path"
+	"strings"
 )
 
 type FSHandler404 = func(w http.ResponseWriter, r *http.Request) (doDefaultFileServe bool)

@@ -12,8 +12,14 @@ cc_binary(
         "chal/*.c",
         "chal/*.h",
     ]),
-    copts = ["-g", "-Wl,-z,norelro,-z,now"],
-    linkopts = ["-g", "-Wl,-z,norelro,-z,now"],
+    copts = [
+        "-g",
+        "-Wl,-z,norelro,-z,now",
+    ],
+    linkopts = [
+        "-g",
+        "-Wl,-z,norelro,-z,now",
+    ],
 )
 
 container_image(
