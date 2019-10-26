@@ -11,10 +11,10 @@ py_library(
     srcs = [
         "app/__init__.py",
     ],
-    data = [
-        "app/static",
-        "app/templates",
-    ],
+    data = glob([
+        "app/static/*",
+        "app/templates/*",
+    ]),
     deps = [
         requirement("certifi"),
         requirement("chardet"),
@@ -31,6 +31,7 @@ py_library(
         requirement("lxml"),
         requirement("six"),
         requirement("flask-talisman"),
+        requirement("PyJWT"),
     ],
 )
 
@@ -54,5 +55,4 @@ container_image(
         ":flag",
         ":pasteweb.db",
     ],
-    # TODO: add file here for XXE
 )

@@ -4,9 +4,16 @@
       name: "seclearn",
       category: "web",
     },
+    {
+      name: "seclearn-solver",
+      category: "web",
+    },
   ],
   flags: [
-    // TODO: add a flag
+    {
+      Flag: "GEEGLE{MNA9MDW9MAD92D}",
+      Points: 500,
+    },
   ],
   emails: [
     {
@@ -20,7 +27,7 @@
         Thanks,
         Adam
       |||,
-      DependsOnPoints: 750,
+      DependsOnPoints: 1350,
       Delay: 30000,
 
     },

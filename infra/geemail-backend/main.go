@@ -10,12 +10,14 @@ import (
 	"math/rand"
 	"net/http"
 	"net/smtp"
+	"net/url"
 	"os"
 	"regexp"
 	"strings"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/mvdan/xurls"
 )
 
 type Configuration struct {
@@ -31,6 +33,7 @@ type UserInfo struct {
 	Inbox    []Email `json:"inbox"`
 	Sent     []Email `json:"sent"`
 }
+
 type Email struct {
 	ID       int    `json:"id"`
 	Sender   string `json:"sender"`
@@ -38,6 +41,11 @@ type Email struct {
 	Subject  string `json:"subject"`
 	Body     []byte `json:"body"`
 	Time     int    `json:"time"`
+}
+
+type BotMsg struct {
+	Success bool   `json:"success"`
+	Message string `json:"message"`
 }
 
 var _configuration = Configuration{}
@@ -70,6 +78,63 @@ func addFlag(username string, body string, confirmation bool) error {
 	_, err = http.Post("https://scoreboard.corp.geegle.org/api/submit", "application/json", bytes.NewBuffer(reqBody))
 
 	return err
+}
+
+func triggerXSS(player, service, link string) (BotMsg, error) {
+	var result BotMsg
+	client := &http.Client{}
+	req, _ := http.NewRequest("GET", "https://xssbot.corp.geegle.org/?url="+url.QueryEscape(link), nil)
+	req.Header.Set("X-Geegle-SubAcc", service)
+	req.Header.Set("X-UberProxy-Player", player)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return result, err
+	}
+	defer resp.Body.Close()
+
+	err = json.NewDecoder(resp.Body).Decode(&result)
+	return result, err
+}
+
+func findURLsInString(str string) []string {
+	httpre, _ := xurls.StrictMatchingScheme("http")
+	httpsre, _ := xurls.StrictMatchingScheme("https")
+	urls := append(httpre.FindAllString(str, -1), httpsre.FindAllString(str, -1)...)
+	used := make(map[string]struct{})
+	var empty struct{}
+	for _, v := range urls {
+		used[v] = empty
+	}
+	res := make([]string, 0)
+	for v, _ := range used {
+		res = append(res, v)
+	}
+	return res
+}
+
+func batchTriggerXSS(player, service, addr, title, body string) {
+	retmsg := "Hi " + player + "@,<br><br>"
+	urls := findURLsInString(body)
+	if len(urls) == 0 {
+		retmsg += "Sorry, I couldn't find any links in your email"
+	} else if len(urls) > 1 {
+		retmsg += "There are too many links in your email (" + strings.Join(urls, ", ") + ")! I don't know which one to visit. Please provide one only."
+	} else {
+		bmsg, err := triggerXSS(player, service, urls[0])
+		if err != nil {
+			retmsg += "I found " + urls[0] + " in your email but something went wrong and I couldn't visit it (" + err.Error() + ")"
+		} else if bmsg.Success {
+			retmsg += "I will take a look at " + urls[0] + " (" + bmsg.Message + ")"
+		} else {
+			retmsg += "I found " + urls[0] + " in your email but something went wrong and I couldn't visit it (" + bmsg.Message + ")"
+		}
+	}
+	_, err := _db.Exec("insert into email (sender, receiver, subject, body, time) values(?, ?, ?, ?, ?)", addr, player+"@geegle.org", "Re: "+title, []byte(retmsg), time.Now().UnixNano()/1000000)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
 
 func initGmRsp(rsp http.ResponseWriter) {
@@ -194,7 +259,12 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 	if e.Receiver == "flag@geegle.org" {
 		fmt.Println(addFlag(user, string(e.Body), true))
 	}
-	// TODO: integrate with headless chrome
+	if e.Receiver == "adamyi@geegle.org" {
+		batchTriggerXSS(strings.Split(user, "@")[0], "seclearn", e.Receiver, e.Subject, string(e.Body))
+	}
+	if e.Receiver == "pasteweb-feedback@geegle.org" {
+		batchTriggerXSS(strings.Split(user, "@")[0], "pasteweb", e.Receiver, e.Subject, string(e.Body))
+	}
 
 	if !strings.HasSuffix(e.Receiver, "@geegle.org") {
 		err = sendOutboundMail(e.Receiver, user, e.Subject, e.Body)

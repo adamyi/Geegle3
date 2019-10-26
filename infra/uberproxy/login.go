@@ -39,7 +39,7 @@ func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 		}
 		authcookie := &http.Cookie{Name: "uberproxy_auth", Value: ptstr, HttpOnly: true, Domain: "geegle.org"}
 		http.SetCookie(rsp, authcookie)
-		http.Redirect(rsp, req, req.URL.Query()["return_url"][0], http.StatusTemporaryRedirect)
+		http.Redirect(rsp, req, req.URL.Query()["return_url"][0], http.StatusFound)
 	} else {
 		returnError(UPError{Code: http.StatusMethodNotAllowed, Title: "Method Not Allowed", Description: "Only GET and POST are supported"}, rsp)
 	}

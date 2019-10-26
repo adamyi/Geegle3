@@ -163,6 +163,13 @@ container_pull(
 )
 
 container_pull(
+    name = "chrome-base-without-chrome",
+    registry = "index.docker.io",
+    repository = "adamyi/chrome-base-without-chrome",
+    tag = "latest",
+)
+
+container_pull(
     name = "nginx-php-fpm",
     registry = "index.docker.io",
     repository = "richarvey/nginx-php-fpm",
@@ -381,6 +388,12 @@ go_repository(
     name = "com_github_mattn_go_runewidth",
     importpath = "github.com/mattn/go-runewidth",
     tag = "v0.0.3",
+)
+
+go_repository(
+    name = "cc_mvdan_xurls_v2",
+    importpath = "github.com/mvdan/xurls",
+    tag = "v2.1.0",
 )
 
 # Rules for compiling sass
