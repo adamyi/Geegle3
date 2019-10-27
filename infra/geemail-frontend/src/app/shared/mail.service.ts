@@ -4,9 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { Mail } from "./mail.model";
 import { BehaviorSubject, Observable, interval, pipe } from "rxjs";
 import { switchMap, startWith, catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 const API_URL = environment.apiUrl;
 
+@Injectable()
 export class MailService {
 
   constructor(
