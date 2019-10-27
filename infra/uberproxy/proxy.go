@@ -63,10 +63,6 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		handleWs(ctx, rsp, req, ptstr, levelShift)
 		return
 	}
-	if req.Host == "cli-relay.corp.geegle.org" {
-		handleCLIRelay(rsp, req)
-		return
-	}
 
 	bodyBytes, _ := ioutil.ReadAll(req.Body)
 	// req.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
