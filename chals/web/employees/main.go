@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -27,7 +26,9 @@ var configuration = Configuration{}
 var db *sql.DB
 
 func findEmployeeByName(name string) ([]Employee, error) {
-	rows, err := db.Query("SELECT * FROM employees WHERE name LIKE '%" + name + "%' ORDER BY id LIMIT 5")
+	//rows, err := db.Query("SELECT * FROM employees WHERE name LIKE '%" + name + "%' ORDER BY id LIMIT 5")
+	query := "SELECT * FROM employees WHERE name LIKE '%1" + name + "%' ORDER BY id LIMIT 5"
+	rows, err := db.Query(query)
 
 	if err != nil {
 		return nil, err
@@ -37,7 +38,6 @@ func findEmployeeByName(name string) ([]Employee, error) {
 
 	for rows.Next() {
 		var employee Employee
-		fmt.Println(rows.Columns())
 		err = rows.Scan(&employee.ID, &employee.Name, &employee.Position)
 		if err != nil {
 			return nil, err
@@ -79,7 +79,6 @@ func index(rsp http.ResponseWriter, req *http.Request) {
 	employees, err := findEmployeeByName(name)
 	if err != nil {
 		http.Error(rsp, err.Error(), http.StatusInternalServerError)
-		fmt.Println(err)
 		return
 	}
 
