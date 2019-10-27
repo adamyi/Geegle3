@@ -24,6 +24,7 @@ challenge.libsonnet @LachJones
 /chals/web/seclearn/ @adamyi
 
 # infrastructure
+/infra/cli-relay/ @adamyi
 /infra/cli-static/ @adamyi
 /infra/dns/ @adamyi
 /infra/gae/ @adamyi

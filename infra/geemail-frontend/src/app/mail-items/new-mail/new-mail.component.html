@@ -3,8 +3,7 @@
     <h3 id="new-message">New Message</h3>
     <form (ngSubmit)="onSubmit()" #mailForm="ngForm">
       <div>
-        <input class="new-info" type="email" name="email" placeholder="Recipient" required [(ngModel)]="mail.receiver"
-          name="receiver">
+        <input class="new-info" type="email" placeholder="Recipient" required [(ngModel)]="mail.receiver" name="receiver">
       </div>
       <div>
         <input class="new-info" type="text" placeholder="Subject" required [(ngModel)]="mail.subject" name="subject">

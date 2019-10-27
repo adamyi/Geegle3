@@ -31,6 +31,7 @@ container_bundle(
     name = "all_containers",
     images = {
         # infra
+        "gcr.io/geegle/infra/cli-relay:latest": "//infra/cli-relay:image",
         "gcr.io/geegle/infra/mss:latest": "//infra/mss:image",
         "gcr.io/geegle/infra/sffe:latest": "//infra/sffe:image",
         "gcr.io/geegle/infra/geemail-backend:latest": "//infra/geemail-backend:image",
@@ -42,7 +43,6 @@ container_bundle(
         "gcr.io/geegle/infra/apps:latest": "//infra/gae:image",
         "gcr.io/geegle/infra/requestz:latest": "//infra/requestz:image",
         "gcr.io/geegle/infra/xssbot:latest": "//infra/xssbot:image",
-        "gcr.io/geegle/infra/cli-relay:latest": "//infra/cli-relay:image",
 
         # web challenges
         "gcr.io/geegle/chals/web/docs:latest": "//chals/web/docs:image",

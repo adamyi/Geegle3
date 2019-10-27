@@ -57,6 +57,7 @@ jsonnet_library(
     srcs = ["flags.libsonnet"],
     deps = [
         "//chals:challenges_jsonnet",
+        "//infra:infra_jsonnet",
         "//infra/jsonnet:utils",
     ],
 )

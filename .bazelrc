@@ -21,14 +21,15 @@ build --symlink_prefix=dist/
 # See https://github.com/angular/angular/issues/27514.
 build --incompatible_strict_action_env
 run --incompatible_strict_action_env
-test --incompatible_strict_action_env
 
 build --incompatible_bzl_disallow_load_after_statement=false
 
 test --test_output=errors
 
-# Use the Angular 6 compiler
-build --define=compile=legacy
+# Use the Angular IVy compiler
+# See https://github.com/angular/angular/blob/master/docs/BAZEL.md#various-flags-used-for-tests
+build --define=compile=aot
+run --define=compile=aot
 
 # Turn on managed directories feature in Bazel
 # This allows us to avoid installing a second copy of node_modules
@@ -47,3 +48,4 @@ test --incompatible_use_python_toolchains
 test --host_force_python=PY2
 run --incompatible_use_python_toolchains
 run --host_force_python=PY2
+
