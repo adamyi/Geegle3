@@ -4,6 +4,7 @@ challenges_list(
     name = "infra_jsonnet",
     visibility = ["//visibility:public"],
     deps = [
+        "//infra/cli-relay:challenge",
         "//infra/gae:challenge",
         "//infra/geemail-backend:challenge",
         "//infra/geemail-frontend:challenge",
