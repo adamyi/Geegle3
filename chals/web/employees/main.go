@@ -37,6 +37,7 @@ func findEmployeeByName(name string) ([]Employee, error) {
 
 	for rows.Next() {
 		var employee Employee
+		fmt.Println(rows.Columns())
 		err = rows.Scan(&employee.ID, &employee.Name, &employee.Position)
 		if err != nil {
 			return nil, err
