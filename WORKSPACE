@@ -77,9 +77,9 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_python/archive/5aa465d5d91f1d9d90cac10624e3d2faf2057bd5.tar.gz"],
 )
 
-RULES_NODEJS_VERSION = "0.32.2"
+RULES_NODEJS_VERSION = "0.39.0"
 
-RULES_NODEJS_SHA256 = "6d4edbf28ff6720aedf5f97f9b9a7679401bf7fca9d14a0fff80f644a99992b4"
+RULES_NODEJS_SHA256 = "26c39450ce2d825abee5583a43733863098ed29d3cbaebf084ebaca59a21a1c8"
 
 http_archive(
     name = "build_bazel_rules_nodejs",
@@ -435,9 +435,9 @@ load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
 
 install_bazel_dependencies()
 
-load("@npm_bazel_karma//:package.bzl", "rules_karma_dependencies")
+load("@npm_bazel_karma//:package.bzl", "npm_bazel_karma_dependencies")
 
-rules_karma_dependencies()
+npm_bazel_karma_dependencies()
 
 load("@io_bazel_rules_webtesting//web:repositories.bzl", "web_test_repositories")
 
