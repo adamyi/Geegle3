@@ -6,10 +6,10 @@
 #include <unistd.h>
 
 struct totalDataStore {
-	int a;
-	char b;
-	char c[1024];
-	void *d;
+    int a;
+    char b;
+    char c[1024];
+    void *d;
 };
 
 char flag[64] = {0};
@@ -38,13 +38,13 @@ int main(int argc, char* argv[], char* envp[]) {
     char name[1024];
     fgets(name, sizeof(name) - 1, stdin);
     for (int i = 0; i < strlen(name); i++) {
-    	if (name[i] == '\n')
-    		name[i] = '\0';
+	if (name[i] == '\n')
+	    name[i] = '\0';
     }
     printf("\nHi %s, thanks for taking the time to help us, help you.\n", name);
     getFeedback(name);
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 void getFeedback(char *name) {
@@ -52,31 +52,31 @@ label2:	// setbuf(stdout, NULL);
 
 label3:
 
-	printf("\nHow long have you been working with us?\n");
+    printf("\nHow long have you been working with us?\n");
 
-	char timeWorking[64];
-	fgets(timeWorking, sizeof(timeWorking) - 1, stdin);
-	for (int i = 0; i < strlen(timeWorking); i++) {
-		if (timeWorking[i] == '\n') timeWorking[i] = '\0';
+    char timeWorking[64];
+    fgets(timeWorking, sizeof(timeWorking) - 1, stdin);
+    for (int i = 0; i < strlen(timeWorking); i++) {
+	if (timeWorking[i] == '\n') timeWorking[i] = '\0';
+    }
+
+    char *p = timeWorking;
+    int num = 0;
+    while (*p) { // While there are more characters to process...
+	if ( isdigit(*p) || ( (*p=='-'||*p=='+') && isdigit(*(p+1)) )) {
+	    // Found a number
+	    long val = strtol(p, &p, 10); // Read number
+	    num = (int)val;
+	} else {
+	    // Otherwise, move on to the next character.
+label1: p++;
 	}
-
-	char *p = timeWorking;
-	int num = 0;
-	while (*p) { // While there are more characters to process...
-	    if ( isdigit(*p) || ( (*p=='-'||*p=='+') && isdigit(*(p+1)) )) {
-	        // Found a number
-	        long val = strtol(p, &p, 10); // Read number
-	        num = (int)val;
-        } else {
-        // Otherwise, move on to the next character.
-        label1: p++;
-    	}
     }
 
     if (num >= 10) {
-    	printf("Wow, %s?? That's so long! Thank you for your loyalty!\n\n", timeWorking);
+	printf("Wow, %s?? That's so long! Thank you for your loyalty!\n\n", timeWorking);
     } else {
-    	printf("Only %s? Well thank you for joining us! We hope you like it so far.\n\n", timeWorking);
+	printf("Only %s? Well thank you for joining us! We hope you like it so far.\n\n", timeWorking);
     }
 
     int response;
@@ -97,7 +97,7 @@ label3:
     printf("Response '%d' recorded.\n\n", response);
     int pancakes = response;
     if (strncmp(block->c, name, strlen(name))) {
-    	goto label3;
+	goto label3;
     }
 
 
@@ -124,35 +124,35 @@ label3:
     int a = like * pancakes;
     int b = like % friends;
 label4: a -= 1;
-    int c = cont + like;
-    int d = pancakes / friends;
-    long long e = 2;
-    for (int i = 0; i < 8; i++) {
-    	e *= 2;
-    }
-    if (e == 6) goto label4;
-    long f = a + b + c + d + e;
+	int c = cont + like;
+	int d = pancakes / friends;
+	long long e = 2;
+	for (int i = 0; i < 8; i++) {
+	    e *= 2;
+	}
+	if (e == 6) goto label4;
+	long f = a + b + c + d + e;
 
 
-    return;
+	return;
 }
 
 void handler(int num) {
-	char string[80] = "";
-	strcat(string, ";{\x14Y\x15");
-	strcat(string, "EX\x18J_C@J\x15\x15");
-	strcat(string, "AR\x1fOU\x11ZZ@\x15WY\x18\\BC]A\x1a?f[]XCT\x12@Q[R\x17MJ\x10");
-	strcat(string, "EZZG\x15SEJVB\x11Q\\PP\x0c\x17");
-	strcat(string, "2p\x17\\\x12@[\x15");
-	strcat(string, "EXJKI\0");
-	char key[80] = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
-	for (int i = 0; i < strlen(string); i++) {
-		string[i] ^= key[i];
-	}
-	string[67] = '\0';
-	printf("%s", string);
-	_printf();
-	exit(0);
+    char string[80] = "";
+    strcat(string, ";{\x14Y\x15");
+    strcat(string, "EX\x18J_C@J\x15\x15");
+    strcat(string, "AR\x1fOU\x11ZZ@\x15WY\x18\\BC]A\x1a?f[]XCT\x12@Q[R\x17MJ\x10");
+    strcat(string, "EZZG\x15SEJVB\x11Q\\PP\x0c\x17");
+    strcat(string, "2p\x17\\\x12@[\x15");
+    strcat(string, "EXJKI\0");
+    char key[80] = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
+    for (int i = 0; i < strlen(string); i++) {
+	string[i] ^= key[i];
+    }
+    string[67] = '\0';
+    printf("%s", string);
+    _printf();
+    exit(0);
 }
 
 void _printf(void) {
@@ -161,22 +161,22 @@ void _printf(void) {
     printf("%s\n\n", flag);
 }
 void _puts(void){
-	char fileName[10] = "N\x04\x0f\x05\x02";
-	char key[10] = "abcde";
-	for (int i = 0; i < strlen(fileName); i++) {
-		fileName[i] ^= key[i];
-	}
-	fflush(stdout);
+    char fileName[10] = "N\x04\x0f\x05\x02";
+    char key[10] = "abcde";
+    for (int i = 0; i < strlen(fileName); i++) {
+	fileName[i] ^= key[i];
+    }
+    fflush(stdout);
     FILE *file = fopen(fileName, "r");
 
     if (file == NULL) {
-    	char tmpflag[24] = "w~rsNrrzlwv{}sjp{y~M";
-    	char key[24] = "12345678901234567890";
-    	for (int i = 0; i < strlen(tmpflag); i++) {
-    		tmpflag[i] ^= key[i];
-		}
-        strcpy(flag, tmpflag);
-        return;
+	char tmpflag[24] = "w~rsNrrzlwv{}sjp{y~M";
+	char key[24] = "12345678901234567890";
+	for (int i = 0; i < strlen(tmpflag); i++) {
+	    tmpflag[i] ^= key[i];
+	}
+	strcpy(flag, tmpflag);
+	return;
     }
 
     fread(flag, sizeof(flag), 1, file);
@@ -184,12 +184,12 @@ void _puts(void){
 }
 
 void getShell(void) {
-	system("/bin/sh");
+    system("/bin/sh");
 }
 
 void createData(struct totalDataStore *block) {
-	block->a = 0;
-	block->b = 'A';
-	memset(block->c, 0, sizeof(block->c));
-	block->d = NULL;
+    block->a = 0;
+    block->b = 'A';
+    memset(block->c, 0, sizeof(block->c));
+    block->d = NULL;
 }

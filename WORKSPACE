@@ -163,6 +163,13 @@ container_pull(
 )
 
 container_pull(
+    name = "ubuntu1804-with-zbar",
+    registry = "index.docker.io",
+    repository = "adamyi/ubuntu1804-with-zbar",
+    tag = "latest",
+)
+
+container_pull(
     name = "chrome-base-without-chrome",
     registry = "index.docker.io",
     repository = "adamyi/chrome-base-without-chrome",

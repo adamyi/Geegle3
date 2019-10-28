@@ -54,23 +54,18 @@ char* load_flag() {
 
 void no_brute_forcing_please() {
     printf("L");
-    sleep(1);
     printf("O");
     sleep(1);
     printf("A");
-    sleep(1);
     printf("D");
     sleep(1);
     printf("I");
-    sleep(1);
     printf("N");
     sleep(1);
     printf("G");
-    sleep(1);
     printf(".");
     sleep(1);
     printf(".");
-    sleep(1);
     printf(".\n");
     sleep(1);
 }

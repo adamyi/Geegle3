@@ -4,9 +4,9 @@
 # adapted from https://github.com/websocket-client/websocket-client/blob/master/bin/wsdump.py
 
 # How to Use This File
-# pip install websocket-client --user
+# `python cli-relay.cli`
 # Once this works, visit `http://cli-relay.corp.geegle.org/` and use 'inspect element' to view your cookies. Copy the value of 'uberproxy_auth' and use this as:
-# `cli-relay <uberproxy_auth> <domain being accessed, eg quicksort.corp.geegle.org>`
+# `python cli-relay.py <uberproxy_auth> <domain being accessed, eg quicksort.corp.geegle.org>`
 
 import argparse
 import code

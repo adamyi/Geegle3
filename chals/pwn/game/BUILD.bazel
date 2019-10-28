@@ -22,7 +22,7 @@ cc_binary(
 
 container_image(
     name = "image",
-    base = "@ubuntu1804//image",
+    base = "@ubuntu1804-with-32bit-libc//image",
     cmd = [
         "/websocketd",
         "--port=80",
