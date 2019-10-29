@@ -12,12 +12,12 @@ cc_binary(
 
 go_image(
     name = "image",
-    base = "@ubuntu1804-with-zbar//image",
     args = [
         "$(location :static)",
         "$(location :templates)",
-        "chals/web/guest/vuln", # TODO(adamyi): not hard-code this
+        "chals/web/guest/vuln",  # TODO(adamyi): not hard-code this
     ],
+    base = "@ubuntu1804-with-zbar//image",
     data = [
         ":static",
         ":templates",
