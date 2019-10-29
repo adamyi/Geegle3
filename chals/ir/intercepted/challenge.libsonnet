@@ -17,7 +17,7 @@
         https://pasteweb.corp.geegle.org/paste/990a96f3-4224-452f-9183-da5dbb9477eb I'll give you some tea.
       |||,
       "DependsOnPoints": 200,
-      "Delay": 600000
+      "Delay": 200000
     },
   ],
 }
