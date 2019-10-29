@@ -15,8 +15,8 @@ container_image(
         "/gen.py",
     ],
     files = [
-        ":clisffe",
         ":chal/gen.py",
+        ":clisffe",
         ":flag",
         "@com_github_joewalnes_websocketd//:websocketd",
     ],
