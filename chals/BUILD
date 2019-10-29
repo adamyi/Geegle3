@@ -8,6 +8,7 @@ challenges_list(
         "//chals/emails/newsletter:challenge",
         "//chals/ir/intercepted:challenge",
         "//chals/ir/who-is-attacking-me:challenge",
+        "//chals/crypto/magic:challenge",
         "//chals/pwn/game:challenge",
         "//chals/pwn/geelang:challenge",
         "//chals/pwn/intern-project:challenge",

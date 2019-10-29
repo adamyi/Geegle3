@@ -1,0 +1,25 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
+
+container_image(
+    name = "image",
+    base = "@python3-base//image",
+    cmd = [
+        "/websocketd",
+        "--port=80",
+        "--staticdir=/static",
+        "--binary=true",
+        "/chal.py",
+    ],
+    files = [
+        ":chal/chal.py",
+        ":flag",
+        "@com_github_joewalnes_websocketd//:websocketd",
+    ],
+    tars = [
+        "//infra/cli-static",
+    ],
+    visibility = ["//visibility:public"],
+)
