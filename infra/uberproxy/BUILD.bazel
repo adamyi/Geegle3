@@ -41,7 +41,6 @@ go_library(
     name = "go_default_library",
     srcs = [
         "auth.go",
-        "clirelay.go",
         "config.go",
         "error.go",
         "http.go",

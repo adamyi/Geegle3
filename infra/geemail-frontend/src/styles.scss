@@ -38,6 +38,7 @@ h3 {
   margin: 0 auto;
   padding: 0;
   border: 1px solid black;
+  overflow: auto;
 }
 
 .mail-folders {
@@ -217,7 +218,7 @@ a:visited {
 
 .message {
   display: inline-block;
-  width: 420px;
+  width: 410px;
   padding-right: 20px;
   color: #5f6368;
   text-overflow: ellipsis;
@@ -229,7 +230,7 @@ a:visited {
 
 .date {
   display: inline-block;
-  width: 120px;
+  width: 130px;
 }
 
 .open-mail {

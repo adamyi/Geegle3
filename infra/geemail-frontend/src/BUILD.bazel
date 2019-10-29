@@ -1,9 +1,11 @@
 package(default_visibility = ["//visibility:public"])
 
+load("@npm//@babel/cli:index.bzl", "babel")
 load("@npm_angular_bazel//:index.bzl", "ng_module")
-load("@build_bazel_rules_nodejs//:defs.bzl", "history_server", "rollup_bundle")
+load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
+load("@npm_bazel_terser//:index.bzl", "terser_minified")
 load("@build_bazel_rules_nodejs//internal/web_package:web_package.bzl", "web_package")
-load("@npm_bazel_typescript//:index.bzl", "ts_devserver", "ts_library")
+load("@npm_bazel_typescript//:index.bzl", "ts_library")
 load("@io_bazel_rules_sass//:defs.bzl", "multi_sass_binary", "sass_binary", "sass_library")
 
 sass_binary(
@@ -29,21 +31,14 @@ multi_sass_binary(
 
 ng_module(
     name = "src",
-    srcs = glob(
-        include = ["**/*.ts"],
-        exclude = [
-            "**/*.spec.ts",
-            "main.ts",
-            "test.ts",
-            "initialize_testbed.ts",
-        ],
-    ),
-    # tsconfig = "//infra/geemail-frontend:tsconfig.json",
-    assets = glob([
-        "**/*.css",
-        "**/*.html",
-    ]) + ([":styles"] if len(glob(["**/*.scss"])) else []),
+    srcs = [
+        "main.dev.ts",
+        "main.prod.ts",
+    ],
+    assets = [":styles"],
+    tsconfig = "//:tsconfig.json",
     deps = [
+        "//infra/geemail-frontend/src/app",
         "@npm//@angular/animations",
         "@npm//@angular/cdk",
         "@npm//@angular/core",
@@ -58,76 +53,65 @@ ng_module(
 )
 
 rollup_bundle(
-    name = "bundle",
-    entry_point = ":main.prod.ts",
+    name = "bundle-es2015",
+    config_file = "rollup.config.js",
+    entry_points = {
+        ":main.prod.ts": "index",
+    },
+    output_dir = True,
     deps = [
-        "//infra/geemail-frontend/src",
-        "@npm//@angular/material",
-        "@npm//@angular/router",
-        "@npm//@tinymce/tinymce-angular",
-        "@npm//rxjs",
+        "src",
+        "@npm//rollup-plugin-commonjs",
+        "@npm//rollup-plugin-node-resolve",
     ],
+)
+
+babel(
+    name = "bundle-es5",
+    args = [
+        "$(location :bundle-es2015)",
+        "--no-babelrc",
+        "--source-maps",
+        "--presets=@babel/preset-env",
+        "--out-dir",
+        "$@",
+    ],
+    data = [
+        ":bundle-es2015",
+        "@npm//@babel/preset-env",
+    ],
+    output_dir = True,
+)
+
+terser_minified(
+    name = "bundle-es2015.min",
+    src = ":bundle-es2015",
+    sourcemap = False,
+)
+
+terser_minified(
+    name = "bundle-es5.min",
+    src = ":bundle-es5",
+    sourcemap = False,
 )
 
 web_package(
     name = "prodapp",
+    additional_root_paths = [
+        "npm/node_modules/core-js/client",
+        "npm/node_modules/systemjs/dist",
+    ],
+    # do not sort
     assets = [
-        # do not sort
+        "global_stylesheet",
         "@npm//:node_modules/zone.js/dist/zone.min.js",
-        ":bundle.min.js",
-        ":global_stylesheet",
         ":assets",
+        ":bundle-es2015.min",
+        ":bundle-es5.min",
     ],
     data = [
-        "favicon.ico",
+        "@npm//:node_modules/core-js/client/core.min.js",
+        "@npm//:node_modules/systemjs/dist/system.js",
     ],
     index_html = "index.html",
-)
-
-history_server(
-    name = "prodserver",
-    data = [":prodapp"],
-    templated_args = ["src/prodapp"],
-)
-
-filegroup(
-    name = "rxjs_umd_modules",
-    srcs = [
-        # do not sort
-        "@npm//:node_modules/rxjs/bundles/rxjs.umd.js",
-        ":rxjs_shims.js",
-    ],
-)
-
-ts_devserver(
-    name = "devserver",
-    data = [
-        "favicon.ico",
-    ],
-    entry_module = "project/src/main.dev",
-    index_html = "index.html",
-    port = 4200,
-    scripts = [
-        "@npm//:node_modules/tslib/tslib.js",
-        ":rxjs_umd_modules",
-    ],
-    serving_path = "/bundle.min.js",
-    static_files = [
-        "@npm//:node_modules/zone.js/dist/zone.min.js",
-        ":global_stylesheet",
-    ],
-    deps = [":src"],
-)
-
-ts_library(
-    name = "initialize_testbed",
-    testonly = 1,
-    srcs = [
-        "initialize_testbed.ts",
-    ],
-    deps = [
-        "@npm//@angular/core",
-        "@npm//@angular/platform-browser-dynamic",
-        "@npm//@types",
-    ],
 )

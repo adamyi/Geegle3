@@ -1,0 +1,30 @@
+load("@npm_angular_bazel//:index.bzl", "ng_module")
+
+package(default_visibility = ["//:__subpackages__"])
+
+# We don't import from these, but the generated ngfactory code will
+NG_FACTORY_ADDED_IMPORTS = [
+    "@npm//@angular/animations",
+    "@npm//@angular/cdk",
+    "@npm//@angular/material",
+    "@npm//@angular/forms",
+]
+
+ng_module(
+    name = "app",
+    srcs = glob(["**/*.ts"]),
+    assets = glob([
+        "**/*.css",
+        "**/*.html",
+    ]),
+    tsconfig = "//:tsconfig.json",
+    deps = NG_FACTORY_ADDED_IMPORTS + [
+        "//infra/geemail-frontend/src/environments",
+        "@npm//@angular/core",
+        "@npm//@angular/router",
+        "@npm//@angular/platform-browser",
+        "@npm//@tinymce/tinymce-angular",
+        "@npm//@types",
+        "@npm//rxjs",
+    ],
+)
