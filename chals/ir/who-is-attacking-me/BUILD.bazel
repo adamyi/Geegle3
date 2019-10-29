@@ -9,11 +9,13 @@ container_image(
     cmd = [
         "/websocketd",
         "--port=80",
+        "--cgidir=/cgi",
         "--staticdir=/static",
         "--binary=true",
         "/gen.py",
     ],
     files = [
+        ":clisffe",
         ":chal/gen.py",
         ":flag",
         "@com_github_joewalnes_websocketd//:websocketd",

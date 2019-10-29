@@ -138,49 +138,49 @@ container_pull(
     name = "tomcat-jython",
     registry = "index.docker.io",
     repository = "adamyi/tomcat-jython",
-    tag = "latest",
+    digest = "sha256:27526ffde703e09cdf8cbb3cb781c169ac48f2e2ba3a6fbe3238c9fff9b80fc7",
 )
 
 container_pull(
     name = "python-with-latex",
     registry = "index.docker.io",
     repository = "adamyi/python-with-latex",
-    tag = "latest",
+    digest = "sha256:db92134dd530dd3b666a5b420029886c01faf72a7ea366726c6eeac45ae4ed64",
 )
 
 container_pull(
     name = "nginx-php-fpm-with-imagick",
     registry = "index.docker.io",
     repository = "adamyi/nginx-php-fpm-with-imagick",
-    tag = "latest",
+    digest = "sha256:2ac175a4b6faff45ca12325de3ed3899c8acba2d38955fab5b8b877c8cb7c6d5",
 )
 
 container_pull(
     name = "ubuntu1804-with-32bit-libc",
     registry = "index.docker.io",
     repository = "adamyi/ubuntu1804-with-32bit-libc",
-    tag = "latest",
+    digest = "sha256:3225563499e60d3bacd4db8f05920ae5d86635372d1c77024fd73d6db9d04cca",
 )
 
 container_pull(
     name = "ubuntu1804-with-zbar",
     registry = "index.docker.io",
     repository = "adamyi/ubuntu1804-with-zbar",
-    tag = "latest",
+    digest = "sha256:cc47d8fc8309178954287c6419f3f39aa3741b6c540c351bd5d71c3662b9d6ba",
 )
 
 container_pull(
     name = "chrome-base-without-chrome",
     registry = "index.docker.io",
     repository = "adamyi/chrome-base-without-chrome",
-    tag = "latest",
+    digest = "sha256:b5c86894a56352eb4f91c462d7cb95b5475b3e3735d4faea9893cfaca668c467",
 )
 
 container_pull(
     name = "nginx-php-fpm",
     registry = "index.docker.io",
     repository = "richarvey/nginx-php-fpm",
-    tag = "1.7.4",
+    digest = "sha256:2e9718f4bdca05f577cb8cf046327cb9232e4fd817fe32f470db0a65660a6e46",
 )
 
 container_pull(
@@ -194,21 +194,21 @@ container_pull(
     name = "ubuntu1804",
     registry = "gcr.io",
     repository = "cloud-marketplace/google/ubuntu1804",
-    tag = "latest",
+    digest = "sha256:3942b604b2f23e9b08aa6f3c51dc19efa2b570ae93ce8aaabf94e02111ddcca9",
 )
 
 container_pull(
     name = "python2-base",
     registry = "index.docker.io",
     repository = "python",
-    tag = "2.7",
+    digest = "sha256:938d21703d929295337f5aafd038a8d93172e11e1746f6e87f02eb53e32bcea0",
 )
 
 container_pull(
     name = "python3-base",
     registry = "index.docker.io",
     repository = "python",
-    tag = "3.7",
+    digest = "sha256:d182a775e372d82d92b59ff5debeabcb699964fe163320eb9fc5ebb971c51ec3",
 )
 
 go_repository(
