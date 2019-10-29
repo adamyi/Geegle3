@@ -32,7 +32,8 @@ void waitForKey(void) {
 }
 
 void stuff() {
-    char buffer[62] = {0};
+    char buffer[58] = {0};
+
 
     do {
         char start[5] = {0};
