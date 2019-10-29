@@ -23,7 +23,7 @@
 
         Please do not reply to this email.
       |||,
-      "DependsOnPoints": 600,
+      "DependsOnPoints": 1,
       "Delay": 100000
     },
   ],
