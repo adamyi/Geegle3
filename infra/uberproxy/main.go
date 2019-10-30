@@ -11,6 +11,7 @@ import (
 var _db *sql.DB
 
 func main() {
+	var err error
 	rand.Seed(time.Now().UnixNano())
 	initPrivateIP()
 	initNetworkOptions()
@@ -20,6 +21,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer _db.Close()
 
 	go http.ListenAndServe(":80", http.HandlerFunc(redirectSSL))

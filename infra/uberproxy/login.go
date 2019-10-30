@@ -15,14 +15,14 @@ import (
 
 func verifyPassword(username string, password string) bool {
 	var storedPassword string
-	err := _db.QueryRow("SELECT password FROM users WHERE username=?", username).Scan(&stored_password)
+	err := _db.QueryRow("SELECT password FROM users WHERE ldap=?", username).Scan(&storedPassword)
 
 	if err != nil {
 		log.Println(err)
 		return false
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(pwd))
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
 	if err != nil {
 		log.Println(err)
 		return false
@@ -41,7 +41,7 @@ func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 		if !strings.HasSuffix(username, "@geegle.org") {
 			username = username + "@geegle.org"
 		}
-		password = req.Form.Get("password")
+		password := req.Form.Get("password")
 
 		if !verifyPassword(username, password) {
 			tmpl := template.Must(template.ParseFiles(os.Args[3] + "/login.html"))

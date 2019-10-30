@@ -263,6 +263,12 @@ footer img:focus , footer a:focus { outline: none; }
 <hgroup>
 <h1>Geegle Corp Single-Sign On</h1>
 </hgroup>
+{{ if not (eq . "") }}
+<div class="group" style="background-color: #dc3545; color: white">
+{{ . }}
+</div>
+{{ end }}
+
 <form method="POST" id="loginform">
 <div class="group">
 <input type="text" name="username"><span class="highlight"></span><span class="bar"></span>
@@ -272,7 +278,7 @@ footer img:focus , footer a:focus { outline: none; }
 <input type="password" name="password"><span class="highlight"></span><span class="bar"></span>
 <label>Password</label>
 </div>
-<button type="button" class="button buttonBlue" id="loginbutton">Login
+<input type="submit" class="button buttonBlue" id="loginbutton">Login
 <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
 </button>
 </form>
