@@ -35,7 +35,6 @@ func parseFile(r *http.Request) ([]byte, error) {
 		return nil, errors.New("Error reading file")
 	}
 
-
 	return fileBytes, nil
 }
 
