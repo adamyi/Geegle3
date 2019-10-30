@@ -3,6 +3,7 @@
     {
       name: "shell",
       category: "pwn",
+      clustertype: "team",
     },
   ],
   flags: [

@@ -3,6 +3,7 @@
     {
       name: "seclearn",
       category: "web",
+      clustertype: "team",
     },
     {
       name: "seclearn-solver",

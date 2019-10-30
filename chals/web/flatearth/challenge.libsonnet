@@ -3,6 +3,7 @@
     {
       name: "flatearth",
       category: "web",
+      clustertype: "team",
     },
   ],
   flags: [

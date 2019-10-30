@@ -3,6 +3,7 @@
     {
       name: "onboarding",
       category: "re",
+      clustertype: "team",
     },
   ],
   flags: [

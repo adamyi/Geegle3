@@ -51,7 +51,7 @@ func getRealAddr(host string) (string, error) {
 }
 
 func getL2Addr(player string) (string, error) {
-	if os.Getenv("UBERPROXY_MASTER") == "" {
+	if os.Getenv("UBERPROXY_CLUSTER") != "master" {
 		player = "master"
 	}
 	host := player + ".prod.geegle.org"

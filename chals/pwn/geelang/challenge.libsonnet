@@ -3,6 +3,7 @@
     {
       name: "geelang",
       category: "pwn",
+      clustertype: "team",
     },
   ],
   flags: [

@@ -3,6 +3,7 @@
     {
       name: "memegen",
       category: "web",
+      clustertype: "team",
     },
   ],
   flags: [
