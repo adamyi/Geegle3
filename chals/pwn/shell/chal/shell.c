@@ -35,8 +35,8 @@ int logged_in() {
 void menu() {
     puts("Available commands:");
     puts("\tuser - shows current user info");
-    puts("\tlogin <user> - Login to user");
-    puts("\tsudo <level> - Set authorization level (must be < 9)");
+    puts("\tlogin user - Login to user");
+    puts("\tsudo level - Set authorization level (must be < 9)");
     puts("\tgetflag - Prints flag (requires auth level 9)");
     puts("\tlogout - log out and reset auth");
     puts("\tquit");
