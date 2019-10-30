@@ -61,9 +61,6 @@ local networks = {
         }
         for i in std.range(0, std.length(services) - 1)
       },
-      ports: [
-        "53:53",
-      ],
     },
     uberproxy: {
       image: "gcr.io/geegle/infra/uberproxy:latest",
