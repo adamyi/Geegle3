@@ -1,28 +1,54 @@
 package main
 
 import (
-	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"io/ioutil"
+	"html/template"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/crypto/bcrypt"
 )
+
+func verifyPassword(username string, password string) bool {
+	var storedPassword string
+	err := _db.QueryRow("SELECT password FROM users WHERE username=?", username).Scan(&stored_password)
+
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(pwd))
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	return true
+}
 
 func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 	if req.Method == "GET" {
-		//TODO: cache this
-		body, _ := ioutil.ReadFile(os.Args[3] + "/login.html")
-		fmt.Fprint(rsp, string(body))
+		tmpl := template.Must(template.ParseFiles(os.Args[3] + "/login.html"))
+		tmpl.Execute(rsp, "")
 	} else if req.Method == "POST" {
 		req.ParseForm()
 		username := strings.ToLower(req.Form.Get("username"))
 		if !strings.HasSuffix(username, "@geegle.org") {
 			username = username + "@geegle.org"
 		}
-		_ = req.Form.Get("password")
-		//TODO: verify password
+		password = req.Form.Get("password")
+
+		if !verifyPassword(username, password) {
+			tmpl := template.Must(template.ParseFiles(os.Args[3] + "/login.html"))
+			tmpl.Execute(rsp, "Incorrect password")
+			return
+		}
+
 		expirationTime := time.Now().Add(24 * 30 * time.Hour)
 		pclaims := Claims{
 			Username: username,
