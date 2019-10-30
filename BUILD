@@ -59,7 +59,6 @@ container_bundle(
         "gcr.io/geegle/chals/pwn/shell:latest": "//chals/pwn/shell:image",
         "gcr.io/geegle/chals/pwn/payroll:latest": "//chals/pwn/payroll:image",
         "gcr.io/geegle/chals/re/onboarding:latest": "//chals/re/tellGeegle:image",
-
         "gcr.io/geegle/chals/crypto/magic:latest": "//chals/crypto/magic:image",
 
         # others challenges
