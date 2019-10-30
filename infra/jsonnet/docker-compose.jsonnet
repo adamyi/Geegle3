@@ -79,7 +79,7 @@ local networks = {
         "geegle.org",
       ],
       environment: [
-        "UBERPROXY_CLUSTER" + std.extVar('cluster')
+        "UBERPROXY_CLUSTER=" + std.extVar('cluster')
       ],
     },
   } + tservices,
