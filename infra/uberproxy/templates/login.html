@@ -264,12 +264,11 @@ footer img:focus , footer a:focus { outline: none; }
 <h1>Geegle Corp Single-Sign On</h1>
 </hgroup>
 {{ if not (eq . "") }}
-<div class="group" style="background-color: #dc3545; color: white">
+<form method="POST" id="loginform" style="background-color: #dc3545; color: white; text-align: center; font-weight: bold">
 {{ . }}
-</div>
-{{ end }}
-
+{{ else }}
 <form method="POST" id="loginform">
+{{ end }}
 <div class="group">
 <input type="text" name="username"><span class="highlight"></span><span class="bar"></span>
 <label>LDAP</label>
@@ -278,9 +277,7 @@ footer img:focus , footer a:focus { outline: none; }
 <input type="password" name="password"><span class="highlight"></span><span class="bar"></span>
 <label>Password</label>
 </div>
-<input type="submit" class="button buttonBlue" id="loginbutton">Login
-<div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-</button>
+<input type="submit" class="button buttonBlue" id="loginbutton" value="Login">
 </form>
 <footer>Geegle Internal.
 </footer>
