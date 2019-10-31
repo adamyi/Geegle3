@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rsa"
 	"fmt"
 	"strings"
 
@@ -12,7 +13,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func getJwtUsername(tknStr string, JwtKey []byte) (string, error) {
+func getJwtUsername(tknStr string, JwtKey *rsa.PublicKey) (string, error) {
 	claims := &Claims{}
 
 	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
@@ -30,7 +31,7 @@ func getJwtUsername(tknStr string, JwtKey []byte) (string, error) {
 	return claims.Username, nil
 }
 
-func getJwtServiceName(tknStr string, JwtKey []byte) (string, error) {
+func getJwtServiceName(tknStr string, JwtKey *rsa.PublicKey) (string, error) {
 	username, err := getJwtUsername(tknStr, JwtKey)
 	if err != nil {
 		return "", err
@@ -42,7 +43,7 @@ func getJwtServiceName(tknStr string, JwtKey []byte) (string, error) {
 	return username[:len(username)-20], nil
 }
 
-func getJwtLDAPName(tknStr string, JwtKey []byte) (string, error) {
+func getJwtLDAPName(tknStr string, JwtKey *rsa.PublicKey) (string, error) {
 	username, err := getJwtUsername(tknStr, JwtKey)
 	if err != nil {
 		return "", err

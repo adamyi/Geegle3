@@ -53,5 +53,6 @@ container_image(
     base = "@python2-base//image",
     files = [
         ":pasteweb.db",
+        "//jwtkeys:jwtRS256.key.pub",
     ],
 )

@@ -20,6 +20,7 @@ pkg_tar(
     name = "cgi",
     deps = [
         ":healthz",
+        ":pubkey",
         ":sffelinks",
     ],
 )
@@ -38,4 +39,11 @@ pkg_tar(
     mode = "0755",
     package_dir = "/cgi",
     strip_prefix = "/infra/cli-static/healthz/linux_amd64_stripped/",  # TODO(adamyi@): probably better way
+)
+
+pkg_tar(
+    name = "pubkey",
+    srcs = ["//jwtkeys:jwtRS256.key.pub"],
+    mode = "0755",
+    package_dir = "/cgi",
 )

@@ -50,7 +50,6 @@ talisman = Talisman(
     strict_transport_security=False)
 
 
-
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -105,11 +104,12 @@ def viewpaste(paste_id):
         render_template(
             "paste.html", title=(paste[0]),
             content=base64.b64encode(paste[1])))
-    print(
-        jwt.decode(request.headers.get('X-Geegle-JWT'),
-                   'superSecretJWTKEY')['username'])
-    if jwt.decode(request.headers.get('X-Geegle-JWT'), 'superSecretJWTKEY'
-                  )['username'] == 'xssbot+pasteweb@services.geegle.org':
+    pemfile = open("/jwtRS256.key.pub", 'r')
+    keystring = pemfile.read()
+    pemfile.close()
+    if jwt.decode(
+            request.headers.get('X-Geegle-JWT'),
+            keystring)['username'] == 'xssbot+pasteweb@services.geegle.org':
         rsp.set_cookie('pasteweb_debug', 'GEEGLE{JAO34OADS81HI}')
     else:
         rsp.set_cookie('pasteweb_debug', 'viewable by pasteweb developer only')

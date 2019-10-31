@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rsa"
 	"fmt"
 
 	"github.com/dgrijalva/jwt-go"
@@ -12,7 +13,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func confirmFromGeemail(tknStr string, JwtKey []byte) error {
+func confirmFromGeemail(tknStr string, JwtKey *rsa.PublicKey) error {
 	claims := &Claims{}
 
 	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {

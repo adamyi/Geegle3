@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rsa"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -18,7 +20,8 @@ type Configuration struct {
 	ListenAddress string
 	DbType        string
 	DbAddress     string
-	JwtKey        []byte
+	JwtPubKey     []byte
+	VerifyKey     *rsa.PublicKey
 }
 
 var _configuration = Configuration{}
@@ -80,7 +83,7 @@ func listenAndServe(addr string) error {
 
 		rows, err := _db.Query("select ldap, affiliation from users WHERE hidden != 1")
 		if err != nil {
-                    fmt.Println(err)
+			fmt.Println(err)
 			http.Error(w, "I don't know what happened", http.StatusInternalServerError)
 			return
 		}
@@ -108,6 +111,10 @@ func readConfig() {
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)
+	if err != nil {
+		panic(err)
+	}
+	_configuration.VerifyKey, err = jwt.ParseRSAPublicKeyFromPEM(_configuration.JwtPubKey)
 	if err != nil {
 		panic(err)
 	}
