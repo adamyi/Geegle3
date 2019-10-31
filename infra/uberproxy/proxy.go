@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+        "fmt"
 	"strings"
 	"time"
 
@@ -23,11 +24,13 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 
 	ctx, levelShift, err := getNetworkContext(req, username)
 	if err != nil {
+                fmt.Println("getNetowrkContext - ",  levelShift, err)
 		returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
 		return
 	}
 
 	full_url := req.Host + req.RequestURI
+        fmt.Println("getNetworkContext", levelShift, full_url)
 
 	// TODO: allow anonymous access to some services
 	if username == "anonymous@services.geegle.org" && req.Method != "OPTIONS" {
