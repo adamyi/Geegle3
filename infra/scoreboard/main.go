@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -17,8 +18,9 @@ import (
 var _db *sql.DB
 
 type Player struct {
-	Name   string
-	Points int
+	Name        string `json:"username"`
+	Affiliation string `json:"affiliation"`
+	Points      int
 }
 
 type Challenge struct {
@@ -117,6 +119,12 @@ func listenAndServe(addr string) error {
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
+		affiliation := map[string]string{}
+		rsp, err = http.Get("https://gaia.corp.geegle.org/api/getusers")
+		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+		json.Unmarshal(bodyBytes, &affiliation)
+		fmt.Println("Got users", string(bodyBytes))
+
 		data := make([]Player, 0, 30)
 		rows, err := _db.Query("select user, points from scoreboard ORDER BY points DESC LIMIT 30")
 		if err != nil {
@@ -127,6 +135,10 @@ func listenAndServe(addr string) error {
 		for rows.Next() {
 			player := Player{}
 			rows.Scan(&player.Name, &player.Points)
+			player.Affiliation, ok = affiliation[player.Name]
+			if !ok {
+				continue // Don't add if not returned by gaia
+			}
 			data = append(data, player)
 		}
 
