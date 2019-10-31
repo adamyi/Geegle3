@@ -39,7 +39,7 @@ container_image(
         ":geelang-compiler",
         "//chals/pwn/geelang/chal:example-progs-fibonacci.geelang",
         "//chals/pwn/geelang/chal:instructions.md",
-       "@com_github_joewalnes_websocketd//:websocketd",
+        "@com_github_joewalnes_websocketd//:websocketd",
     ],
     tars = [
         "//infra/cli-static",
