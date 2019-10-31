@@ -21,10 +21,10 @@ var SubAccValid = regexp.MustCompile(`^[a-zA-Z\-_]+$`).MatchString
 func getUsername(req *http.Request) (string, error) {
 	username := getMainUsername(req)
 	subacc := req.Header.Get("X-Geegle-SubAcc")
-        if !(SubAccValid(subacc) && len(subacc) < 10) {
-		return "", errors.New("invalid subacc")
-        }
 	if subacc != "" {
+	        if !(SubAccValid(subacc) && len(subacc) < 10) {
+			return "", errors.New("invalid subacc")
+		}
 		s := strings.Split(username, "@")
 		username = s[0] + "+" + subacc + "@" + s[1]
 	}

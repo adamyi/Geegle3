@@ -5,13 +5,14 @@ import sys
 from gunicorn.app.wsgiapp import run
 from whoosh.index import create_in, open_dir
 
+os.system("python -m compileall /app/chals/web/search/image.binary.runfiles/")
 print("Initiating")
 # ix = create_in("/index", WebSchema)
 try:
     ix = open_dir("index")
 except:
     os.system(
-        "wget https://geegle-index.s3-ap-southeast-2.amazonaws.com/index.tar && tar xvf index.tar"
+        "wget --progress=dot:giga https://geegle-index.s3-ap-southeast-2.amazonaws.com/index.tar && tar xvf index.tar && \\rm -f index.tar"
     )
 print("Initiaing complete")
 
