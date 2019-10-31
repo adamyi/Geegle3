@@ -20,8 +20,8 @@ container_image(
     files = [
         ":clisffe",
         ":flag",
-        "//chals/pwn/geelang/chal:geelang-compiler",
         "//chals/pwn/geelang/chal:example-progs-fibonacci.geelang",
+        "//chals/pwn/geelang/chal:geelang-compiler",
         "//chals/pwn/geelang/chal:instructions.md",
         "@com_github_joewalnes_websocketd//:websocketd",
     ],

@@ -1,8 +1,8 @@
 package main
 
 import (
-        "encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -16,10 +16,10 @@ import (
 
 func verifyPassword(email, password string) bool {
 
-        data, err := json.Marshal(struct {
-                Username string `json:"username"`
-                Password string `json:"password"`
-        }{email, password})
+	data, err := json.Marshal(struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}{email, password})
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -60,8 +60,8 @@ func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 				ExpiresAt: expirationTime.Unix(),
 			},
 		}
-		ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
-		ptstr, err := ptoken.SignedString(_configuration.JwtKey)
+		ptoken := jwt.NewWithClaims(jwt.SigningMethodRS256, pclaims)
+		ptstr, err := ptoken.SignedString(_configuration.SignKey)
 		if err != nil {
 			returnError(UPError{Code: http.StatusInternalServerError, Title: "Internal Server Error", Description: "Something went wrong while generating JWT"}, rsp)
 			return

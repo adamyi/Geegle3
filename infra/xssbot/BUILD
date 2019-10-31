@@ -13,6 +13,9 @@ container_image(
         "TASKTIMEOUT": "90000",
         "MAXCONCURRENTY": "5",
     },
+    files = [
+        "//jwtkeys:jwtRS256.key.pub",
+    ],
     tars = [
         "@chromium",
     ],

@@ -19,7 +19,6 @@ from flask import (
 )
 from flask_talisman import Talisman
 from lxml import etree
-import jwt
 
 app = Flask(__name__)
 app.secret_key = "haha"

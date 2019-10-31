@@ -4,7 +4,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
-        "regexp"
+	"regexp"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
@@ -22,7 +22,7 @@ func getUsername(req *http.Request) (string, error) {
 	username := getMainUsername(req)
 	subacc := req.Header.Get("X-Geegle-SubAcc")
 	if subacc != "" {
-	        if !(SubAccValid(subacc) && len(subacc) < 10) {
+		if !(SubAccValid(subacc) && len(subacc) < 10) {
 			return "", errors.New("invalid subacc")
 		}
 		s := strings.Split(username, "@")
@@ -48,7 +48,7 @@ func getMainUsername(req *http.Request) string {
 	claims := &Claims{}
 
 	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-		return _configuration.JwtKey, nil
+		return _configuration.VerifyKey, nil
 	})
 
 	if err != nil {

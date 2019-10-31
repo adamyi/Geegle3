@@ -35,6 +35,9 @@ pkg_tar(
 container_image(
     name = "image",
     base = ":image_without_initfiles",
+    files = [
+        "//jwtkeys:jwtRS256.key.pub",
+    ],
     tars = [
         ":initfiles",
     ],

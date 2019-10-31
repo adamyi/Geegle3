@@ -1,3 +1,4 @@
+const fs   = require('fs');
 const express = require('express');
 // const puppeteer = require('puppeteer');
 const {Cluster} = require('puppeteer-cluster');
@@ -8,10 +9,13 @@ const TASKTIMEOUT = process.env.TASKTIMEOUT || 5000;
 const MAXCONCURRENTY = process.env.MAXCONCURRENCY || 2;
 const app = express();
 
+var publicKEY = fs.readFileSync('/jwtRS256.key.pub', 'utf8');
+
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 // idle when there's no traffic in timeout, or no new request in reqtimeout
-function waitForNetworkIdle(page, timeout, reqtimeout, maxInflightRequests = 0) {
+function waitForNetworkIdle(page, timeout, reqtimeout,
+                            maxInflightRequests = 0) {
   page.on('request', onRequestStarted);
   page.on('requestfinished', onRequestFinished);
   page.on('requestfailed', onRequestFinished);
@@ -80,7 +84,7 @@ function waitForNetworkIdle(page, timeout, reqtimeout, maxInflightRequests = 0) 
     console.log(token);
     var djwt;
     if (token) {
-      jwt.verify(token, "superSecretJWTKEY", (err, decoded) => {
+      jwt.verify(token, publicKEY, (err, decoded) => {
         if (err) {
           console.log('token invalid');
           return res.json({success : false, message : 'Token is not valid'});

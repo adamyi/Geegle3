@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rsa"
 	"encoding/json"
 	"log"
 	"math/rand"
@@ -14,7 +15,8 @@ import (
 
 type Configuration struct {
 	ListenAddress string
-	JwtKey        []byte
+	JwtPubKey     []byte
+	VerifyKey     *rsa.PublicKey
 }
 
 type Claims struct {
@@ -29,6 +31,10 @@ func readConfig() {
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)
+	if err != nil {
+		panic(err)
+	}
+	_configuration.VerifyKey, err = jwt.ParseRSAPublicKeyFromPEM(_configuration.JwtPubKey)
 	if err != nil {
 		panic(err)
 	}
@@ -51,7 +57,7 @@ func handleRZ(rsp http.ResponseWriter, req *http.Request) {
 	claims := &Claims{}
 
 	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-		return _configuration.JwtKey, nil
+		return _configuration.VerifyKey, nil
 	})
 
 	if err != nil {

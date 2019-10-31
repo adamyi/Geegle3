@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"net/http/cgi"
 	"os"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 type Flag struct {
@@ -101,7 +103,15 @@ func CGIHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Credentials", "true")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 	tknStr := r.Header.Get("X-Geegle-JWT")
-	user, err := getJwtLDAPName(tknStr, []byte("superSecretJWTKEY"))
+	verifyBytes, err := ioutil.ReadFile("jwtRS256.key.pub")
+	if err != nil {
+		log.Panic(err)
+	}
+	verifyKey, err := jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
+	if err != nil {
+		log.Panic(err)
+	}
+	user, err := getJwtLDAPName(tknStr, verifyKey)
 	check(err, "authentication error")
 	urls := GetFileLinks(user, "/clisffe.json")
 	w.Header().Set("Content-Type", "application/json;charset=utf-8")

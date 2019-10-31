@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rsa"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -9,22 +10,26 @@ import (
 	"net/http"
 	"regexp"
 	"sort"
+
 	// "net/url"
 	"os"
 	// "os/exec"
 	"strconv"
 	"strings"
+
 	// "strings"
 	"time"
 
 	"code.sajari.com/word2vec"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 type Configuration struct {
 	ListenAddress string
-	JwtKey        []byte
+	JwtPubKey     []byte
+	VerifyKey     *rsa.PublicKey
 }
 
 var _configuration = Configuration{}
@@ -38,6 +43,10 @@ func readConfig() {
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)
+	if err != nil {
+		panic(err)
+	}
+	_configuration.VerifyKey, err = jwt.ParseRSAPublicKeyFromPEM(_configuration.JwtPubKey)
 	if err != nil {
 		panic(err)
 	}
@@ -55,7 +64,7 @@ func newWord(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
-	user, err := getJwtUserName(tknStr, _configuration.JwtKey)
+	user, err := getJwtUserName(tknStr, _configuration.VerifyKey)
 	if err != nil {
 		fmt.Printf(err.Error())
 		rsp.WriteHeader(http.StatusUnauthorized)
@@ -90,7 +99,7 @@ func checkWord(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
-	user, err := getJwtUserName(tknStr, _configuration.JwtKey)
+	user, err := getJwtUserName(tknStr, _configuration.VerifyKey)
 	if err != nil {
 		rsp.WriteHeader(http.StatusUnauthorized)
 		return

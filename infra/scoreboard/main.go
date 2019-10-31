@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rsa"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -12,6 +13,7 @@ import (
 	"time"
 
 	geemail "geegle.org/infra/geemail-client"
+	"github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -40,7 +42,8 @@ type Configuration struct {
 	ListenAddress string
 	DbType        string
 	DbAddress     string
-	JwtKey        []byte
+	JwtPubKey     []byte
+	VerifyKey     *rsa.PublicKey
 	Challenges    []Challenge
 	Flags         []Flag
 }
@@ -151,7 +154,7 @@ func listenAndServe(addr string) error {
 		initScoreboardRsp(w)
 
 		tknStr := r.Header.Get("X-Geegle-JWT")
-		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
+		err := confirmFromGeemail(tknStr, _configuration.VerifyKey)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
@@ -178,7 +181,7 @@ func listenAndServe(addr string) error {
 		initScoreboardRsp(w)
 
 		tknStr := r.Header.Get("X-Geegle-JWT")
-		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
+		err := confirmFromGeemail(tknStr, _configuration.VerifyKey)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
@@ -227,6 +230,10 @@ func readConfig() {
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)
+	if err != nil {
+		panic(err)
+	}
+	_configuration.VerifyKey, err = jwt.ParseRSAPublicKeyFromPEM(_configuration.JwtPubKey)
 	if err != nil {
 		panic(err)
 	}

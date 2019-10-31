@@ -1,4 +1,7 @@
-exports_files(["instructions.md", "example-progs-fibonacci.geelang"])
+exports_files([
+    "instructions.md",
+    "example-progs-fibonacci.geelang",
+])
 
 cc_binary(
     name = "geelang-compiler",
