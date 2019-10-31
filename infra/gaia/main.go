@@ -65,7 +65,7 @@ func listenAndServe(addr string) error {
 			return
 		}
 
-		if !verifyPassword(data.Username, data.Password) {
+		if verifyPassword(data.Username, data.Password) {
 			fmt.Fprintln(w, "👍")
 			return
 		}
@@ -76,19 +76,11 @@ func listenAndServe(addr string) error {
 	mux.HandleFunc("/api/getusers", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
-		tknStr := r.Header.Get("X-Geegle-JWT")
-		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
-		if err != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
-			fmt.Println(err)
-			return
-		}
-
 		data := map[string]string{}
 
-		rows, err := _db.Query("select ldap, affilition from users WHERE hidden != 1")
+		rows, err := _db.Query("select ldap, affiliation from users WHERE hidden != 1")
 		if err != nil {
+                    fmt.Println(err)
 			http.Error(w, "I don't know what happened", http.StatusInternalServerError)
 			return
 		}

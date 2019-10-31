@@ -120,8 +120,8 @@ func listenAndServe(addr string) error {
 		initScoreboardRsp(w)
 
 		affiliation := map[string]string{}
-		rsp, err = http.Get("https://gaia.corp.geegle.org/api/getusers")
-		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+		rsp, err := http.Get("https://gaia.corp.geegle.org/api/getusers")
+		bodyBytes, _ := ioutil.ReadAll(rsp.Body)
 		json.Unmarshal(bodyBytes, &affiliation)
 		fmt.Println("Got users", string(bodyBytes))
 
@@ -135,6 +135,7 @@ func listenAndServe(addr string) error {
 		for rows.Next() {
 			player := Player{}
 			rows.Scan(&player.Name, &player.Points)
+                        var ok bool
 			player.Affiliation, ok = affiliation[player.Name]
 			if !ok {
 				continue // Don't add if not returned by gaia

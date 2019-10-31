@@ -10,11 +10,11 @@ ctf_challenge()
 go_image(
     name = "image",
     args = [
-        "infra/scoreboard/scoreboardconfig.json",  # TODO(adamyi): figure out how to not hard-code this
+        "$(location :config.json)",
         "$(location :templates)",
     ],
     data = [
-        ":all-config",
+        ":config.json",
         ":templates",
     ],
     embed = [":go_default_library"],
@@ -28,52 +28,17 @@ go_library(
         "main.go",
         "template.go",
     ],
-    importpath = "geegle.org/infra/scoreboard",
+    importpath = "geegle.org/infra/gaia",
     visibility = ["//visibility:private"],
     deps = [
-        "//infra/geemail-client:go_default_library",
         "@com_github_dgrijalva_jwt_go//:go_default_library",
         "@com_github_go_sql_driver_mysql//:go_default_library",
+        "@org_golang_x_crypto//bcrypt:go_default_library",
     ],
 )
 
 go_binary(
-    name = "scoreboard",
+    name = "gaia",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
-)
-
-jsonnet_library(
-    name = "emails-config",
-    srcs = ["emails.libsonnet"],
-    deps = [
-        "//chals:challenges_jsonnet",
-        "//infra/jsonnet:utils",
-    ],
-)
-
-jsonnet_library(
-    name = "flags-config",
-    srcs = ["flags.libsonnet"],
-    deps = [
-        "//chals:challenges_jsonnet",
-        "//infra:infra_jsonnet",
-        "//infra/jsonnet:utils",
-    ],
-)
-
-jsonnet_library(
-    name = "config",
-    srcs = ["config.json"],
-)
-
-jsonnet_to_json(
-    name = "all-config",
-    src = "config.jsonnet",
-    outs = ["scoreboardconfig.json"],
-    deps = [
-        ":config",
-        ":emails-config",
-        ":flags-config",
-    ],
 )
