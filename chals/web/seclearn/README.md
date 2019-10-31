@@ -21,5 +21,9 @@ Adam
 * Abuse Chrome's XSS Auditor 
 * Browser Side Channel
 
+## Payload
+
+https://seclearn-solver.corp.geegle.org/b1da4a0e-fbf7-11e9-aad5-362b9e155667/
+
 ## author
 adamyi

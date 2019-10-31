@@ -8,6 +8,7 @@
     {
       name: "seclearn-solver",
       category: "web",
+      clustertype: "master",
     },
   ],
   flags: [

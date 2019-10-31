@@ -24,7 +24,11 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		req.Host = "search.corp.geegle.org"
 	}
 
-	username := getUsername(req)
+	username, err := getUsername(req)
+	if err != nil {
+		returnError(UPError{Code: http.StatusBadRequest, Title: "You issued a malformed request", Description: err.Error()}, rsp)
+		return
+	}
 
 	ctx, levelShift, err := getNetworkContext(req, username)
 	if err != nil {

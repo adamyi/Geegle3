@@ -10,7 +10,8 @@ const app = express();
 
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
+// idle when there's no traffic in timeout, or no new request in reqtimeout
+function waitForNetworkIdle(page, timeout, reqtimeout, maxInflightRequests = 0) {
   page.on('request', onRequestStarted);
   page.on('requestfinished', onRequestFinished);
   page.on('requestfailed', onRequestFinished);
@@ -19,10 +20,11 @@ function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
   let fulfill;
   let promise = new Promise(x => fulfill = x);
   let timeoutId = setTimeout(onTimeoutDone, timeout);
+  let reqtimeoutId = setTimeout(onTimeoutDone, reqtimeout);
   return promise;
 
   function onTimeoutDone() {
-    console.log("network idled");
+    console.log("network idled or no new requests for a while");
     page.removeListener('request', onRequestStarted);
     page.removeListener('requestfinished', onRequestFinished);
     page.removeListener('requestfailed', onRequestFinished);
@@ -30,6 +32,8 @@ function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
   }
 
   function onRequestStarted() {
+    clearTimeout(reqtimeoutId);
+    reqtimeoutId = setTimeout(onTimeoutDone, reqtimeout);
     ++inflight;
     if (inflight > maxInflightRequests)
       clearTimeout(timeoutId);
@@ -63,7 +67,7 @@ function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
     await page.goto(data.url);
     await Promise.all([
       page.goto(data.url),
-      waitForNetworkIdle(page, 2000, 0),
+      waitForNetworkIdle(page, 2000, 5000, 0),
     ]);
     // await sleep(1500);
     console.log("done");
