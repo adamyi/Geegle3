@@ -28,7 +28,7 @@ resource "aws_instance" "${TEAM}-geegle" {
       type     = "ssh"
       user     = "ubuntu"
       host     = "${aws_instance.${TEAM}-geegle.private_ip}"
-      private_key = file("../sshkey.key")
+      private_key = "${file("../sshkey.key")}"
     }
   }
 
