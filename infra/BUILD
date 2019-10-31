@@ -15,5 +15,6 @@ challenges_list(
         "//infra/scoreboard:challenge",
         "//infra/sffe:challenge",
         "//infra/xssbot:challenge",
+        "//infra/gaia:challenge",
     ],
 )
