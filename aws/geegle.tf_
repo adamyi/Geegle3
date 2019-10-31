@@ -47,6 +47,7 @@ resource "aws_instance" "${TEAM}-geegle" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ~/readyup.sh",
+      "chmod +x ~/update.sh",
       "~/readyup.sh",
     ]
 
