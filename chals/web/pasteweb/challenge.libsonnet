@@ -3,6 +3,7 @@
     {
       name: "pasteweb",
       category: "web",
+      clustertype: "team",
     },
   ],
   flags: [

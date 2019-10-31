@@ -11,7 +11,9 @@ local image(service) = if "image" in service then
   else
     "gcr.io/geegle/chals/%s/%s:latest" % [service.category, service.name];
 
-local services = std.flattenArrays([utils.extractServices(chal) for chal in combined]);
+local tmpservices = std.flattenArrays([utils.extractServices(chal) for chal in combined]);
+
+local services = [service for service in tmpservices if ((std.extVar('cluster') == 'all') || ('clustertype' in service && service['clustertype'] == std.extVar('cluster')))];
 
 local tservices = {
   [services[i].name]: {
@@ -59,9 +61,6 @@ local networks = {
         }
         for i in std.range(0, std.length(services) - 1)
       },
-      ports: [
-        "53:53",
-      ],
     },
     uberproxy: {
       image: "gcr.io/geegle/infra/uberproxy:latest",
@@ -78,6 +77,9 @@ local networks = {
       dns_search: [
         "corp.geegle.org",
         "geegle.org",
+      ],
+      environment: [
+        "UBERPROXY_CLUSTER=" + std.extVar('cluster')
       ],
     },
   } + tservices,

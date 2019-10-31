@@ -3,6 +3,7 @@
     {
       name: "who-is-attacking-me",
       category: "ir",
+      clustertype: "team",
     },
   ],
   flags: [

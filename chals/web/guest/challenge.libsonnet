@@ -3,6 +3,7 @@
     {
       name: "guest",
       category: "web",
+      clustertype: "team",
     },
   ],
   flags: [

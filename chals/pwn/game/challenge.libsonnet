@@ -3,6 +3,7 @@
       {
         name: "game",
         category: "pwn",
+        clustertype: "team",
       },
     ],
     flags: [
