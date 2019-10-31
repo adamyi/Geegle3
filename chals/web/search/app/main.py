@@ -41,6 +41,10 @@ app.config.update({
     "SECRET_KEY": "supersecretkey",
 })
 
+NO_PROXY = {
+    'no': 'pass',
+}
+
 ix = open_dir("index")
 
 
@@ -62,10 +66,10 @@ def get_flag():
 
 @app.route("/robots.txt")
 def robots():
-    return render_template("robots.html")
+    return render_template("robots.html"), 200, {'Content-Type': 'text/plain'}
 
 
-@app.route("/admin/")
+@app.route("/admin")
 def admin():
     return render_template("admin.html")
 
@@ -82,7 +86,9 @@ def crawl():
         return "Invalid URL"
     if form["url"]:
         print(form['url'])
-        t = str(requests.get(form['url']).text)
+        session = requests.Session()
+        session.trust_env = False
+        t = str(session.get(form['url'], proxies=NO_PROXY).text)
         return "sorry you don't have permission to add to the index but here's your page:\n" + t, 200, {
             'Content-Type': 'text/plain'
         }

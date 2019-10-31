@@ -16,6 +16,7 @@ except:
 print("Initiaing complete")
 
 sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+sys.argv.append("--workers=8")
 sys.argv.append("app:app")
 sys.argv.append("-b")
 sys.argv.append("0.0.0.0:80")
