@@ -137,6 +137,7 @@ func listenAndServe(addr string) error {
 			rows.Scan(&player.Name, &player.Points)
                         var ok bool
 			player.Affiliation, ok = affiliation[player.Name]
+			player.Name = strings.Split(player.Name, "@")[0] + "@"
 			if !ok {
 				continue // Don't add if not returned by gaia
 			}
