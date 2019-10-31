@@ -12,7 +12,7 @@ py_library(
         "app/*.py",
     ]),
     data = glob([
-        "app/static/*",
+        "app/static/**/*",
         "app/templates/*",
     ]),
     deps = [
