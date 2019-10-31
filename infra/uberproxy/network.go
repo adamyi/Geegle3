@@ -8,7 +8,6 @@ import (
 	"os"
 	"strings"
 	"time"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -60,7 +59,7 @@ func getL2Addr(player string) (string, error) {
 		return "", errors.New("not valid geegle")
 	}
 
-	return host + ":443", nil
+	return ips[0].String() + ":443", nil
 }
 
 func getNetworkContext(req *http.Request, username string) (context.Context, bool, error) {
@@ -68,9 +67,12 @@ func getNetworkContext(req *http.Request, username string) (context.Context, boo
 	if err == nil {
 		return context.WithValue(context.Background(), "up_real_addr", addr), false, nil
 	}
+
+
 	if req.Header.Get("X-UberProxy-LevelShift") == "1" {
 		return context.Background(), false, errors.New("domain not present in two-level UP infra")
 	}
+
 	players := strings.Split(strings.Split(username, "@")[0], "+")
 	hp := req.Header.Get("X-UberProxy-Player")
 	if hp != "" {
