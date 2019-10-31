@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httputil"
 )
@@ -67,4 +70,12 @@ func (w *uplogResponseWriter) Write(b []byte) (int, error) {
 func (w *uplogResponseWriter) WriteHeader(i int) {
 	w.entry.Response.StatusCode = i
 	w.resp.WriteHeader(i)
+}
+
+// websocket needs this
+func (w *uplogResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	if hj, ok := w.resp.(http.Hijacker); ok {
+		return hj.Hijack()
+	}
+	return nil, nil, errors.New("Error in hijacker")
 }
