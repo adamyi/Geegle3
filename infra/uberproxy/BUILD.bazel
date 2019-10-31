@@ -45,6 +45,7 @@ go_library(
         "error.go",
         "http.go",
         "ip.go",
+        "logging.go",
         "login.go",
         "main.go",
         "network.go",

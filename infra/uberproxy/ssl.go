@@ -37,7 +37,7 @@ func buildSSLServer() http.Server {
 
 	server := http.Server{
 		Addr:      ":443",
-		Handler:   http.HandlerFunc(handleUP),
+		Handler:   WrapHandlerWithLogging(http.HandlerFunc(handleUP)),
 		TLSConfig: cfg,
 	}
 	return server
