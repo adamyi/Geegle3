@@ -8,6 +8,7 @@ resource "aws_instance" "geegle" {
   key_name        = "geegle"
   subnet_id       = "subnet-08f1473210ba2e8c7"
   associate_public_ip_address = true
+  role = "GeegleS3"
   security_groups = [
     "sg-0175b768922a8320e"
   ]
@@ -17,6 +18,18 @@ resource "aws_instance" "geegle" {
   root_block_device {
     volume_size = "50"
     volume_type = "gp2"
+  }
+
+  provisioner "file" {
+    source      = "readyup.sh"
+    destination = "~/readyup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x ./readyup.sh",
+      "./readyup.sh",
+    ]
   }
 }
 

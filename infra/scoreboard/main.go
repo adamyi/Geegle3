@@ -96,7 +96,6 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		msg := []byte("Sorry, we did not recognise that flag :(")
 		geemail.SendEmailNow("noreply@geegle.org", user, "Error", msg)
 	}
-
 }
 
 func listenAndServe(addr string) error {
