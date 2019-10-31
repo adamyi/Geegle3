@@ -51,7 +51,7 @@ func getRealAddr(host string) (string, error) {
 }
 
 func getL2Addr(player string) (string, error) {
-	if os.Getenv("UBERPROXY_MASTER") == "" {
+	if os.Getenv("UBERPROXY_CLUSTER") != "master" {
 		player = "master"
 	}
 	host := player + ".prod.geegle.org"
@@ -77,8 +77,8 @@ func getNetworkContext(req *http.Request, username string) (context.Context, boo
 		players = append(players, hp)
 	}
 	for _, player := range players {
-		addr, err := getL2Addr(player)
-		if err != nil {
+		addr, err = getL2Addr(player)
+		if err == nil {
 			return context.WithValue(context.Background(), "up_real_addr", addr), true, nil
 		}
 	}

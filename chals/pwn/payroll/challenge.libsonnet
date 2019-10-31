@@ -3,6 +3,7 @@ services: [
    {
      name: "payroll",
      category: "pwn",
+     clustertype: "team",
    },
  ],
  flags: [

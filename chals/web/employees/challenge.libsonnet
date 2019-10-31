@@ -3,6 +3,7 @@
     {
       name: "employees",
       category: "web",
+      clustertype: "team",
     },
   ],
   flags: [

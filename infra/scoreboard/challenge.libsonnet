@@ -3,6 +3,7 @@
     {
       name: "scoreboard",
       category: "infra",
+      clustertype: "master",
     },
   ],
   flags: [

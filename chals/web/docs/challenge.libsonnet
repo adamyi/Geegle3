@@ -3,6 +3,7 @@
     {
       name: "docs",
       category: "web",
+      clustertype: "team",
     },
   ],
   flags: [

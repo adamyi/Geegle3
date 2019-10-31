@@ -26,14 +26,18 @@ func getUsername(req *http.Request) string {
 
 func getMainUsername(req *http.Request) string {
 	c, err := req.Cookie("uberproxy_auth")
+	var tknStr string
 	if err != nil {
-		sn, err := getServiceNameFromIP(strings.Split(req.RemoteAddr, ":")[0])
-		if err != nil {
-			return "anonymous@services.geegle.org"
+		if tknStr = req.Header.Get("X-Geegle-JWT"); tknStr == "" {
+			sn, err := getServiceNameFromIP(strings.Split(req.RemoteAddr, ":")[0])
+			if err != nil {
+				return "anonymous@services.geegle.org"
+			}
+			return sn
 		}
-		return sn
+	} else {
+		tknStr = c.Value
 	}
-	tknStr := c.Value
 	claims := &Claims{}
 
 	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {

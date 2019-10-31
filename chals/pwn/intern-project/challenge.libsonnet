@@ -3,6 +3,7 @@
     {
       name: "intern-project",
       category: "pwn",
+      clustertype: "team",
     },
   ],
   flags: [

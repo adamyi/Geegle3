@@ -29,23 +29,25 @@ Commits submitted to master branch will be automatically pushed to gcr.io/geegle
 
 Please do not push to GCR manually
 
-### Dockerfile (Deprecated)
-To build docker files
-./docker-build.sh    
-
 ## Running 
 
-To run
-docker-compose up
+### Master server
+```
+bazel build //infra/jsonnet:cluster-master-docker-compose
+docker-compose -f dist/bin/infra/jsonnet/cluster-master-docker-compose.json up -d
+```
 
-## Scenario 1: Work Experience
-Work experience time! You've just started a work experience placement at one of Australia's biggest tech companies, Geegle. Famous for their products, Geegle have a solution for everything. Welcome to day 1 of the security experience program - your training starts now.
+### Team server
+```
+bazel build //infra/jsonnet:cluster-team-docker-compose
+docker-compose -f dist/bin/infra/jsonnet/cluster-team-docker-compose.json up -d
+```
 
-
-## Scenario 2: New Hire
-Welcome to the Security Response Division, newbie. We're responsible for overseeing all other security teams in Geegle, so you better have a way of getting your head across everything. Keep an eye out too - we've had rumours that one of your new cohort may be compromised.
-
-However you got here - work experience program, grad hire, career step - welcome to the team.
+### Test server
+```
+bazel build //infra/jsonnet:all-docker-compose
+docker-compose -f dist/bin/infra/jsonnet/all-docker-compose.json up -d
+```
 
 ---
 
