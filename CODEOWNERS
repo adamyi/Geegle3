@@ -9,7 +9,7 @@ challenge.libsonnet @LachJones
 /chals/ir/intercepted/ @adamtanana
 /chals/ir/who-is-attacking-me/ @adamtanana
 /chals/pwn/game/ @adamtanana
-/chals/pwn/geelang/ @adamtanna
+/chals/pwn/geelang/ @adamtanana
 /chals/pwn/intern-project/ @adamtanana
 /chals/pwn/payroll/ @adamtanana
 /chals/pwn/shell/ @adamtanana
@@ -22,6 +22,7 @@ challenge.libsonnet @LachJones
 /chals/web/memegen/ @adamyi
 /chals/web/pasteweb/ @adamyi
 /chals/web/seclearn/ @adamyi
+/chals/crypto/magic/ @adamtanana
 
 # infrastructure
 /infra/cli-relay/ @adamyi

@@ -8,6 +8,8 @@ import (
 type Configuration struct {
 	ListenAddress string
 	JwtKey        []byte
+	DbType        string
+	DbAddress     string
 }
 
 var _configuration = Configuration{}
@@ -20,4 +22,5 @@ func readConfig() {
 	if err != nil {
 		panic(err)
 	}
+
 }
