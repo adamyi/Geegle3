@@ -71,32 +71,40 @@ function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
 
   // setup server
   app.get('/', async function(req, res) {
+    console.log("incoming request");
     let token = req.headers['x-geegle-jwt'];
+    console.log(token);
     var djwt;
     if (token) {
       jwt.verify(token, "superSecretJWTKEY", (err, decoded) => {
         if (err) {
+          console.log('token invalid');
           return res.json({success : false, message : 'Token is not valid'});
         } else {
           djwt = decoded;
         }
       });
     } else {
+      console.log('auth token not supplied');
       return res.json(
           {success : false, message : 'Auth token is not supplied'});
     }
 
     if (!req.query.url) {
+      console.log('no url');
       return res.json({success : false, message : 'url invalid'});
     }
+    console.log(req.query.url)
     try {
       cluster.queue({
         url : req.query.url,
         subacc : djwt['username'].split('@')[0].split('+')[1]
       });
     } catch (err) {
+      console.log(err.message);
       return res.json({success : false, message : err.message});
     }
+    console.log('queued');
 
     return res.json({success : true, message : 'queued'});
   });

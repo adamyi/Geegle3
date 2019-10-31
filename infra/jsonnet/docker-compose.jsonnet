@@ -15,6 +15,9 @@ local tmpservices = std.flattenArrays([utils.extractServices(chal) for chal in c
 
 local services = [service for service in tmpservices if ((std.extVar('cluster') == 'all') || ('clustertype' in service && service['clustertype'] == std.extVar('cluster')))];
 
+// local searchdomains = ["corp.geegle.org", "geegle.org"]; // NOTES(adamyi@): they mess up with uberproxy... disable it for now
+local searchdomains = [];
+
 local tservices = {
   [services[i].name]: {
     local service = services[i],
@@ -28,10 +31,7 @@ local tservices = {
       }
     },
     dns: "100.88.66.%d" % [i * 8 + 4],
-    dns_search: [
-      "corp.geegle.org",
-      "geegle.org",
-    ],
+    dns_search: searchdomains,
     ports: if "ports" in service then service.ports else [],
   }
   for i in std.range(0, std.length(services) - 1)
@@ -74,10 +74,7 @@ local networks = {
         "80:80",
         "443:443",
       ],
-      dns_search: [
-        "corp.geegle.org",
-        "geegle.org",
-      ],
+      dns_search: searchdomains,
       environment: [
         "UBERPROXY_CLUSTER=" + std.extVar('cluster')
       ],

@@ -511,6 +511,6 @@ _search_install()
 http_archive(
     name = "chromium",
     build_file = "@//third_party:chromium.BUILD",
-    sha256 = "2f0c6b091d626310cf5bef7c2a897f53aee40d01d341b4ad2cfbabe83711d85f",
-    url = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F681090%2Fchrome-linux.zip?generation=1564102126574765&alt=media",
+    sha256 = "10ae4e05d9f01a8b646dd2ccc2ac1135e597c472abe5be71552aae7d8a35e2ac",
+    url = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F650583%2Fchrome-linux.zip?generation=1555131417316559&alt=media",
 )
