@@ -28,7 +28,7 @@ sudo apt-get install google-cloud-sdk awscli -y
 aws s3 cp s3://geegle/geegle-211bf7083429.json ~/
 aws s3 cp s3://geegle/cluster-team-docker-compose.json ~/
 
-gcloud auth activate-service-account --key-file=~/geegle-211bf7083429.json
+gcloud auth activate-service-account --key-file=/home/ubuntu/geegle-211bf7083429.json
 gcloud auth configure-docker
 
 # start
