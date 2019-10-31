@@ -29,9 +29,15 @@ py_library(
         requirement("uuid"),
         requirement("Werkzeug"),
         requirement("lxml"),
-        requirement("six"),
         requirement("flask-talisman"),
         requirement("PyJWT"),
+        requirement("cryptography"),
+        requirement("cffi"),
+        requirement("enum34"),
+        requirement("ipaddress"),
+        requirement("pycparser"),
+        requirement("six"),
+        requirement("asn1crypto"),
     ],
 )
 
