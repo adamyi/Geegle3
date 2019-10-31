@@ -6,22 +6,6 @@ ctf_challenge()
 
 # sffe_files([":geelang-compiler"])
 
-cc_binary(
-    name = "geelang-compiler",
-    srcs = glob([
-        "chal/*.c",
-        "chal/*.h",
-    ]),
-    copts = [
-        "-g",
-        "-Wl,-z,norelro,-z,now",
-    ],
-    linkopts = [
-        "-g",
-        "-Wl,-z,norelro,-z,now",
-    ],
-)
-
 container_image(
     name = "image",
     base = "@ubuntu1804//image",
@@ -36,7 +20,7 @@ container_image(
     files = [
         ":clisffe",
         ":flag",
-        ":geelang-compiler",
+        "//chals/pwn/geelang/chal:geelang-compiler",
         "//chals/pwn/geelang/chal:example-progs-fibonacci.geelang",
         "//chals/pwn/geelang/chal:instructions.md",
         "@com_github_joewalnes_websocketd//:websocketd",
