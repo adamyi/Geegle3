@@ -111,7 +111,7 @@ func main() {
 
 		results, err := grcode.GetDataFromImage(img)
 		if err != nil || len(results) == 0 {
-			data.Flash = "Photo is not a qrcode"
+			data.Flash = "Photo is not a qrcode (must have a white background)"
 			RenderTemplate(w, "scan.html", data)
 			return
 		}
