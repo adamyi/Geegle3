@@ -21,6 +21,7 @@ challenges_list(
         "//chals/web/guest:challenge",
         "//chals/web/memegen:challenge",
         "//chals/web/pasteweb:challenge",
+        "//chals/web/search:challenge",
         "//chals/web/seclearn:challenge",
     ],
 )

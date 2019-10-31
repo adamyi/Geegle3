@@ -3,6 +3,7 @@
     {
       name: "magic",
       category: "crypto",
+      clustertype: "team",
     },
   ],
   flags: [

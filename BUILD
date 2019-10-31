@@ -52,13 +52,14 @@ container_bundle(
         "gcr.io/geegle/chals/web/memegen:latest": "//chals/web/memegen:image",
         "gcr.io/geegle/chals/web/flatearth:latest": "//chals/web/flatearth:image",
         "gcr.io/geegle/chals/web/employees:latest": "//chals/web/employees:image",
+        "gcr.io/geegle/chals/web/search:latest": "//chals/web/search:image",
 
         # pwn challenges
         "gcr.io/geegle/chals/pwn/game:latest": "//chals/pwn/game:image",
         "gcr.io/geegle/chals/pwn/geelang:latest": "//chals/pwn/geelang:image",
         "gcr.io/geegle/chals/pwn/shell:latest": "//chals/pwn/shell:image",
         "gcr.io/geegle/chals/pwn/payroll:latest": "//chals/pwn/payroll:image",
-        "gcr.io/geegle/chals/re/onboarding:latest": "//chals/re/tellGeegle:image",
+        "gcr.io/geegle/chals/re/tellgeegle:latest": "//chals/re/tellGeegle:image",
         "gcr.io/geegle/chals/crypto/magic:latest": "//chals/crypto/magic:image",
 
         # others challenges

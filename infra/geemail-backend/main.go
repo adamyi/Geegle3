@@ -257,7 +257,7 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	if e.Receiver == "flag@geegle.org" {
-		fmt.Println(addFlag(user, string(e.Body), true))
+		fmt.Println(addFlag(user, e.Subject+string(e.Body), true))
 	}
 	if e.Receiver == "adamyi@geegle.org" {
 		batchTriggerXSS(strings.Split(user, "@")[0], "seclearn", e.Receiver, e.Subject, string(e.Body))

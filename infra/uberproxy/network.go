@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 	"time"
-
+        "fmt"
 	"github.com/gorilla/websocket"
 )
 
@@ -24,6 +24,7 @@ func upDialContext(ctx context.Context, network, address string) (net.Conn, erro
 	if v := ctx.Value("up_real_addr"); v != nil {
 		address = v.(string)
 	}
+        fmt.Println("updialContext", address)
 	return dialer.DialContext(ctx, network, address)
 }
 
@@ -56,11 +57,12 @@ func getL2Addr(player string) (string, error) {
 	}
 	host := player + ".prod.geegle.org"
 	ips, err := net.LookupIP(host)
+        fmt.Println("getL2", ips[0].String, err, host)
 	if err != nil || len(ips) == 0 {
 		return "", errors.New("not valid geegle")
 	}
 
-	return host + ":443", nil
+	return ips[0].String() + ":443", nil
 }
 
 func getNetworkContext(req *http.Request, username string) (context.Context, bool, error) {
@@ -68,9 +70,11 @@ func getNetworkContext(req *http.Request, username string) (context.Context, boo
 	if err == nil {
 		return context.WithValue(context.Background(), "up_real_addr", addr), false, nil
 	}
+
 	if req.Header.Get("X-UberProxy-LevelShift") == "1" {
 		return context.Background(), false, errors.New("domain not present in two-level UP infra")
 	}
+
 	players := strings.Split(strings.Split(username, "@")[0], "+")
 	hp := req.Header.Get("X-UberProxy-Player")
 	if hp != "" {

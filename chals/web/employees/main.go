@@ -27,7 +27,7 @@ var db *sql.DB
 
 func findEmployeeByName(name string) ([]Employee, error) {
 	//rows, err := db.Query("SELECT * FROM employees WHERE name LIKE '%" + name + "%' ORDER BY id LIMIT 5")
-	query := "SELECT * FROM employees WHERE name LIKE '%1" + name + "%' ORDER BY id LIMIT 5"
+	query := "SELECT * FROM employees WHERE name LIKE '%" + name + "%' ORDER BY id LIMIT 5"
 	rows, err := db.Query(query)
 
 	if err != nil {
