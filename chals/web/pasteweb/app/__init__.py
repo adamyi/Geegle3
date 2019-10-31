@@ -50,6 +50,7 @@ talisman = Talisman(
     strict_transport_security=False)
 
 
+
 @app.route("/")
 def home():
     return render_template("home.html")
