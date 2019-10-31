@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>{{query}} - Geegle Search Results</title>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <meta http-equiv="Expires" content="-1"/>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+        <link rel='stylesheet' href='/static/css/styles.css'/>
+    </head>
+    <body id="gsr">
+        <table width="100%" class="fullheight" cellspacing="0" cellpadding="10">
+            <tr class="row1">
+                <td width="120px">
+                    <a href="/">
+                        <img width="120" src="/static/img/geegle.png">
+                    </a>
+                </td>
+                <td>
+                    <form method="POST">
+                        <input type="text" class="textbox" value="{{query}}" name="query">
+                    </form>
+                </td>
+            </tr>
+            <tr class="row2">
+                <td>&nbsp;</td>
+                <td>
+                    <table border="0">
+                        <tr>
+                            <td width="70">
+                                <a class="glinks1" href="#">Web</a>
+                            </td>
+                            <td width="140">
+                                <a class="glinks" href="/flag">
+                                    Flag
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="row3">
+                <td>&nbsp;</td>
+                <td>
+                    <div class="resdiv">
+                        {% for note in notes %}
+                            {{ note }} <br>
+                        {% endfor %}
+                        {% for item in result %}
+                            <div>
+                                <a href="{{item["url"]}}"><h3>{{item["title"] | truncate(32)}}</h3></a>
+                                <span>{{item["content"] | safe }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr class="row4">
+                <td>&nbsp;</td>
+                <td>
+                    <a href="/search?q={{urlquery}}&p={{nextpage}}">Next page</a>
+                    <br>
+                    <div class="footertext1">We definitely track everything.</div>
+                    <br>
+                    <div class="footertext2">Powered by Geegle</div>
+                    <br>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </body>
+</html>
+
