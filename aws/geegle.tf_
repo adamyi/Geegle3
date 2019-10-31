@@ -21,15 +21,29 @@ resource "aws_instance" "${TEAM}-geegle" {
   }
 
   provisioner "file" {
-    source      = "readyup.sh"
-    destination = "/tmp/readyup.sh"
+    source      = "../readyup.sh"
+    destination = "~/readyup.sh"
+
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      host     = "${aws_instance.${TEAM}-geegle.private_ip}"
+      private_key = "${file("../sshkey.key")}"
+    }
   }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /tmp/readyup.sh",
-      "/tmp/readyup.sh",
+      "chmod +x ~/readyup.sh",
+      "~/readyup.sh",
     ]
+
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      host     = "${aws_instance.${TEAM}-geegle.private_ip}"
+      private_key = "${file("../sshkey.key")}"
+    }
   }
 
 }
