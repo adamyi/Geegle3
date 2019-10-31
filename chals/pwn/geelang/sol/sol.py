@@ -3,7 +3,7 @@ from pwn import *
 PROGNAME   = "./geelang-compiler"
 
 if args.REMOTE:
-    p = process(["./cli-relay", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RhZGFtMkBnZWVnbGUub3JnIiwic2VydmljZSI6InViZXJwcm94eUBzZXJ2aWNlcy5nZWVnbGUub3JnIiwiZXhwIjoxNTc1MDIxMzAzfQ.0moQaXuHvpM2HfwfV9U9zNdmXkX_iEw_hd5fRIA3-yM", "geelang.corp.geegle.org"])
+    p = process(["./cli-relay", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkYW10QGdlZWdsZS5vcmciLCJzZXJ2aWNlIjoidWJlcnByb3h5QHNlcnZpY2VzLmdlZWdsZS5vcmciLCJleHAiOjE1NzUxNDAyOTh9.GNHe--n1OSsTDVyTZIRSBEdIT4r9MeFBK6luSCED474", "geelang.corp.geegle.org"])
     elf = ELF(PROGNAME)
 else:
     p = process(PROGNAME)

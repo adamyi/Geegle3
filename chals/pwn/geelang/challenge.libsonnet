@@ -29,6 +29,12 @@
     {
       filename: "/lib/x86_64-linux-gnu/libc.so.6",
     },
+    {
+      filename: "example-progs-fibonacci.geelang",
+    },
+    {
+      filename: "instructions.md",
+    },
   ],
   emails: [
     {

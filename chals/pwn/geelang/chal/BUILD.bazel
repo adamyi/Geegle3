@@ -1,0 +1,18 @@
+exports_files(["instructions.md", "example-progs-fibonacci.geelang"])
+
+cc_binary(
+    name = "geelang-compiler",
+    srcs = glob([
+        "*.c",
+        "*.h",
+    ]),
+    copts = [
+        "-g",
+        "-Wl,-z,norelro,-z,now",
+    ],
+    linkopts = [
+        "-g",
+        "-Wl,-z,norelro,-z,now",
+    ],
+    visibility = ["//visibility:public"],
+)

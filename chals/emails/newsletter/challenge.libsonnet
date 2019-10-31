@@ -17,7 +17,7 @@
 
         This practice was actually first introduced by our competitor Google via their <a href="https://cloud.google.com/beyondcorp/">BeyondCorp</a> model.
 
-        It's also worth noting that we are rolloing out our brand new CLI-Relay infrastructure. To use any Geegle-internal commandline apps, you no longer need to
+        It's also worth noting that we are rolling out our brand new CLI-Relay infrastructure. To use any Geegle-internal commandline apps, you no longer need to
         connect via nc or telnet. Instead, even CLI apps traffic now go through Uberproxy, powered by websocket.
 
         We realise new things might be hard to use for some geeglers, so here's some instructions:
