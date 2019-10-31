@@ -43,6 +43,7 @@ container_bundle(
         "gcr.io/geegle/infra/apps:latest": "//infra/gae:image",
         "gcr.io/geegle/infra/requestz:latest": "//infra/requestz:image",
         "gcr.io/geegle/infra/xssbot:latest": "//infra/xssbot:image",
+        "gcr.io/geegle/infra/gaia:latest": "//infra/gaia:image",
 
         # web challenges
         "gcr.io/geegle/chals/web/docs:latest": "//chals/web/docs:image",
