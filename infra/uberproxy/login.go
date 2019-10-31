@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 func handleLogin(rsp http.ResponseWriter, req *http.Request) {

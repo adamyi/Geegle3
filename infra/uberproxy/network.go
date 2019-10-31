@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-        "fmt"
 	"net"
 	"net/http"
 	"os"
@@ -25,7 +24,6 @@ func upDialContext(ctx context.Context, network, address string) (net.Conn, erro
 	if v := ctx.Value("up_real_addr"); v != nil {
 		address = v.(string)
 	}
-        fmt.Println("addr- " + address)
 	return dialer.DialContext(ctx, network, address)
 }
 
@@ -57,11 +55,8 @@ func getL2Addr(player string) (string, error) {
 		player = "master"
 	}
 	host := player + ".prod.geegle.org"
-        fmt.Println("l2addr host: " + host)
 	ips, err := net.LookupIP(host)
-        fmt.Println(ips)
 	if err != nil || len(ips) == 0 {
-                fmt.Println(err)
 		return "", errors.New("not valid geegle")
 	}
 
@@ -69,7 +64,6 @@ func getL2Addr(player string) (string, error) {
 }
 
 func getNetworkContext(req *http.Request, username string) (context.Context, bool, error) {
-        fmt.Println("username- " + username)
 	addr, err := getRealAddr(req.Host)
 	if err == nil {
 		return context.WithValue(context.Background(), "up_real_addr", addr), false, nil
@@ -78,7 +72,6 @@ func getNetworkContext(req *http.Request, username string) (context.Context, boo
 		return context.Background(), false, errors.New("domain not present in two-level UP infra")
 	}
 	players := strings.Split(strings.Split(username, "@")[0], "+")
-        fmt.Println(players)
 	hp := req.Header.Get("X-UberProxy-Player")
 	if hp != "" {
 		players = append(players, hp)

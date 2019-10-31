@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"io/ioutil"
-        "fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -35,7 +34,6 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 		return
 	}
-        fmt.Println("hi")
 	servicename := strings.Split(ctx.Value("up_real_addr").(string), ".")[0]
 
 	if levelShift {
