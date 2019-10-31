@@ -35,7 +35,7 @@
         Hello and congratulations
         
         You have been randomly selected as part of our intern improvement scheme to review the code of an intern's summer project.
-        Please find the code here: https://intern.corp.geegle.org.
+        Please find the code here: <a href="https://intern.corp.geegle.org">https://intern.corp.geegle.org</a>.
         
         Good luck, have fun.
 

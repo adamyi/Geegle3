@@ -20,7 +20,7 @@
         -- Alert --
 
         We have received a report of an attacker from an unknown origin. Please identify the origin and the nature of the attack.
-        Details: https://who-is-attacking-me.corp.geegle.org
+        Details: <a href="https://who-is-attacking-me.corp.geegle.org">https://who-is-attacking-me.corp.geegle.org</a>
 
         Please do not reply to this email.
       |||,

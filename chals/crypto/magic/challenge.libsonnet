@@ -20,7 +20,7 @@
         -- Alert --
 
         Welcome to Geegle, we appreciate holidays. Here's a magic trick, can you figure out how it's done?
-        Details: https://magic.corp.geegle.org
+        Details: <a href="https://magic.corp.geegle.org">https://magic.corp.geegle.org</a>
 
         Please do not reply to this email.
       |||,
