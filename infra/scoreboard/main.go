@@ -126,7 +126,7 @@ func listenAndServe(addr string) error {
 		fmt.Println("Got users", string(bodyBytes))
 
 		data := make([]Player, 0, 30)
-		rows, err := _db.Query("select user, points from scoreboard ORDER BY points DESC LIMIT 30")
+		rows, err := _db.Query("SELECT scoreboard.user, scoreboard.points FROM scoreboard, submission WHERE scoreboard.user=submission.user GROUP BY submission.user ORDER BY scoreboard.points DESC, MAX(submission.time) asc;")
 		if err != nil {
 			http.Error(w, "I don't know what happened", http.StatusInternalServerError)
 			return
@@ -135,7 +135,7 @@ func listenAndServe(addr string) error {
 		for rows.Next() {
 			player := Player{}
 			rows.Scan(&player.Name, &player.Points)
-                        var ok bool
+			var ok bool
 			player.Affiliation, ok = affiliation[player.Name]
 			player.Name = strings.Split(player.Name, "@")[0] + "@"
 			if !ok {
