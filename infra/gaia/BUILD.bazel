@@ -1,0 +1,79 @@
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_library", "jsonnet_to_json")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
+
+go_image(
+    name = "image",
+    args = [
+        "infra/scoreboard/scoreboardconfig.json",  # TODO(adamyi): figure out how to not hard-code this
+        "$(location :templates)",
+    ],
+    data = [
+        ":all-config",
+        ":templates",
+    ],
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "auth.go",
+        "main.go",
+        "template.go",
+    ],
+    importpath = "geegle.org/infra/scoreboard",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//infra/geemail-client:go_default_library",
+        "@com_github_dgrijalva_jwt_go//:go_default_library",
+        "@com_github_go_sql_driver_mysql//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "scoreboard",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+jsonnet_library(
+    name = "emails-config",
+    srcs = ["emails.libsonnet"],
+    deps = [
+        "//chals:challenges_jsonnet",
+        "//infra/jsonnet:utils",
+    ],
+)
+
+jsonnet_library(
+    name = "flags-config",
+    srcs = ["flags.libsonnet"],
+    deps = [
+        "//chals:challenges_jsonnet",
+        "//infra:infra_jsonnet",
+        "//infra/jsonnet:utils",
+    ],
+)
+
+jsonnet_library(
+    name = "config",
+    srcs = ["config.json"],
+)
+
+jsonnet_to_json(
+    name = "all-config",
+    src = "config.jsonnet",
+    outs = ["scoreboardconfig.json"],
+    deps = [
+        ":config",
+        ":emails-config",
+        ":flags-config",
+    ],
+)

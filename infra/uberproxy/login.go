@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -10,28 +12,21 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
-	"golang.org/x/crypto/bcrypt"
 )
 
-func verifyPassword(username string, password string) bool {
-	if password == "adam" { // TODO: remove
-		return true
-	}
-	var storedPassword string
-	err := _db.QueryRow("SELECT password FROM users WHERE ldap=?", username).Scan(&storedPassword)
-
+func verifyPassword(username, password string) bool {
+	reqBody, err := json.Marshal(email)
 	if err != nil {
-		log.Println(err)
+		return err
+	}
+
+	r, err = http.Post("http://gaia.corp.geegle.org/api/login", "application/json", bytes.NewBuffer(reqBody))
+	if err != nil {
+		fmt.Println(err)
 		return false
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
-	if err != nil {
-		log.Println(err)
-		return false
-	}
-
-	return true
+	return r.StatusCode == 200
 }
 
 func handleLogin(rsp http.ResponseWriter, req *http.Request) {
