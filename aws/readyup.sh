@@ -15,7 +15,7 @@ sudo apt update
 
 # docker
 apt-cache policy docker-ce
-sudo apt install docker-ce
+sudo apt install -y docker-ce
 sudo usermod -aG docker ubuntu
 
 # docker-compose
