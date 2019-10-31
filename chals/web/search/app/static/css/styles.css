@@ -1,0 +1,180 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: arial,sans-serif;
+    font-size: medium;
+    font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+a {
+	
+}
+
+.logo {
+		padding-top: 20px;
+}
+
+.footertext1 {
+	color:#aaa;
+	font-size: 11pt;
+}
+
+.footertext2 {
+	color:#777;
+	font-size: 11pt;
+}
+
+.textbox {
+	width: 500px;
+	height: 28px;
+	padding: 2px;
+	font-weight: medium;
+	font-size: 14pt;
+}
+
+a.glinks:link {
+	color:#777;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.glinks:hover {
+	color:#222;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.glinks:visited {
+	color:#777;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.glinks1:link {
+	color:#1A73E8;
+	font-size: 10pt;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.glinks1:hover {
+	color:#CC0000;
+	font-size: 10pt;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.glinks1:visited {
+	color:#CC0000;
+	font-size: 10pt;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.fullheight {
+	height: 100%;
+}
+ 
+.row1 {
+	position: relative;
+	background-color: #FAFAFA;
+	height: 67px;
+	top:0;
+	left:0;
+	width: 100%;
+	vertical-align: middle;
+}
+
+.style8 {
+	font-size: 40pt;
+	font-family: arial,sans-serif;
+}
+
+.row2 {
+	position: relative;
+	background-color: #fafafa;
+	height: 45px;
+	top:0;
+	left:0;
+	width: 100%;
+	vertical-align: middle;
+	border-style: solid;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid #e9ebee;
+    border-top: 0px solid #FAFAFA;
+} 
+
+.row3 {
+	position: relative;
+	background-color: #FFFFFF;
+	top:0;
+	left:0;
+	width: 100%;
+	vertical-align: top;
+	font-size: 13pt;
+	font-weight: normal;
+}
+
+.row4 {
+	position: relative;
+	background-color: #FAFAFA;
+	height: 90px;
+	top:0;
+	left:0;
+	width: 100%;
+	vertical-align: middle;
+	border-style: solid;
+    border-left: 0px;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-top: 1px solid #DDDDDD;
+	
+}
+
+.searchbox {
+	width: 620px;
+	height: 40px;
+	padding-top: 4px;
+	padding-left: 14px;
+	padding-bottom: 4px;
+	font-weight: medium;
+	font-size: 14pt;
+	border-style: solid;
+    border-left: 1px solid #ddd;
+    border-bottom: 2px solid #ccc;
+    border-right: 2px solid #ccc;
+    border-top: 1px solid #ddd;
+}
+
+.resdiv {
+	width: 750px;
+}
+
+.row1 > tr {
+	background: #f00'
+}
+
+.fake-input { 
+	position: relative; 
+	width: 620px;
+	height: 40px;
+}
+
+.fake-input input { 
+	border:none: background:#fff; 
+	display:block; 
+	width: 100%; 
+	font: 16px arial,sans-serif;
+}
+
+.fake-input img { 
+	position: absolute; 
+	top: 6px; 
+	right: 0px 
+}

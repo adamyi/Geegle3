@@ -55,7 +55,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 	if err != nil {
 		fmt.Println(err)
 		msg := []byte("Sorry, something went wrong :(")
-		geemail.SendEmailNow("noreply@geegle.org", user, "Error", msg)
+		geemail.SendEmailNow("flag-noreply@geegle.org", user, "Error", msg)
 		return
 	}
 	flags := ""
@@ -67,7 +67,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 			if err != nil {
 				fmt.Println(err)
 				msg := []byte("Sorry, something went wrong :(")
-				geemail.SendEmailNow("noreply@geegle.org", user, "Error", msg)
+				geemail.SendEmailNow("flag-noreply@geegle.org", user, "Error", msg)
 				return
 			}
 			if count == 0 {
@@ -82,7 +82,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 		_db.Exec("update scoreboard set points = ? where user = ?", oPoints+points, user)
 		if sendConfirmation {
 			msg := []byte(fmt.Sprintf("You found %s you have earned %d points. You now have %d points.", flags, points, oPoints+points))
-			geemail.SendEmailNow("noreply@geegle.org", user, "Congrats", msg)
+			geemail.SendEmailNow("flag-noreply@geegle.org", user, "Congrats", msg)
 		}
 		fmt.Println(oPoints + points)
 		for _, challenge := range _configuration.Challenges {
@@ -94,7 +94,7 @@ func addFlag(user string, body string, sendConfirmation bool) {
 	} else {
 		fmt.Println(flags, points)
 		msg := []byte("Sorry, we did not recognise that flag :(")
-		geemail.SendEmailNow("noreply@geegle.org", user, "Error", msg)
+		geemail.SendEmailNow("flag-noreply@geegle.org", user, "Error", msg)
 	}
 }
 

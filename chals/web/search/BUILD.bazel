@@ -1,0 +1,46 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_docker//python:image.bzl", "py_image")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+load("@search_pip//:requirements.bzl", "requirement")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
+
+py_library(
+    name = "app_lib",
+    srcs = glob([
+        "app/*.py",
+    ]),
+    data = glob([
+        "app/static/*",
+        "app/templates/*",
+    ]),
+    deps = [
+        requirement("certifi"),
+        requirement("chardet"),
+        requirement("Click"),
+        requirement("Flask"),
+        requirement("idna"),
+        requirement("itsdangerous"),
+        requirement("Jinja2"),
+        requirement("MarkupSafe"),
+        requirement("requests"),
+        requirement("urllib3"),
+        requirement("uuid"),
+        requirement("Werkzeug"),
+        requirement("Whoosh"),
+    ],
+)
+
+py_image(
+    name = "image",
+    srcs = ["run.py"],
+    base = "@python2-base//image",
+    main = "run.py",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":app_lib",
+        requirement("gunicorn"),
+        requirement("setuptools"),
+    ],
+)
