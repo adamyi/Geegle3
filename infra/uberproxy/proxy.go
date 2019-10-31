@@ -65,7 +65,7 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 			ExpiresAt: expirationTime.Unix(),
 		},
 	}
-	ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
+	ptoken := jwt.NewWithClaims(jwt.SigningMethodRS256, pclaims)
 	ptstr, err = ptoken.SignedString(_configuration.SignKey)
 	if err != nil {
 		returnError(UPError{Code: http.StatusInternalServerError, Title: "Internal Server Error", Description: "Something went wrong while generating JWT"}, rsp)
