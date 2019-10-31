@@ -89,7 +89,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 
 	for name, value := range req.Header {
 		val := value[0]
-		if strings.ToLower(name) == "cookie" {
+		ln := strings.ToLower(name)
+		if ln == "cookie" {
 			cookies := strings.Split(val, ";")
 			l := len(cookies)
 			for i, cookie := range cookies {
@@ -103,6 +104,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 			} else {
 				val = ""
 			}
+		} else if ln == "x-geegle-subacc" {
+			continue
 		}
 		if val != "" {
 			preq.Header.Set(name, val)

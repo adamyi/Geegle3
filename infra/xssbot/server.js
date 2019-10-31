@@ -8,9 +8,7 @@ const TASKTIMEOUT = process.env.TASKTIMEOUT || 5000;
 const MAXCONCURRENTY = process.env.MAXCONCURRENCY || 2;
 const app = express();
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
   page.on('request', onRequestStarted);
@@ -49,7 +47,7 @@ function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
 (async () => {
   const cluster = await Cluster.launch({
     concurrency : Cluster.CONCURRENCY_CONTEXT,
-    timeout: TASKTIMEOUT,
+    timeout : TASKTIMEOUT,
     maxConcurrency : 5,
     puppeteerOptions : {
       // headless : false,
@@ -89,11 +87,13 @@ function waitForNetworkIdle(page, timeout, maxInflightRequests = 0) {
     }
 
     if (!req.query.url) {
-      return res.end('Please specify url like this: ?url=example.com');
+      return res.json({success : false, message : 'url invalid'});
     }
     try {
-      cluster.queue(
-          {url : req.query.url, subacc : djwt['username'].split('@')[0].split('+')[1]});
+      cluster.queue({
+        url : req.query.url,
+        subacc : djwt['username'].split('@')[0].split('+')[1]
+      });
     } catch (err) {
       return res.json({success : false, message : err.message});
     }
