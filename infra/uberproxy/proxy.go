@@ -19,6 +19,10 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if req.Host == "geegle.org" || req.Host == "www.geegle.org" {
+		req.Host = "search.corp.geegle.org"
+	}
+
 	username := getUsername(req)
 
 	ctx, levelShift, err := getNetworkContext(req, username)
@@ -30,10 +34,13 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 	full_url := req.Host + req.RequestURI
 
 	// TODO: allow anonymous access to some services
-	if username == "anonymous@services.geegle.org" && req.Method != "OPTIONS" {
+	// TODO: not hard code search
+	// TODO: zero-trust ac policy
+	if username == "anonymous@services.geegle.org" && req.Method != "OPTIONS" && req.Host != "search.corp.geegle.org" {
 		http.Redirect(rsp, req, "https://login.corp.geegle.org/?return_url="+url.QueryEscape("https://"+full_url), http.StatusTemporaryRedirect)
 		return
 	}
+
 	servicename := strings.Split(ctx.Value("up_real_addr").(string), ".")[0]
 
 	if levelShift {

@@ -475,6 +475,11 @@ pip_import(
     requirements = "//chals/web/pasteweb:app/requirements.txt",
 )
 
+pip_import(
+    name = "search_pip",
+    requirements = "//chals/web/search:app/requirements.txt",
+)
+
 load(
     "@gae_pip//:requirements.bzl",
     _gae_install = "pip_install",
@@ -495,6 +500,13 @@ load(
 )
 
 _pasteweb_install()
+
+load(
+    "@search_pip//:requirements.bzl",
+    _search_install = "pip_install",
+)
+
+_search_install()
 
 http_archive(
     name = "chromium",

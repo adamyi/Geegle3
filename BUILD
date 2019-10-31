@@ -52,6 +52,7 @@ container_bundle(
         "gcr.io/geegle/chals/web/memegen:latest": "//chals/web/memegen:image",
         "gcr.io/geegle/chals/web/flatearth:latest": "//chals/web/flatearth:image",
         "gcr.io/geegle/chals/web/employees:latest": "//chals/web/employees:image",
+        "gcr.io/geegle/chals/web/search:latest": "//chals/web/search:image",
 
         # pwn challenges
         "gcr.io/geegle/chals/pwn/game:latest": "//chals/pwn/game:image",
