@@ -15,6 +15,7 @@ challenges_list(
         "//chals/pwn/payroll:challenge",
         "//chals/pwn/shell:challenge",
         "//chals/re/tellGeegle:challenge",
+        "//chals/web/bugreport:challenge",
         "//chals/web/docs:challenge",
         "//chals/web/employees:challenge",
         "//chals/web/flatearth:challenge",

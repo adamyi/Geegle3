@@ -11,13 +11,17 @@
   try {
     content = DOMPurify.sanitize(content, {SAFE_FOR_JQUERY: true}).toString();
   } catch (err) {
-    $.ajax({
-      type: "POST",
-      url: "/api/bugreport/js",
-      data: JSON.stringify(err, Object.getOwnPropertyNames(err)),
-      success: null,
-      contentType: "application/json"
-    });
+    try {
+      $.ajax({
+        type: "POST",
+        url: "https://bugreport.corp.geegle.org/api/bugreport/js",
+        data: JSON.stringify(err, Object.getOwnPropertyNames(err)),
+        success: null,
+        contentType: "application/json"
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
   $("#ps").attr("srcdoc", content);
 </script>

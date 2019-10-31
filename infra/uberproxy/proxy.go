@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+        "fmt"
 	"strings"
 	"time"
 
@@ -23,15 +24,21 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		req.Host = "search.corp.geegle.org"
 	}
 
-	username := getUsername(req)
+	username, err := getUsername(req)
+	if err != nil {
+		returnError(UPError{Code: http.StatusBadRequest, Title: "You issued a malformed request", Description: err.Error()}, rsp)
+		return
+	}
 
 	ctx, levelShift, err := getNetworkContext(req, username)
 	if err != nil {
+                fmt.Println("getNetowrkContext - ",  levelShift, err)
 		returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
 		return
 	}
 
 	full_url := req.Host + req.RequestURI
+        fmt.Println("getNetworkContext", levelShift, full_url)
 
 	// TODO: allow anonymous access to some services
 	// TODO: not hard code search
@@ -86,7 +93,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 
 	for name, value := range req.Header {
 		val := value[0]
-		if strings.ToLower(name) == "cookie" {
+		ln := strings.ToLower(name)
+		if ln == "cookie" {
 			cookies := strings.Split(val, ";")
 			l := len(cookies)
 			for i, cookie := range cookies {
@@ -100,6 +108,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 			} else {
 				val = ""
 			}
+		} else if ln == "x-geegle-subacc" {
+			continue
 		}
 		if val != "" {
 			preq.Header.Set(name, val)

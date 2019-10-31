@@ -9,23 +9,32 @@
         We work to send out a newsletter every so often to make sure that all our Geeglers are up to date with everything going on at Geegle.
         This is issue 0x01, our introductory edition. Light on content and easy to read, just the way everyone likes newsletters.
 
-        The big news for this newsletter is our brand new <b>CLI-Relay</b>. This is a brand new way to interact with remote executables, courtesy of Geegle.
+        The big news for this newsletter is our brand new <b>zero-trust network</b>. This is a brand new way of enterprise security, courtesy of Geegle.
 
-        We realise new things are hard to use, so here's some instructions:
+        Essentially, nothing on the Geegle intranet is trusted, and every connection between Geegle services go through an access-control proxy called Uberproxy.
+
+        On Uberproxy, we do centralized authentication, logging, tracing, etc.
+
+        This practice was actually first introduced by our competitor Google via their <a href="https://cloud.google.com/beyondcorp/">BeyondCorp</a> model.
+
+        It's also worth noting that we are rolloing out our brand new CLI-Relay infrastructure. To use any Geegle-internal commandline apps, you no longer need to
+        connect via nc or telnet. Instead, even CLI apps traffic now go through Uberproxy, powered by websocket.
+
+        We realise new things might be hard to use for some geeglers, so here's some instructions:
 
         <ol>
         <li>
-        Once you access the CLI web interface for a relevant URL, capture your cookie from the browser.
+        You can interact with the CLI app by sending and receiving commands through the CLI web interface.
         </li>
         <li>
-        Download the binary from the webpage.
+        Alternatively, we also provide a `cli-relay` program that you can download. With it, you can use the CLI app as if it's a local binary. You will need to provide
+        your uberproxy cookies to the binary. See web interface for more information.
         </li>
-        </li>
-        Use the binary as decribed on the CLI web page!
+        <li>
+        If you are a Geegler with code access, the CLI-Relay web interface is also integrated with our internal monorepo Geegle3. So you might be able to download
+        the CLI binary, source code, or libraries directly on the web interface. Just follow the instructions on the page.
         </li>
         </ol>
-
-        Alternatively, you can also interact with the binary through the CLI web interface if that's easier.
 
         That's all for this edition, enjoy!
 

@@ -1,8 +1,8 @@
 package main
 
 import (
+        "encoding/json"
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -14,13 +14,18 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func verifyPassword(username, password string) bool {
-	reqBody, err := json.Marshal(email)
+func verifyPassword(email, password string) bool {
+
+        data, err := json.Marshal(struct {
+                Username string `json:"username"`
+                Password string `json:"password"`
+        }{email, password})
 	if err != nil {
-		return err
+		fmt.Println(err)
+		return false
 	}
 
-	r, err = http.Post("http://gaia.corp.geegle.org/api/login", "application/json", bytes.NewBuffer(reqBody))
+	r, err := http.Post("http://gaia.corp.geegle.org/api/login", "application/json", bytes.NewBuffer(data))
 	if err != nil {
 		fmt.Println(err)
 		return false

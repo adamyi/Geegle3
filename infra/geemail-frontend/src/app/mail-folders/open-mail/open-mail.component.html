@@ -10,6 +10,6 @@
       </span> <span class="open-time">{{ openMail.time | date:'short' }}</span></p>
   </div>
   <div class="open-message">
-    <p [innerHTML]="openMail.body | b64decode | linkify"></p>
+    <p [innerHTML]="openMail.body | b64decode" style="word-wrap: break-word;"></p>
   </div>
 </div>

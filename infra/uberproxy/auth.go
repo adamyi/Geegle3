@@ -1,8 +1,10 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"net/http"
+        "regexp"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
@@ -14,14 +16,19 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func getUsername(req *http.Request) string {
+var SubAccValid = regexp.MustCompile(`^[a-zA-Z\-_]+$`).MatchString
+
+func getUsername(req *http.Request) (string, error) {
 	username := getMainUsername(req)
 	subacc := req.Header.Get("X-Geegle-SubAcc")
 	if subacc != "" {
+	        if !(SubAccValid(subacc) && len(subacc) < 10) {
+			return "", errors.New("invalid subacc")
+		}
 		s := strings.Split(username, "@")
 		username = s[0] + "+" + subacc + "@" + s[1]
 	}
-	return username
+	return username, nil
 }
 
 func getMainUsername(req *http.Request) string {

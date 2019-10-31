@@ -41,7 +41,7 @@
       Sender: "adamyi@geegle.org",
       Title: "This got dumped on my desk",
       Body: |||
-        Tanana gave me this stupid language. He says it's the next generation of computer science, but I told him it's just assembly. Anyway, if you want to try it, we're storing the compiler at https://geelang.corp.geegle.org.
+        Tanana gave me this stupid language. He says it's the next generation of computer science, but I told him it's just assembly. Anyway, if you want to try it, we're storing the compiler at <a href="https://geelang.corp.geegle.org">https://geelang.corp.geegle.org</a>.
       |||,
       DependsOnPoints: 600,
       Delay: 1000,

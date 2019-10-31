@@ -92,6 +92,7 @@ func triggerXSS(player, service, link string) (BotMsg, error) {
 		return result, err
 	}
 	defer resp.Body.Close()
+	fmt.Println(result)
 
 	err = json.NewDecoder(resp.Body).Decode(&result)
 	return result, err

@@ -32,7 +32,7 @@
         As part of our continued commitment to employee satisfaction, we regularly release games for our employees to play. You can download a local version, or play the main version on our server!
         
         Good luck have fun!
-        Download it at: https://game.corp.geegle.org
+        Download it at: <a href="https://game.corp.geegle.org">https://game.corp.geegle.org</a>
       |||,
       "DependsOnPoints": 200,
       "Delay": 10000

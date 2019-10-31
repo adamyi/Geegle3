@@ -45,6 +45,7 @@ go_library(
         "error.go",
         "http.go",
         "ip.go",
+        "logging.go",
         "login.go",
         "main.go",
         "network.go",
@@ -58,7 +59,6 @@ go_library(
         "@com_github_dgrijalva_jwt_go//:go_default_library",
         "@com_github_go_sql_driver_mysql//:go_default_library",
         "@com_github_gorilla_websocket//:go_default_library",
-        "@org_golang_x_crypto//bcrypt:go_default_library",
     ],
 )
 

@@ -4,7 +4,7 @@ import os
 
 from gunicorn.app.wsgiapp import run
 
-os.system("python -m compileall /app/chals/web/pasteweb/image.binary.runfiles/")
+os.system("python -m compileall /app/chals/web/bugreport/image.binary.runfiles/")
 sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
 sys.argv.append("--workers=4")
 sys.argv.append("app:app")

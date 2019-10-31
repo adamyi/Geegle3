@@ -20,7 +20,7 @@
         You're invited to the 2nd annual Geegle Summit!
 
         We're bringing together major leaders, industry experts and top men to discuss what it takes to take Geegle.org to the next level.
-        Please make sure you upload and scan your QR code here: https://guest.corp.geegle.org/ before you enter the venue. On behalf of everyone at Geegle.org, we look forward to seeing you at our Summit 2020.
+        Please make sure you upload and scan your QR code here: <a href="https://guest.corp.geegle.org/">https://guest.corp.geegle.org/</a> before you enter the venue. On behalf of everyone at Geegle.org, we look forward to seeing you at our Summit 2020.
 
         Regards,
         Parry Lage

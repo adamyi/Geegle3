@@ -8,8 +8,6 @@ import (
 type Configuration struct {
 	ListenAddress string
 	JwtKey        []byte
-	DbType        string
-	DbAddress     string
 }
 
 var _configuration = Configuration{}
