@@ -9,7 +9,7 @@ services: [
  flags: [
     {
       Flag: "GEEGLE{IUDSNAIUDWAND9MADA0D9M}",
-      Points: 150,
+      Points: 300,
     },
   ],
   clistaticfiles: [
