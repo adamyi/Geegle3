@@ -9,7 +9,7 @@
   flags: [
     {
       Flag: "GEEGLE{DM98DAMW98AMD98WAMD98M}",
-      Points: 100,
+      Points: 250,
     },
   ],
   clistaticfiles: [
