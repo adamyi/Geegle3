@@ -7,13 +7,17 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"net/http/httputil"
 )
 
 type uplogEntry struct {
-	Request  string `json:"request"`
+	Request struct {
+		Body       string      `json:"body"`
+		Header     string      `json:"headers"`
+	} `json:"response"`
 	Response struct {
 		StatusCode int         `json:"statusCode"`
 		Body       string      `json:"body"`
@@ -24,14 +28,22 @@ type uplogEntry struct {
 func WrapHandlerWithLogging(wrappedHandler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		entry := uplogEntry{}
-
-		rs, _ := httputil.DumpRequest(req, true)
-		entry.Request = string(rs)
+		rs, _ := httputil.DumpRequest(req, false)
+		entry.Request.Header = string(rs)
+		// http.MaxBytesReader might be better but let's just use io.LimitedReader since we are doing the wrapped logger.
+		limitedReader := &io.LimitedReader{R: req.Body, N: 10485760}
+		reqcontent, lrerr := ioutil.ReadAll(limitedReader)
+		req.Body = ioutil.NopCloser(bytes.NewReader(reqcontent))
+		entry.Request.Body = string(reqcontent)
 		buf := new(bytes.Buffer)
-
 		lrw := newUplogResponseWriter(buf, w, &entry)
-		wrappedHandler.ServeHTTP(lrw, req)
-
+		if lrerr != nil {
+			returnError(UPError{Code: http.StatusBadRequest, Title: "You issued a malformed request", Description: "Entity Too Large"}, lrw)
+		} else if limitedReader.N < 1 {
+			returnError(UPError{Code: http.StatusRequestEntityTooLarge, Title: "You issued a malformed request", Description: "Entity Too Large"}, lrw)
+		} else {
+			wrappedHandler.ServeHTTP(lrw, req)
+		}
 		entry.Response.Body = buf.String()
 		entry.Response.Header = lrw.Header()
 		fmt.Println(lrw.Header())
