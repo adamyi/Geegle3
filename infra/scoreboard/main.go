@@ -1,9 +1,11 @@
 package main
 
 import (
+	"crypto/rsa"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -11,14 +13,16 @@ import (
 	"time"
 
 	geemail "geegle.org/infra/geemail-client"
+	"github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var _db *sql.DB
 
 type Player struct {
-	Name   string
-	Points int
+	Name        string `json:"username"`
+	Affiliation string `json:"affiliation"`
+	Points      int
 }
 
 type Challenge struct {
@@ -38,7 +42,8 @@ type Configuration struct {
 	ListenAddress string
 	DbType        string
 	DbAddress     string
-	JwtKey        []byte
+	JwtPubKey     []byte
+	VerifyKey     *rsa.PublicKey
 	Challenges    []Challenge
 	Flags         []Flag
 }
@@ -117,8 +122,14 @@ func listenAndServe(addr string) error {
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		initScoreboardRsp(w)
 
+		affiliation := map[string]string{}
+		rsp, err := http.Get("https://gaia.corp.geegle.org/api/getusers")
+		bodyBytes, _ := ioutil.ReadAll(rsp.Body)
+		json.Unmarshal(bodyBytes, &affiliation)
+		fmt.Println("Got users", string(bodyBytes))
+
 		data := make([]Player, 0, 30)
-		rows, err := _db.Query("select user, points from scoreboard ORDER BY points DESC LIMIT 30")
+		rows, err := _db.Query("SELECT scoreboard.user, scoreboard.points FROM scoreboard, submission WHERE scoreboard.user=submission.user GROUP BY submission.user ORDER BY scoreboard.points DESC, MAX(submission.time) asc;")
 		if err != nil {
 			http.Error(w, "I don't know what happened", http.StatusInternalServerError)
 			return
@@ -127,6 +138,12 @@ func listenAndServe(addr string) error {
 		for rows.Next() {
 			player := Player{}
 			rows.Scan(&player.Name, &player.Points)
+			var ok bool
+			player.Affiliation, ok = affiliation[player.Name]
+			player.Name = strings.Split(player.Name, "@")[0] + "@"
+			if !ok {
+				continue // Don't add if not returned by gaia
+			}
 			data = append(data, player)
 		}
 
@@ -137,7 +154,7 @@ func listenAndServe(addr string) error {
 		initScoreboardRsp(w)
 
 		tknStr := r.Header.Get("X-Geegle-JWT")
-		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
+		err := confirmFromGeemail(tknStr, _configuration.VerifyKey)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
@@ -164,7 +181,7 @@ func listenAndServe(addr string) error {
 		initScoreboardRsp(w)
 
 		tknStr := r.Header.Get("X-Geegle-JWT")
-		err := confirmFromGeemail(tknStr, _configuration.JwtKey)
+		err := confirmFromGeemail(tknStr, _configuration.VerifyKey)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid JWT"})
@@ -213,6 +230,10 @@ func readConfig() {
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)
+	if err != nil {
+		panic(err)
+	}
+	_configuration.VerifyKey, err = jwt.ParseRSAPublicKeyFromPEM(_configuration.JwtPubKey)
 	if err != nil {
 		panic(err)
 	}

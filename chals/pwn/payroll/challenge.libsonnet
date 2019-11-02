@@ -9,7 +9,7 @@ services: [
  flags: [
     {
       Flag: "GEEGLE{IUDSNAIUDWAND9MADA0D9M}",
-      Points: 150,
+      Points: 300,
     },
   ],
   clistaticfiles: [
@@ -31,7 +31,7 @@ services: [
         Hello Security Team,
 
         We have just received the product handover from the dev team for our new internal payroll system. Would you be able to have a look and check if it works okay?
-        Here's the link: https://payroll.corp.geegle.org.
+        Here's the link: <a href="https://payroll.corp.geegle.org">https://payroll.corp.geegle.org</a>.
         The last thing we would want is to have some intern submit a ridiculous amount of hours …
 
         Regards,

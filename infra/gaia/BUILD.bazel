@@ -1,0 +1,44 @@
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_library", "jsonnet_to_json")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+load("//tools:challenge.bzl", "ctf_challenge")
+
+ctf_challenge()
+
+go_image(
+    name = "image",
+    args = [
+        "$(location :config.json)",
+        "$(location :templates)",
+    ],
+    data = [
+        ":config.json",
+        ":templates",
+    ],
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "auth.go",
+        "main.go",
+        "template.go",
+    ],
+    importpath = "geegle.org/infra/gaia",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_dgrijalva_jwt_go//:go_default_library",
+        "@com_github_go_sql_driver_mysql//:go_default_library",
+        "@org_golang_x_crypto//bcrypt:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "gaia",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

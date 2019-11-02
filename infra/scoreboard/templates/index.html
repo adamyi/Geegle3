@@ -18,13 +18,15 @@
                     <tr>
                         <th class="mdl-data-table__cell--non-numeric">Name</th>
                         <th>Points</th>
+                        <th>Affiliation</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{ range . }}
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric">{{.Name}}</td>
-                        <td>{{.Points }}</td>
+                        <td>{{ .Points }}</td>
+                        <td>{{ .Affiliation }}</td>
                     </tr>
                     {{ end }}
                 </tbody>

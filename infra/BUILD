@@ -6,6 +6,7 @@ challenges_list(
     deps = [
         "//infra/cli-relay:challenge",
         "//infra/gae:challenge",
+        "//infra/gaia:challenge",
         "//infra/geemail-backend:challenge",
         "//infra/geemail-frontend:challenge",
         "//infra/gsmtpd:challenge",

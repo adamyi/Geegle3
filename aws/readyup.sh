@@ -33,3 +33,5 @@ yes | gcloud auth configure-docker
 
 # start
 sudo docker-compose -f ~/cluster-team-docker-compose.json up -d
+
+route add -host 169.254.169.254 reject

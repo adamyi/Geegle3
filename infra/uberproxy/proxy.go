@@ -2,10 +2,10 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-        "fmt"
 	"strings"
 	"time"
 
@@ -24,17 +24,21 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 		req.Host = "search.corp.geegle.org"
 	}
 
-	username := getUsername(req)
+	username, err := getUsername(req)
+	if err != nil {
+		returnError(UPError{Code: http.StatusBadRequest, Title: "You issued a malformed request", Description: err.Error()}, rsp)
+		return
+	}
 
 	ctx, levelShift, err := getNetworkContext(req, username)
 	if err != nil {
-                fmt.Println("getNetowrkContext - ",  levelShift, err)
+		fmt.Println("getNetowrkContext - ", levelShift, err)
 		returnError(UPError{Code: http.StatusBadRequest, Title: "Could not resolve the IP address for host " + req.Host, Description: "Your client has issued a malformed or illegal request."}, rsp)
 		return
 	}
 
 	full_url := req.Host + req.RequestURI
-        fmt.Println("getNetworkContext", levelShift, full_url)
+	fmt.Println("getNetworkContext", levelShift, full_url)
 
 	// TODO: allow anonymous access to some services
 	// TODO: not hard code search
@@ -61,8 +65,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 			ExpiresAt: expirationTime.Unix(),
 		},
 	}
-	ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
-	ptstr, err = ptoken.SignedString(_configuration.JwtKey)
+	ptoken := jwt.NewWithClaims(jwt.SigningMethodRS256, pclaims)
+	ptstr, err = ptoken.SignedString(_configuration.SignKey)
 	if err != nil {
 		returnError(UPError{Code: http.StatusInternalServerError, Title: "Internal Server Error", Description: "Something went wrong while generating JWT"}, rsp)
 		return
@@ -89,7 +93,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 
 	for name, value := range req.Header {
 		val := value[0]
-		if strings.ToLower(name) == "cookie" {
+		ln := strings.ToLower(name)
+		if ln == "cookie" {
 			cookies := strings.Split(val, ";")
 			l := len(cookies)
 			for i, cookie := range cookies {
@@ -103,6 +108,8 @@ func handleUP(rsp http.ResponseWriter, req *http.Request) {
 			} else {
 				val = ""
 			}
+		} else if ln == "x-geegle-subacc" {
+			continue
 		}
 		if val != "" {
 			preq.Header.Set(name, val)

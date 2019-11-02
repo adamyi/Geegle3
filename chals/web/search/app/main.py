@@ -45,7 +45,10 @@ NO_PROXY = {
     'no': 'pass',
 }
 
-ix = open_dir("index")
+#indexpath = "index.%d" % os.getpid()
+#os.system("cp -r index " + indexpath)
+indexpath = "index"
+ix = open_dir(indexpath)
 
 
 @app.route("/")

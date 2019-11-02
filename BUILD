@@ -43,12 +43,14 @@ container_bundle(
         "gcr.io/geegle/infra/apps:latest": "//infra/gae:image",
         "gcr.io/geegle/infra/requestz:latest": "//infra/requestz:image",
         "gcr.io/geegle/infra/xssbot:latest": "//infra/xssbot:image",
+        "gcr.io/geegle/infra/gaia:latest": "//infra/gaia:image",
 
         # web challenges
         "gcr.io/geegle/chals/web/docs:latest": "//chals/web/docs:image",
         "gcr.io/geegle/chals/web/seclearn:latest": "//chals/web/seclearn:image",
         "gcr.io/geegle/chals/web/seclearn-solver:latest": "//chals/web/seclearn/solver:image",
         "gcr.io/geegle/chals/web/pasteweb:latest": "//chals/web/pasteweb:image",
+        "gcr.io/geegle/chals/web/bugreport:latest": "//chals/web/bugreport:image",
         "gcr.io/geegle/chals/web/memegen:latest": "//chals/web/memegen:image",
         "gcr.io/geegle/chals/web/flatearth:latest": "//chals/web/flatearth:image",
         "gcr.io/geegle/chals/web/employees:latest": "//chals/web/employees:image",

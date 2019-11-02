@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -10,28 +12,26 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
-	"golang.org/x/crypto/bcrypt"
 )
 
-func verifyPassword(username string, password string) bool {
-	if password == "adam" { // TODO: remove
-		return true
-	}
-	var storedPassword string
-	err := _db.QueryRow("SELECT password FROM users WHERE ldap=?", username).Scan(&storedPassword)
+func verifyPassword(email, password string) bool {
 
+	data, err := json.Marshal(struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}{email, password})
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 		return false
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	r, err := http.Post("http://gaia.corp.geegle.org/api/login", "application/json", bytes.NewBuffer(data))
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 		return false
 	}
 
-	return true
+	return r.StatusCode == 200
 }
 
 func handleLogin(rsp http.ResponseWriter, req *http.Request) {
@@ -60,8 +60,8 @@ func handleLogin(rsp http.ResponseWriter, req *http.Request) {
 				ExpiresAt: expirationTime.Unix(),
 			},
 		}
-		ptoken := jwt.NewWithClaims(jwt.SigningMethodHS256, pclaims)
-		ptstr, err := ptoken.SignedString(_configuration.JwtKey)
+		ptoken := jwt.NewWithClaims(jwt.SigningMethodRS256, pclaims)
+		ptstr, err := ptoken.SignedString(_configuration.SignKey)
 		if err != nil {
 			returnError(UPError{Code: http.StatusInternalServerError, Title: "Internal Server Error", Description: "Something went wrong while generating JWT"}, rsp)
 			return

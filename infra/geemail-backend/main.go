@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/rsa"
 	"database/sql"
 	"encoding/base64"
 	"encoding/json"
@@ -16,6 +17,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/mvdan/xurls"
 )
@@ -25,7 +27,8 @@ type Configuration struct {
 	SmtpAddress   string
 	DbType        string
 	DbAddress     string
-	JwtKey        []byte
+	JwtPubKey     []byte
+	VerifyKey     *rsa.PublicKey
 }
 
 type UserInfo struct {
@@ -57,6 +60,10 @@ func readConfig() {
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&_configuration)
+	if err != nil {
+		panic(err)
+	}
+	_configuration.VerifyKey, err = jwt.ParseRSAPublicKeyFromPEM(_configuration.JwtPubKey)
 	if err != nil {
 		panic(err)
 	}
@@ -92,6 +99,7 @@ func triggerXSS(player, service, link string) (BotMsg, error) {
 		return result, err
 	}
 	defer resp.Body.Close()
+	fmt.Println(result)
 
 	err = json.NewDecoder(resp.Body).Decode(&result)
 	return result, err
@@ -153,7 +161,7 @@ func userInfo(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
-	user, err := getJwtUserName(tknStr, _configuration.JwtKey)
+	user, err := getJwtUserName(tknStr, _configuration.VerifyKey)
 	if err != nil {
 		fmt.Println(err.Error())
 		rsp.WriteHeader(http.StatusUnauthorized)
@@ -221,7 +229,7 @@ func sendMail(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
-	user, err := getJwtUserName(tknStr, _configuration.JwtKey)
+	user, err := getJwtUserName(tknStr, _configuration.VerifyKey)
 	if err != nil {
 		rsp.WriteHeader(http.StatusUnauthorized)
 		return
@@ -318,7 +326,7 @@ func addMail(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	tknStr := req.Header.Get("X-Geegle-JWT")
-	_, err := getJwtUserName(tknStr, _configuration.JwtKey)
+	_, err := getJwtUserName(tknStr, _configuration.VerifyKey)
 	if err != nil {
 		rsp.WriteHeader(http.StatusUnauthorized)
 		fmt.Println(err)

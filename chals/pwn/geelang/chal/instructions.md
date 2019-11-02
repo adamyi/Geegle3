@@ -30,3 +30,11 @@ PRINT x         # Prints variable x as a decimal
 JMPZ x <line>     # Jmp to line if x is 0
 JMPNZ x <line>    # Jmp to line if x is not 0
 
+**All Programs must end with END**
+
+# Usage
+
+`$ geelang-compiler <file.geelang>`
+or
+`geelang-compiler` and enter program to stdin
+
