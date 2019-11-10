@@ -5,7 +5,6 @@ challenges_list(
     visibility = ["//visibility:public"],
     deps = [
         "//infra/cli-relay:challenge",
-        "//infra/gae:challenge",
         "//infra/gaia:challenge",
         "//infra/geemail-backend:challenge",
         "//infra/geemail-frontend:challenge",

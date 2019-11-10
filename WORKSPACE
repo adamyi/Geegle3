@@ -461,11 +461,6 @@ sass_repositories()
 load("@rules_python//python:pip.bzl", "pip_import")
 
 pip_import(
-    name = "gae_pip",
-    requirements = "//infra/gae:src/requirements.txt",
-)
-
-pip_import(
     name = "docs_pip",
     requirements = "//chals/web/docs:app/requirements.txt",
 )
@@ -479,13 +474,6 @@ pip_import(
     name = "search_pip",
     requirements = "//chals/web/search:app/requirements.txt",
 )
-
-load(
-    "@gae_pip//:requirements.bzl",
-    _gae_install = "pip_install",
-)
-
-_gae_install()
 
 load(
     "@docs_pip//:requirements.bzl",

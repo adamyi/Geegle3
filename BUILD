@@ -40,7 +40,6 @@ container_bundle(
         "gcr.io/geegle/infra/mail:latest": "//infra/geemail-frontend:image",
         "gcr.io/geegle/infra/uberproxy:latest": "//infra/uberproxy:image",
         "gcr.io/geegle/infra/dns:latest": "//infra/dns:image",
-        "gcr.io/geegle/infra/apps:latest": "//infra/gae:image",
         "gcr.io/geegle/infra/requestz:latest": "//infra/requestz:image",
         "gcr.io/geegle/infra/xssbot:latest": "//infra/xssbot:image",
         "gcr.io/geegle/infra/gaia:latest": "//infra/gaia:image",
