@@ -36,11 +36,19 @@ images are pushed to [GCR](https://cloud.google.com/container-registry/), while 
 ## Challenges
 See https://docs.google.com/spreadsheets/d/15xOhZdRnNxNbSMNUSxPG_8K92lHa4z5SKJWPPTy5tAc/edit
 
-## SSL Certificates
+---
+
+## Running Your Own CTF
+If you want to use the same Geegle infrastructure to host your own CTF, we are more than happy to support you. Simply remove
+all challenges from [chals](chals) directory and put in your own challenges, and change the root [BUILD](BUILD) file accordingly.
+
+Please do let us know if you use Geegle infra to host your own CTF. We can't wait to hear about the amaing work you have done :)
+
+### SSL Certificates
 Please put your HTTPS certificates and keys to [infra/uberproxy/certs/](infra/uberproxy/certs/) and change
 [infra/uberproxy/ssl.go](infra/uberproxy/ssl.go) accordingly.
 
-## Building Container Images
+### Building Container Images
 Please build using Linux AMD64. Cuz it's hard to set up cross-compiling for C programs on mac, ceebs.
 
 Build only:
@@ -58,21 +66,21 @@ Commits submitted to master branch will be automatically pushed to gcr.io/geegle
 If you are deploying your own CTF using this infra, please change BUILD file to push to a different
 container registry, since gcr.io/geegle is not public.
 
-## Running 
+### Deploying
 
-### Master Server (Shared Server)
+#### Master Server (Shared Server)
 ```
 bazel build //infra/jsonnet:cluster-master-docker-compose
 docker-compose -f dist/bin/infra/jsonnet/cluster-master-docker-compose.json up -d
 ```
 
-### Team Server (Separate Isolated Server)
+#### Team Server (Separate Isolated Server)
 ```
 bazel build //infra/jsonnet:cluster-team-docker-compose
 docker-compose -f dist/bin/infra/jsonnet/cluster-team-docker-compose.json up -d
 ```
 
-### Test Server (All-in-one Server)
+#### Test Server (All-in-one Server)
 ```
 bazel build //infra/jsonnet:all-docker-compose
 docker-compose -f dist/bin/infra/jsonnet/all-docker-compose.json up -d
@@ -82,7 +90,7 @@ docker-compose -f dist/bin/infra/jsonnet/all-docker-compose.json up -d
 
 ## LICENSE
 
-Copyright (c) 2019 [Adam Yi](mailto:i@adamyi.com), [Adam Tanana](mailto:adam@tanana.io), [Lachlan Jones](mailto:rid.3r98@gmail.com)
+Copyright (c) 2019 [Adam Yi](mailto:i@adamyi.com), [Adam Tanana](mailto:adam@tanana.io), [Lachlan Jones](mailto:contact@lachjones.com)
 
 To check the author for an individual challenge/infra service, check [CODEOWNERS](CODEOWNERS).
 
