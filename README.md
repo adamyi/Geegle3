@@ -42,7 +42,7 @@ See https://docs.google.com/spreadsheets/d/15xOhZdRnNxNbSMNUSxPG_8K92lHa4z5SKJWP
 If you want to use the same Geegle infrastructure to host your own CTF, we are more than happy to support you. Simply remove
 all challenges from [chals](chals) directory and put in your own challenges, and change the root [BUILD](BUILD) file accordingly.
 
-Please do let us know if you use Geegle infra to host your own CTF. We can't wait to hear about the amaing work you have done :)
+Please do let us know if you use Geegle infra to host your own CTF. We can't wait to hear about the amazing work you have done :)
 
 ### SSL Certificates
 Please put your HTTPS certificates and keys to [infra/uberproxy/certs/](infra/uberproxy/certs/) and change
