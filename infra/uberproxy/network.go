@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
+	"github.com/gorilla/websocket"
 	"net"
 	"net/http"
 	"os"
 	"strings"
 	"time"
-        "fmt"
-	"github.com/gorilla/websocket"
 )
 
 var (
@@ -24,7 +24,7 @@ func upDialContext(ctx context.Context, network, address string) (net.Conn, erro
 	if v := ctx.Value("up_real_addr"); v != nil {
 		address = v.(string)
 	}
-        fmt.Println("updialContext", address)
+	fmt.Println("updialContext", address)
 	return dialer.DialContext(ctx, network, address)
 }
 
@@ -57,7 +57,7 @@ func getL2Addr(player string) (string, error) {
 	}
 	host := player + ".prod.geegle.org"
 	ips, err := net.LookupIP(host)
-        fmt.Println("getL2", ips, err, host)
+	fmt.Println("getL2", ips, err, host)
 	if err != nil || len(ips) == 0 {
 		return "", errors.New("not valid geegle")
 	}
@@ -80,7 +80,7 @@ func getNetworkContext(req *http.Request, username string) (context.Context, boo
 	if hp != "" {
 		players = append(players, hp)
 	}
-        fmt.Println(players)
+	fmt.Println(players)
 	for _, player := range players {
 		addr, err = getL2Addr(player)
 		if err == nil {

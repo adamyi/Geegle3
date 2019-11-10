@@ -1,18 +1,46 @@
 # Geegle3
 
-Monorepo for COMP9301 CTF.
+Monorepo for infrastructure and challenges of SECedu CTF 2019.
 
 ---
 
-## Encryption
-Secret keys and configurations are encrypted using [git-crypt](https://github.com/AGWA/git-crypt)
+## Infra
+Everything is behind the settings of a fictional company, Geegle. Geegle has its own BeyondCorp-like
+zero-trust network via [UberProxy](infra/uberproxy). We have a working email server that supports
+company internal emails as well as inbound and outbound emails at [geemail-backend](infra/geemail-backend),
+[geemail-frontend](infra/geemail-frontend), [geemail-client](infra/geemail-client), [gsmtpd](infra/gsmtpd).
+All challenge descriptions are sent to team through emails. Challenge emails are unlocked as players progress
+in the CTF. Every challlenge has its own unified configuration file called `challenge.libsonnet`.See
+[chals/pwn/geelang/challenge.libsonnet](chals/pwn/geelang/challenge.libsonnet) for an example. Its emails,
+container services, static files, flags, etc. are all in that single file. We have a shared server that every
+player connects to, as well as separate team servers for each of the team. The `clustertype` in configuration
+determines whether a specific service should run on the shared server or in a separate team server. This makes
+it possible that some services are shared to facilitate inter-team communication while some services offer
+isolation between teams.
 
-Please download `g3.key` from https://drive.google.com/open?id=1vRF2AqRcSQQ-aYQCh3uGaTKbhUtwbZgs 
-and use `git-crypt unlock PATH_TO_g3.key`
+Players send their flag to flag@geegle.org to claim points. They can also interact with [xssbot](infra/xssbot)
+through company internal emails.
 
-## Building docker files
+Binary challenges are also tunneled through UberProxy with websocket. See [cli-relay](infra/cli-relay), 
+[cli-static](infra/cli-static), and [uberproxy/websocket.go](infra/uberproxy/websocket.go). Static files are served
+using shared infra [sffe](infra/sffe), a general-purpose static file front-end on top of SSTable (leveldb).
 
-### Bazel (Experimental)
+Other infra services we have include: [scoreboard](infra/scoreboard), [dns](infra/dns) (internal DNS service used by
+all containers to help connect to uberproxy), [gaia](infra/gaia) (internal authentication service), [gae](infra/gae)
+(a service like Google App Engine and Amazon Lambda), [requestz](infra/requestz) (a simple network debugging service),
+[mss](infra/mss) (internal KV databse service integrated with Geegle services authentication).
+
+Everything (Golang, Python, C, TypeScript, Bash, JSONNet, Java, PHP) are built with [bazel](https://bazel.build). Containers
+images are pushed to [GCR](https://cloud.google.com/container-registry/), while docker-compose files are auto-generated as well.
+
+## Challenges
+See https://docs.google.com/spreadsheets/d/15xOhZdRnNxNbSMNUSxPG_8K92lHa4z5SKJWPPTy5tAc/edit
+
+## SSL Certificates
+Please put your HTTPS certificates and keys to [infra/uberproxy/certs/](infra/uberproxy/certs/) and change
+[infra/uberproxy/ssl.go](infra/uberproxy/ssl.go) accordingly.
+
+## Building Container Images
 Please build using Linux AMD64. Cuz it's hard to set up cross-compiling for C programs on mac, ceebs.
 
 Build only:
@@ -27,23 +55,24 @@ bazel run //:all_containers
 
 Commits submitted to master branch will be automatically pushed to gcr.io/geegle, our container repo
 
-Please do not push to GCR manually
+If you are deploying your own CTF using this infra, please change BUILD file to push to a different
+container registry, since gcr.io/geegle is not public.
 
 ## Running 
 
-### Master server
+### Master Server (Shared Server)
 ```
 bazel build //infra/jsonnet:cluster-master-docker-compose
 docker-compose -f dist/bin/infra/jsonnet/cluster-master-docker-compose.json up -d
 ```
 
-### Team server
+### Team Server (Separate Isolated Server)
 ```
 bazel build //infra/jsonnet:cluster-team-docker-compose
 docker-compose -f dist/bin/infra/jsonnet/cluster-team-docker-compose.json up -d
 ```
 
-### Test server
+### Test Server (All-in-one Server)
 ```
 bazel build //infra/jsonnet:all-docker-compose
 docker-compose -f dist/bin/infra/jsonnet/all-docker-compose.json up -d
@@ -51,5 +80,10 @@ docker-compose -f dist/bin/infra/jsonnet/all-docker-compose.json up -d
 
 ---
 
-## Progression
-https://docs.google.com/spreadsheets/d/15xOhZdRnNxNbSMNUSxPG_8K92lHa4z5SKJWPPTy5tAc/edit
+## LICENSE
+
+Copyright (c) 2019 [Adam Yi](mailto:i@adamyi.com), [Adam Tanana](mailto:adam@tanana.io), [Lachlan Jones](mailto:rid.3r98@gmail.com)
+
+To check the author for an individual challenge/infra service, check [CODEOWNERS](CODEOWNERS).
+
+Open-sourced with love, under [Apache 2.0 License](LICENSE).

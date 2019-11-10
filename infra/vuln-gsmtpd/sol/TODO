@@ -1,8 +1,0 @@
-No solution script yet, will do soon
-
-2 challenges here.
-
-First is LFI
-
-Second is fmt string -> shell
-Might make fmt string a priv esc to root, so LFI as normal user, fmt string for root

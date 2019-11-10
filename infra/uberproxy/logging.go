@@ -15,8 +15,8 @@ import (
 
 type uplogEntry struct {
 	Request struct {
-		Body       string      `json:"body"`
-		Header     string      `json:"headers"`
+		Body   string `json:"body"`
+		Header string `json:"headers"`
 	} `json:"response"`
 	Response struct {
 		StatusCode int         `json:"statusCode"`
