@@ -1,4 +1,0 @@
-MAILFROM: root@geegle.org
-=========================
-
-FLAG OR LINK TO NEXT CHAL

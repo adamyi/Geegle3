@@ -14,6 +14,7 @@ challenge.libsonnet @LachJones
 /chals/pwn/payroll/ @adamtanana
 /chals/pwn/shell/ @adamtanana
 /chals/re/tellGeegle/ @LachJones
+/chals/web/bugreport/ @adamyi
 /chals/web/docs/ @adamyi
 /chals/web/drive/ @adamyi
 /chals/web/employees/ @adamtanana
@@ -28,11 +29,11 @@ challenge.libsonnet @LachJones
 /infra/cli-relay/ @adamyi
 /infra/cli-static/ @adamyi
 /infra/dns/ @adamyi
+/infra/gaia/ @adamtanana
 /infra/gae/ @adamyi
 /infra/geemail-backend/ @adamyi
 /infra/geemail-frontend/ @adamyi
 /infra/geemail-client/ @adamyi
-/infra/vuln-gsmtpd/ @adamtanana
 /infra/gsmtpd/ @adamyi
 /infra/jsonnet/ @adamyi
 /infra/mss/ @adamyi
