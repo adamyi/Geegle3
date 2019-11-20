@@ -23,6 +23,7 @@ challenge.libsonnet @LachJones
 /chals/web/memegen/ @adamyi
 /chals/web/pasteweb/ @adamyi
 /chals/web/seclearn/ @adamyi
+/chals/web/search/ @adamyi
 /chals/crypto/magic/ @adamtanana
 
 # infrastructure
