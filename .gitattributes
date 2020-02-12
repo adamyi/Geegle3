@@ -1,12 +1,6 @@
 # config.json filter=git-crypt diff=git-crypt
 # *.key filter=git-crypt diff=git-crypt
 
-# don't count bazel files in github language stats
-BUILD.bazel linguist-detectable=false
-BUILD linguist-detectable=false
-*.bzl linguist-detectable=false
-WORKSPACE linguist-detectable=false
-
 # third-party code
 third_party/* linguist-vendored
 infra/gae/src/app/gaeruntime/* linguist-vendored
