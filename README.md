@@ -1,3 +1,5 @@
+UPDATES: We now have an updated infra open-sourced with more features and standard CTFd integration here: https://github.com/adamyi/CTFProxy
+
 # Geegle3
 
 Monorepo for infrastructure and challenges of SECedu CTF 2019.
@@ -5,6 +7,7 @@ Monorepo for infrastructure and challenges of SECedu CTF 2019.
 ---
 
 ## Infra
+
 Everything is behind the settings of a fictional company, Geegle. Geegle has its own BeyondCorp-like
 zero-trust network via [UberProxy](infra/uberproxy). We have a working email server that supports
 company internal emails as well as inbound and outbound emails at [geemail-backend](infra/geemail-backend),
